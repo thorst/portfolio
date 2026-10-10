@@ -1,0 +1,25 @@
+[
+  {
+    "slug": "sample-project",
+    "title": "Sample Project",
+    "summary": "A short blurb shown on the card. Keep it to a sentence or two; it gets truncated.",
+    "description": "Full description shown on the detail page.\n\nBlank lines make new paragraphs. Describe what it did, your role, and what was interesting about it.",
+    "year": 2014,
+    "yearApprox": true,
+    "tags": ["React", "Node.js", "SQL Server"],
+    "screenshots": [
+      { "src": "projects/sample/1.svg", "caption": "Dashboard view" },
+      { "src": "projects/sample/2.svg", "caption": "Settings page" }
+    ],
+    "demo": { "type": "embed", "component": "counter" },
+    "links": [
+      { "label": "Source", "url": "https://github.com/thorst/portfolio" }
+    ]
+  },
+  {
+    "slug": "old-intranet-app",
+    "title": "Old Intranet App",
+    "summary": "No year known, no demo, no links. Everything except title, summary and tags is optional.",
+    "tags": ["C#", "ASP.NET", "jQuery"]
+  }
+]
