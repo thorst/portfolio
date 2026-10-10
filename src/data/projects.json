@@ -1,25 +1,1072 @@
 [
   {
-    "slug": "sample-project",
-    "title": "Sample Project",
-    "summary": "A short blurb shown on the card. Keep it to a sentence or two; it gets truncated.",
-    "description": "Full description shown on the detail page.\n\nBlank lines make new paragraphs. Describe what it did, your role, and what was interesting about it.",
-    "year": 2014,
-    "yearApprox": true,
-    "tags": ["React", "Node.js", "SQL Server"],
-    "screenshots": [
-      { "src": "projects/sample/1.svg", "caption": "Dashboard view" },
-      { "src": "projects/sample/2.svg", "caption": "Settings page" }
+    "slug": "portfolio",
+    "title": "Portfolio",
+    "summary": "This simple portfolio website.",
+    "description": "To showcase my work and projects I've compiled a list of various things I've worked on throughout the years.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "JavaScript",
+      "React",
+      "Vite",
+      "Tailwind CSS",
+      "Github Pages",
+      "Github Actions",
+      "NPM",
+      "JSON",
+      "Git"
     ],
-    "demo": { "type": "embed", "component": "counter" },
     "links": [
-      { "label": "Source", "url": "https://github.com/thorst/portfolio" }
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/portfolio"
+      }
     ]
   },
   {
-    "slug": "old-intranet-app",
-    "title": "Old Intranet App",
-    "summary": "No year known, no demo, no links. Everything except title, summary and tags is optional.",
-    "tags": ["C#", "ASP.NET", "jQuery"]
+    "slug": "tasty-tracker",
+    "title": "Tasty Tracker",
+    "summary": "A trade-journaling SaaS product I founded in 2018 and still run.",
+    "description": "Tasty Tracker is a subscription trade-journaling product. I own everything: strategy, pricing, development, releases, payments, production support, and customer feedback.\n\nThe prior version grew to 2,725 members. I later rebuilt it on a modern foundation, and the rebuild has 151 members and is growing.\n\nWhat it does: members log options and stock trades into portfolios, group them into positions, and follow them from open to close, including scaling, dividends, and reopening. The app identifies each position's strategy, calculates buying power for equity and futures, and rolls results up by security, strategy, and time, with a trade list and activity history. A signal engine compares each open position's profit against the time held and the time remaining to suggest holding, closing, or rolling, and scheduled jobs send profit-target and expiry alerts by email and in-app notification. Around the journal there is a diary, a social feed with following, blocking, direct messages, and public profiles, a blog with comments, and a dashboard of market indicators: investor and consumer sentiment, market breadth, the McClellan oscillator, credit spreads, drawdowns, days since the market's high, year highs and lows, an overnight futures chart, and an economic calendar.\n\nThe web app: Laravel 12 on PHP 8.2 with MySQL, upgraded in place from Laravel 10. Fortify handles authentication, Sanctum handles sessions and personal API tokens, and Socialite provides OAuth2 sign-in with Google, GitHub, Facebook, and Twitter. Billing uses Cashier with Stripe checkout, a customer portal, and webhooks. The REST API is versioned, built with Eloquent API resources and form requests, and documented with Swagger. Laravel Pulse, a job-run table, and a scheduled health check watch production, and an admin area can re-run background jobs and impersonate users for support. The front end is built with Vite and uses jQuery, JsRender templates, Bootstrap 5, Chart.js, Luxon, Quill for the blog editor, Cropper for profile photos, and html2canvas for sharing a position as an image. It also uses my own idle-session package to keep session timeouts in sync across tabs.\n\nBackground work: a single cron entry triggers Laravel's scheduler, which keeps a prioritized queue worker running (high, medium, low), pulls market indicator data on a schedule, caches heavy calculations such as drawdowns and days since the high, refreshes market snapshots for open positions, and purges stale unverified accounts. Every job records its status so a health check can tell me when something stops running. A separate beta environment runs the same code with the data jobs switched off and a weekly wipe-and-reseed.\n\nThe Node component: a companion Node.js service streams live market data. It runs in Docker on Node 20, uses node-cron on New York time to open and close WebSocket streams around the trading day and the overnight futures session, and trades OAuth2 refresh tokens for short-lived stream tokens. It writes minute, daily, and monthly price records into the same MySQL database the web app reads from, and after the close it backfills daily and monthly candles for the S&P 500 index. It reports each run to the shared job-run table, and it forwards persistent errors to a Discord webhook with thresholds and cooldowns so a flapping error cannot flood the channel. GitHub Actions builds the image into GitHub Container Registry on every push to main, and the server pulls it with Docker Compose.\n\nDeployment and quality: tagging a release in GitHub starts an Actions workflow that builds the front end with Vite, syncs the files to shared hosting, and then over SSH puts the site into maintenance mode, updates dependencies with Composer, runs migrations, caches configuration, routes, events, and views, regenerates the API docs, and brings the site back up. There are more than 90 database migrations and a PHPUnit suite covering authentication, the API, and the data jobs.",
+    "year": 2018,
+    "yearApprox": false,
+    "tags": [
+      "Laravel",
+      "PHP",
+      "MySQL",
+      "Node.js",
+      "JavaScript",
+      "jQuery",
+      "Chart.js",
+      "Vite",
+      "Bootstrap",
+      "Stripe",
+      "Sanctum",
+      "Socialite",
+      "OAuth2",
+      "Swagger",
+      "REST API",
+      "WebSockets",
+      "Docker",
+      "Docker Compose",
+      "GitHub Actions",
+      "GitHub Container Registry",
+      "CI/CD",
+      "node-cron",
+      "PHPUnit",
+      "SaaS"
+    ],
+    "demo": {
+      "type": "iframe",
+      "component": "https://tastytracker.com"
+    },
+    "links": [
+      {
+        "label": "Website",
+        "url": "https://tastytracker.com"
+      }
+    ]
+  },
+  {
+    "slug": "leasetracker",
+    "title": "LeaseTracker",
+    "summary": "A property-management SaaS with online rent payments, a tenant portal, and a native Android app.",
+    "description": "I have owned rental real estate since I was 18 and finally got tired of tracking everything manually, so I built LeaseTracker, launched in September 2026. It is a multi-tenant SaaS: each property-management company gets its own isolated workspace, and one tenant can belong to more than one company.\n\nWhat it does: companies manage apartments, units, tenants, and leases, with a ledger of charges and payments per lease. Rent charges are generated automatically each month, late fees are applied on schedule, and tenants can be put on autopay. Utility bills, property taxes, and insurance policies are tracked per property, and utility bills can be charged back to tenants. It also covers maintenance records, contractors and contractor payments, document storage, unit photos, owner records with shareable owner statements, management fees, a tenant intake link for applicants, and support tickets between tenants, companies, and the platform. Analytics roll up revenue, occupancy, and balances per unit, per apartment, and across the portfolio.\n\nThree separate logins share one codebase: company staff, tenants (a self-service portal for balance, lease, documents, and paying or reporting a payment), and a platform admin area with cross-company analytics and the ability to suspend or reactivate companies.\n\nPayments use two independent Stripe integrations. Rent collection uses Stripe Connect Express, so each company connects its own account and tenant card or ACH payments land directly with them. Platform billing uses Laravel Cashier with a base subscription plus a graduated per-active-tenant price. Companies can also list manual channels such as Zelle, Cash App, or check, and a tenant-reported payment stays pending until a company user confirms it. Both webhooks and the billing screens degrade gracefully until keys are configured, and companies start on a 14-day trial.\n\nThe web app: Laravel 12 on PHP 8.2 with MySQL, using database-backed sessions, queues, and cache. Views are Blade with Bootstrap 5 and Bootstrap Icons, built with Vite and Sass. Chart.js draws the analytics, Tom Select powers searchable pickers, and the qrcode library generates QR codes. Sign-in supports email and password plus Google through Socialite, and users can turn on two-factor authentication with a TOTP authenticator app using Google2FA. Intervention Image resizes unit photos. Policies enforce who can touch what, and a scheduler runs the daily jobs: rent charges, rent-due emails, a payment reminder cadence, autopay charging, late fees, and suspending expired trials. Email goes out through AWS SES over SMTP, errors are forwarded to a Discord webhook through a custom log handler, and I reused my own idle-session script to log out inactive users.\n\nThe Android app: rather than maintain a second codebase, the app is a Capacitor 8 shell whose WebView loads the live site, so it shares the same Blade views, session-cookie auth, and CSRF protection as the web version. Landlords and tenants use the same app and just sign in to their own section. The native pieces are what make it more than a wrapped website: push notifications through Firebase Cloud Messaging (Capacitor Firebase Messaging on the device, and a custom Laravel notification channel that calls the FCM HTTP API using a Google service account), biometric sign-in with fingerprint or face unlock (Capgo native biometric plugin plus server-issued biometric tokens), native Google sign-in that hands the session back to the WebView through a one-time exchange, camera access for uploading photos and documents, an in-app browser for external links such as Stripe onboarding, and Android back-button handling and pull-to-refresh. It targets Android 7.0 and up (minSdk 24) and compiles against SDK 36 with Gradle in Android Studio. Release builds are signed Android App Bundles uploaded to Google Play with Play App Signing. I prepared the store listing assets, the privacy policy, account-deletion page, and the Data Safety disclosure.\n\nDeployment and quality: every push to main deploys to a beta environment with its own database through GitHub Actions, and publishing a GitHub Release deploys production. The workflow builds the assets with Vite, uploads an archive over SCP to shared hosting, then over SSH runs Composer, migrations, and the cache steps. There are 57 database migrations and a PHPUnit suite of about 70 feature and unit tests that runs against in-memory SQLite, covering payments, autopay, late fees, rent generation, biometric and Google login, device tokens, account deletion, and more. Laravel Pint keeps the code style consistent.\n\nI built it alongside a full-time job, and AI-assisted development made that practical.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "Laravel",
+      "PHP",
+      "MySQL",
+      "Blade",
+      "Bootstrap",
+      "Vite",
+      "Sass",
+      "Chart.js",
+      "Stripe",
+      "Stripe Connect",
+      "Laravel Cashier",
+      "OAuth2",
+      "Google Sign-In",
+      "Two-Factor Auth",
+      "Android",
+      "Capacitor",
+      "Firebase Cloud Messaging",
+      "Biometric Auth",
+      "Google Play",
+      "AWS SES",
+      "GitHub Actions",
+      "CI/CD",
+      "PHPUnit",
+      "SaaS"
+    ],
+    "demo": {
+      "type": "link",
+      "url": "https://leasetracker.net",
+      "label": "Visit leasetracker.net"
+    },
+    "links": [
+      {
+        "label": "Website",
+        "url": "https://leasetracker.net"
+      },
+      {
+        "label": "Android App",
+        "url": "https://play.google.com/store/apps/details?id=net.leasetracker.app&hl=en-us"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "projects/leasetracker/dashboard.png",
+        "caption": "Owner dashboard with setup checklist (Android app, demo data)"
+      },
+      {
+        "src": "projects/leasetracker/apartments.png",
+        "caption": "Apartments (Android app, demo data)"
+      },
+      {
+        "src": "projects/leasetracker/ledger.png",
+        "caption": "Ledger of charges and payments, including a pending tenant-reported payment (demo data)"
+      },
+      {
+        "src": "projects/leasetracker/analytics.png",
+        "caption": "Analytics (Android app, demo data)"
+      }
+    ]
+  },
+  {
+    "slug": "contractors",
+    "title": "Contractors",
+    "summary": "An invite-only app for a group of friends to log contractors they've hired and review them.",
+    "description": "A small Laravel app so that I and a few friends can record which contractors we have used and what we thought of them. Each review has the price paid (optional), a rating, a written review, and photos, and members can search by service to see who has actually been used before.\n\nAccess is invite-only: any member can generate a shareable link that expires after seven days or one use, and the new person supplies their own details or signs in with Google. Google sign-in links to an existing member by email, or creates an account only when it arrives through a valid invite, and an unknown email with no invite is turned away. Contractor entries are shared and any member can edit them, while reviews are personal, so only the author can change or delete them, and one member can review the same contractor more than once. Services are a fixed set of tags rather than free text, which keeps search consistent. There is an admin role with an activity log and the ability to ban members.\n\nIt was built over a few days in September 2026 with a feature test suite covering invites, Google login, reviews and photos, tags, bans, and the activity log, and has a GitHub Actions deploy workflow.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "Laravel",
+      "PHP",
+      "Google Sign-In",
+      "OAuth2",
+      "Blade",
+      "GitHub Actions",
+      "PHPUnit"
+    ]
+  },
+  {
+    "slug": "php-rentalmanager",
+    "title": "PHP Rental Manager",
+    "summary": "My first attempt at a site for managing my rental properties, years before LeaseTracker.",
+    "description": "A simple PHP website for managing rentals, with a login, a list of apartments, a detail page for each, and a small API to read and save apartment records. I built it in May 2018 to track my own properties, and the idea eventually grew into LeaseTracker.",
+    "year": 2018,
+    "yearApprox": false,
+    "tags": [
+      "PHP",
+      "JavaScript",
+      "Web application",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/php-rentalmanager"
+      },
+      {
+        "label": "Today: LeaseTracker",
+        "url": "https://leasetracker.net"
+      }
+    ]
+  },
+  {
+    "slug": "cheesecake",
+    "title": "Cheesecake",
+    "summary": "A transparent family-monitoring app: an Android client syncs a child's messages and calls to a private parent dashboard.",
+    "description": "Cheesecake is a parental-control tool I built for my own family. An Android app on a child's phone sends text messages, group chats, and call history to a private web dashboard that the parents read. It does not hide: it runs as a visible foreground service, and the child's phone shows what it is doing.\n\nThe Android client is a single Java app with no Gradle: a PowerShell script drives the Android SDK command-line tools (aapt2, javac, d8, zipalign, apksigner) to produce a signed APK. A foreground service watches the phone's SMS, MMS, and call-log tables with content observers, so new messages sync in near real time, with a low-frequency poll as a safety net and a heartbeat when nothing is new. That design avoids wake locks and keeps battery use low. Syncs are idempotent and keyed on the phone's own ids, so a dropped connection can safely resend a batch.\n\nOne gap showed up in real use: some RCS group conversations keep new messages only inside Google Messages' own database and never write them to the shared SMS provider. To cover that, a notification listener service captures group-chat notifications from Google Messages only, and ignores every other app and all one-to-one chats. The app asks for only the permissions it needs: no location, camera, or microphone. Contacts are looked up one number at a time to show a name and are never uploaded in bulk. The settings screen sits behind a parental password that re-locks whenever the app leaves the foreground. The app also updates itself: every sync response tells it the newest build, and it downloads the APK from the family's own server, checks the SHA-256 hash, and hands it to Android's package installer, which only accepts an update signed with the same key.\n\nThe server is Laravel 12 on PHP 8.2 with a Tailwind and Vite front end. Each phone authenticates with its own bearer token, stored only as a SHA-256 hash, and a single API endpoint validates and upserts threads, messages, and calls inside a transaction. A deactivated device just starts getting 401s, so the app goes quiet with nothing to uninstall. The parent dashboard has conversation threads, full-text search, a call log, and a device page, and installs to a phone's home screen as a progressive web app. Each device has its own retention window, and a daily scheduled job purges older messages and calls, writes a status file that shows whether it actually ran, and removes empty threads. Artisan commands add parents and devices and report device status. A public install guide walks through setup on the child's phone, and a deploy script packages the app for shared hosting.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "Laravel",
+      "PHP",
+      "Tailwind CSS",
+      "Vite",
+      "Android",
+      "Java",
+      "Android SDK",
+      "REST API",
+      "Progressive Web App",
+      "Parental Controls",
+      "SQLite",
+      "MySQL"
+    ]
+  },
+  {
+    "slug": "integration-engine",
+    "title": "Integration Engine (in progress)",
+    "summary": "A new integration engine with a high-performance Rust core and a TypeScript developer experience.",
+    "description": "In October 2026 I started writing a new integration engine from scratch. The core is written in Rust for performance, and developers write their interfaces in TypeScript.\n\nIt is meant to hold the lessons from 20 years of integration work, with automatic documentation, monitoring, testing, examples, edge cases, and scalability built in from day one rather than bolted on.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "Rust",
+      "TypeScript",
+      "Integration",
+      "Work in progress"
+    ],
+    "links": [
+      {
+        "label": "Website",
+        "url": "https://getductus.com"
+      }
+    ]
+  },
+  {
+    "slug": "idle-session",
+    "title": "IdleSession",
+    "summary": "A zero-dependency ES module that keeps session timeouts in sync across browser tabs.",
+    "description": "IdleSession syncs idle and session timeouts across tabs using BroadcastChannel, so a user active in one tab never gets logged out by another.\n\nIt uses throttled activity listeners, heartbeats that tell a network blip apart from a real 401 or 403, and an accessible warning dialog. Tests run in GitHub Actions, and it is published to npm and served from the jsDelivr CDN.\n\nIt is the successor to my earlier jQuery idle timer plugin, rewritten with no dependencies.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "JavaScript",
+      "ES Modules",
+      "BroadcastChannel",
+      "npm",
+      "GitHub Actions",
+      "jsDelivr",
+      "Accessibility"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/idle-session"
+      },
+      {
+        "label": "npm",
+        "url": "https://www.npmjs.com/package/idle-session"
+      }
+    ]
+  },
+  {
+    "slug": "jquery-idletimer",
+    "title": "jQuery Idle Timer",
+    "summary": "A widely used jQuery plugin that fires events when a user goes idle or comes back. About 700 stars and 140 forks.",
+    "description": "jQuery Idle Timer fires a custom event when a user is idle, meaning they have stopped moving the mouse, scrolling, typing, or touching the screen, and another when they return. Idle detection like this is what logs people out of banking or healthcare sites after inactivity, or pauses work in the background.\n\nThe idea started with Nicholas Zakas's YUI idle timer and Paul Irish's jQuery port. I became the maintainer and the main contributor (54 of roughly 140 commits) and cut the 1.x releases. Features include a timer you can attach to any element rather than the whole page, configurable activity events, and optional synchronisation of activity across browser tabs through localStorage. The plugin is about 3 KB minified, ships with demos for auto-logout and multi-tab logout, and has an automated test suite.\n\nIt is now retired. The README points people to my modern replacement, IdleSession, which uses native browser APIs and has no jQuery dependency.",
+    "year": 2014,
+    "yearApprox": true,
+    "tags": [
+      "JavaScript",
+      "jQuery",
+      "jQuery plugin",
+      "Library",
+      "Open source",
+      "Session management"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/jquery-idletimer"
+      },
+      {
+        "label": "Successor: IdleSession",
+        "url": "https://github.com/thorst/idle-session"
+      }
+    ]
+  },
+  {
+    "slug": "idletimer",
+    "title": "IdleTimer (ES module)",
+    "summary": "A small modern rewrite of my jQuery idle timer as a plain ES module.",
+    "description": "A first step away from jQuery for my idle timer: a plain JavaScript class you import as a module and configure with a timeout and onIdle and onActive callbacks, with a stop method to turn it off. It was later superseded by IdleSession, which adds multi-tab awareness, heartbeats, and session handling.",
+    "year": 2024,
+    "yearApprox": false,
+    "tags": [
+      "JavaScript",
+      "ES modules",
+      "Library",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/idletimer"
+      }
+    ]
+  },
+  {
+    "slug": "jquery-formloader",
+    "title": "jQuery FormLoader",
+    "summary": "A tiny jQuery library that fills a form from an object and reads it back into one.",
+    "description": "FormLoader is a small, dependency-light helper for forms with many fields. Point it at any container, not necessarily a form element, and call deserialize with an object to populate every matching input, or serialize to get all the values back as an object.\n\nIt handles text inputs, textareas, selects, checkboxes (as true or false), radio groups (by matching the option's value), and numbers (parsed to real numbers, with a data-type attribute to override how a field is read). I wrote my own serialize because jQuery's serializeArray needs a form wrapper and returns an array rather than an object.\n\nIt is a single ES module of about 100 lines. jQuery is used only to keep the code short, and I intended a sibling library without that dependency. I published it on GitHub in October 2023 and fixed its checkbox handling in November 2024.",
+    "year": 2023,
+    "yearApprox": false,
+    "tags": [
+      "JavaScript",
+      "jQuery",
+      "ES modules",
+      "Library",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/jQuery-FormLoader"
+      }
+    ]
+  },
+  {
+    "slug": "supportedbrowser-js",
+    "title": "supportedBrowser.js",
+    "summary": "A small library that detects a visitor's browser and OS and tells you politely whether you support it.",
+    "description": "We supported a specific list of browsers and wanted to tell other visitors, gently and without blocking them, that things might not work as expected. supportedBrowser.js gathers the browser and operating system details and compares them with a list you define, returning simple booleans for your page to act on. It helps manage expectations and gives a support team the details needed to diagnose a problem.\n\nIt is split into two files: browserInfo, which only collects information, and supportedBrowser, a small function that checks it against your list. It is deliberately not a full browser-detection or feature-detection library, and the README says which of those to use instead. It has a live demo.",
+    "year": 2014,
+    "yearApprox": false,
+    "tags": [
+      "JavaScript",
+      "Browser detection",
+      "Library",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/supportedBrowser.js"
+      },
+      {
+        "label": "Live demo",
+        "url": "http://thorst.github.io/supportedBrowser.js/"
+      }
+    ]
+  },
+  {
+    "slug": "bootstrap-typeahead-fork",
+    "title": "Bootstrap Typeahead Fork",
+    "summary": "Extensions to Twitter Bootstrap's typeahead: AJAX sources, a minimum length, and better keyboard behavior.",
+    "description": "A fork of a fork of Bootstrap 2's typeahead plugin. The earlier fork added an AJAX source, objects as the data source, an on-select callback, and up and down selection. I added a minimum length before the source is called (like jQuery UI's autocomplete), no option selected by default so tabbing leaves what you typed alone, and keyboard wrap-around that passes through a deselected state, among other changes.",
+    "year": 2012,
+    "yearApprox": false,
+    "tags": [
+      "JavaScript",
+      "jQuery",
+      "Bootstrap",
+      "jQuery plugin",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/Bootstrap-Typeahead-Fork"
+      }
+    ]
+  },
+  {
+    "slug": "laravel-jetstream-impersonate",
+    "title": "Laravel Jetstream Impersonate (unfinished)",
+    "summary": "An attempt at letting administrators impersonate users in a Jetstream and Sanctum app.",
+    "description": "An open-source attempt at letting administrators sign in as another user to test what they see. It works when the administrator and the impersonated user share the same password, but with different passwords the first page loads and later refreshes sign the administrator out. The README documents the exact behavior, my architecture, and the Stack Overflow question I asked, and I never fully solved it.",
+    "year": 2024,
+    "yearApprox": false,
+    "tags": [
+      "Laravel",
+      "PHP",
+      "Jetstream",
+      "Sanctum",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/laravel-jetstream-impersonate"
+      }
+    ]
+  },
+  {
+    "slug": "pfp-styler",
+    "title": "PFP Styler",
+    "summary": "A prototype that restyles a profile photo into 50+ presets while keeping the face recognizable.",
+    "description": "PFP Styler is a Python image-generation prototype from March 2026. It uses InstantID through the Replicate API to restyle a profile photo into more than 50 presets while preserving the person's face.\n\nThe presets span anime and cartoon looks, comic books, fantasy and RPG art, cyberpunk, classic painting styles, modern digital art, cinematic portraits, and cultural styles such as ukiyo-e and stained glass. Each preset is a prompt plus a negative prompt, and the interface lets you add your own negative terms to steer a result, for example to keep out hats or glasses.\n\nIn the Gradio web interface you upload a photo and pick a style. Two sliders control how closely the result follows your face and how strongly the style is applied, and you can generate up to four variations at once. Pillow center-crops the photo to a square and resizes it to 1024 pixels before it goes to the model, and the results are downloaded and saved locally. Each generation costs roughly a cent or two.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "Python",
+      "Replicate",
+      "InstantID",
+      "Gradio",
+      "Pillow",
+      "AI",
+      "Image generation",
+      "Prototype"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/pfp-styler"
+      }
+    ]
+  },
+  {
+    "slug": "trading-bender",
+    "title": "Trading Bender (prototype)",
+    "summary": "A broker-agnostic web trading front end in Vue, modeled on Tastyworks' old web interface. Never completed.",
+    "description": "Trading Bender was meant to be a front end that sits on top of whatever brokerage you already use. The idea was that the broker supplies the back end (accounts, fees, regions) while the site supplies a focused trading interface, with a small monthly subscription and a community for sharing and following trades. I modeled the interface on Tastyworks' original web platform, which I liked better than the redesign. I started it in December 2021 and never completed it.\n\nIt is a Laravel 9 application with Inertia and Vue 3. Laravel Jetstream and Fortify supply registration, email verification, two-factor authentication, sessions, and API tokens, and visitors can also sign in with Google, Facebook, Twitter, or GitHub. Tradier was the only broker integrated, through a custom OAuth flow because Socialite does not support it. The browser talks directly to Tradier's API for accounts, positions, quotes, and symbol search, and a sandbox mode exists for practice. The main screens are a symbol lookup with live quotes (the largest piece of the app), a positions view, an order ticket, and account switching, with Bootstrap 5, Sass, and Tailwind for styling and jQuery and JsRender in places. The marketing pages, privacy policy, and terms are written, and a GitHub Actions workflow deploys to shared hosting.\n\nIt was built in a burst of about 200 commits that month, with a few follow-ups afterwards.",
+    "year": 2021,
+    "yearApprox": false,
+    "tags": [
+      "Vue",
+      "JavaScript",
+      "Laravel",
+      "PHP",
+      "Inertia.js",
+      "Jetstream",
+      "Tradier API",
+      "OAuth2",
+      "Bootstrap",
+      "Sass",
+      "GitHub Actions",
+      "Prototype"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/tradingbender"
+      }
+    ]
+  },
+  {
+    "slug": "tastyworks-mod",
+    "title": "Tastyworks Mod (bookmarklet and extension)",
+    "summary": "A bookmarklet and Chrome extension that decluttered the Tastyworks web trading site.",
+    "description": "A tiny customization for the Tastyworks web platform: it removed the left sidebar and a few navigation links and let the trading screen use the full width. It ships as a bookmarklet you drag to your bookmarks bar and as a Chrome extension, and the entire source is a short script so anyone can edit it to remove only the pieces they want.",
+    "year": 2019,
+    "yearApprox": false,
+    "tags": [
+      "JavaScript",
+      "jQuery",
+      "Chrome extension",
+      "Bookmarklet",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/jquery-tastyworksmod"
+      }
+    ]
+  },
+  {
+    "slug": "todds-trades",
+    "title": "Todd's Trades (landing page)",
+    "summary": "A landing page for a no-nonsense trade-alerts and training service, meant to tie into Tasty Tracker's trade history.",
+    "description": "Todd's Trades was going to be a trading alerts and training service, with a promise of trading and nothing else: no selling of information, no spam, no ads. Its trade history would be free for anyone to view, pulled from Tasty Tracker, so visitors could judge the results themselves. I only built the marketing site, and the tracking integration was never built.\n\nThe site is static HTML on a purchased Bootstrap 5 template, with jQuery, WOW.js, CountUp, and numeral.js. It does not use a JavaScript framework. It lays out four account types with their prices, minimums, and goals (a small futures account, a standard futures account, a stock and ETF options account, and an ETF dividend account) and explains the free recaps, free trade history, and intro course. A small script powers a discount estimator that totals the price of the portfolios a visitor picks, with one-way or two-way communication tiers and bundle discounts. I also wrote the terms, disclaimer, and risk-disclosure pages, and planned a course and weekly account-review videos.",
+    "year": 2023,
+    "yearApprox": false,
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "jQuery",
+      "Bootstrap",
+      "Static site",
+      "Prototype"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/ToddsTrades"
+      }
+    ]
+  },
+  {
+    "slug": "timesheeit",
+    "title": "Timesheeit (early prototype)",
+    "summary": "A free time tracker I started in October 2025 and shelved after building the account foundation.",
+    "description": "Timesheeit was meant to be a free time-tracking web app. I started it over a few days in October 2025 and set it aside before building the tracking itself, and it was never deployed.\n\nWhat exists is the foundation. It is built on Laravel 12 with Inertia, React, TypeScript, and Tailwind, from the official React starter kit. I added sign-in through Google, GitHub, and X using Socialite, with a table that links each user to their social accounts, plus email verification through AWS email, and a two-factor authentication setup from the starter kit. A GitHub Actions workflow for deploying to a beta server was started. The time-entry features, the part that makes it a time tracker, were still on the to-do list.",
+    "year": 2025,
+    "yearApprox": false,
+    "tags": [
+      "Laravel",
+      "PHP",
+      "Inertia.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Socialite",
+      "OAuth2",
+      "GitHub Actions",
+      "Prototype"
+    ]
+  },
+  {
+    "slug": "flask-prototype",
+    "title": "Flask Prototype",
+    "summary": "A small Python Flask web app, built to try the framework.",
+    "description": "A small prototype to get hands-on with Flask: Python web routing, Jinja templates with inheritance, and SQLAlchemy with SQLite for persistence. It is deliberately simple and exists to compare the framework's feel against the others I use.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "Python",
+      "Flask",
+      "SQLAlchemy",
+      "SQLite",
+      "Jinja",
+      "Prototype"
+    ]
+  },
+  {
+    "slug": "biweekly-budget",
+    "title": "Biweekly Budget",
+    "summary": "A native Android budgeting app on Google Play since 2016, rewritten from Java to Kotlin and Compose in 2026 without breaking existing users.",
+    "description": "Biweekly Budget is a simple envelope-style budgeting app for Android. You create budgets, record debits and credits against them, and see each budget's balance plus an overall total. It is free with a $0.99 one-time Pro upgrade that removes the free limits (10 budgets, 20 transactions per budget) and unlocks custom sort orders. I built it, shipped it, and have maintained it on Google Play since 2016.\n\nVersion 1 (2016, v0.2.3): a native Android app written in Java with SQLite storage and Google Play's in-app billing for Pro. From the first commit to a signed release took about two months. Money was stored as floating-point dollars, each budget's total was stored separately and updated by hand, and it supported Android 4.4 and up.\n\nVersion 2 (2026, v1.0.0): a ground-up rewrite in Kotlin with Jetpack Compose and Material 3, Room for the database, DataStore for settings, Play Billing 9, and the Android Gradle Plugin 9 build. It keeps the same package name, signing key, database file, launcher component and in-app product, so it ships to existing users as a normal update and their budgets and Pro purchase carry over. It requires Android 7.0 and targets Android 16.\n\nHow Pro works: Google Play is the source of truth. Each time the app comes to the foreground it asks Play which products the account owns, verifies the purchase signature against the app's licensing public key, and caches the answer for offline use. New phones, refunds and pending payments are all picked up automatically.\n\nTesting: 74 JVM tests run with Robolectric and no device. They check the totals at every layer (repository, view model, and the real Compose screens), include a 3,000-step randomized run compared against an independent model, verify the migration against a database built exactly like the old app's, and exercise purchases, restores, refunds and pending payments against a scripted Google Play.",
+    "year": 2016,
+    "yearApprox": false,
+    "tags": [
+      "Android",
+      "Kotlin",
+      "Jetpack Compose",
+      "Material 3",
+      "Room",
+      "DataStore",
+      "Google Play Billing",
+      "Java",
+      "SQLite",
+      "Robolectric",
+      "Gradle",
+      "In-app purchases"
+    ],
+    "links": [
+      {
+        "label": "Google Play",
+        "url": "https://play.google.com/store/apps/details?id=com.thorst.biweeklybudget"
+      }
+    ]
+  },
+  {
+    "slug": "cuemaker",
+    "title": "CueMaker",
+    "summary": "A small utility that creates the missing .cue files RetroPie needs for PlayStation games. About 90 stars.",
+    "description": "RetroPie 4.x requires a .cue file next to each PlayStation .bin image, and the existing tools made you create them one file at a time. CueMaker scans a folder, optionally recursively, and creates a .cue file for every .bin that does not have one.\n\nThere are two versions of the same tool. A Windows Forms application written in C# needs no installation: run it and pick a folder or a single .bin. A Python script covers macOS, Linux, and the RetroPie itself, prompting for the path to scan and defaulting to RetroPie's directories. Releases are published on GitHub.",
+    "year": 2016,
+    "yearApprox": false,
+    "tags": [
+      "C#",
+      "Python",
+      "Windows Forms",
+      "RetroPie",
+      "Utility",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/CueMaker"
+      }
+    ]
+  },
+  {
+    "slug": "clear-channel-bot",
+    "title": "Clear Channel Discord Bot",
+    "summary": "A small Discord bot that bulk-deletes messages from the private channel where my app's errors are posted.",
+    "description": "My Laravel apps post their error-log entries to a private Discord channel. Once I have seen and handled an error I do not want it sitting there, both for security and so an empty channel tells me I am caught up. This bot lets me type !clear, or !clear followed by a number, in that channel to wipe the messages.\n\nIt is a Node.js bot built on discord.js 14. It ignores other bots, checks that the person has the Manage Messages permission, validates the count (1 to 100, default 100), and uses Discord's bulk delete. A tiny Express server answers health checks so an uptime monitor could keep it alive on free hosting; it first ran on Replit with UptimeRobot, and now runs in Docker on an Ubuntu server with Docker Compose. A GitHub Actions workflow builds the image and pushes it to GitHub Container Registry on every push.\n\nBecause a clear command is destructive, the README recommends giving the bot access to only the channels it needs.",
+    "year": 2023,
+    "yearApprox": false,
+    "tags": [
+      "Node.js",
+      "JavaScript",
+      "Discord",
+      "discord.js",
+      "Express",
+      "Docker",
+      "Docker Compose",
+      "GitHub Actions",
+      "GitHub Container Registry"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/discord-ClearChannelBot"
+      }
+    ]
+  },
+  {
+    "slug": "chatterbox",
+    "title": "Chatterbox",
+    "summary": "A proof-of-concept end-to-end encrypted chat that even the server could not read.",
+    "description": "Chatterbox was a proof of concept for end-to-end encrypted chat built on SignalR. Messages were encrypted between clients, so even the server could not decrypt them.",
+    "year": 2014,
+    "yearApprox": true,
+    "tags": [
+      "SignalR",
+      "Encryption",
+      "Real-time"
+    ]
+  },
+  {
+    "slug": "forge-contribution",
+    "title": "Forge Open-Source Contribution",
+    "summary": "A merged pull request adding the demos section to the Forge JavaScript crypto library.",
+    "description": "I contributed the demos section to Forge, a JavaScript cryptography library, and the pull request was merged. The demos included C# RSA key interoperability, showing keys moving between the JavaScript library and .NET.",
+    "year": 2014,
+    "yearApprox": false,
+    "tags": [
+      "JavaScript",
+      "C#",
+      "RSA",
+      "Cryptography",
+      "Open source"
+    ]
+  },
+  {
+    "slug": "home-server",
+    "title": "Home Server",
+    "summary": "An Ubuntu server running my Docker workloads: media, photos, music, monitoring, and bots.",
+    "tags": [
+      "Ubuntu",
+      "Docker",
+      "Docker Compose",
+      "Linux",
+      "Python",
+      "Jellyfin",
+      "Immich",
+      "yt-dlp",
+      "FFmpeg",
+      "beets",
+      "Self-hosting"
+    ],
+    "description": "A home server I run on Ubuntu with Docker Compose, managed as code. Each workload is its own stack: a media server with Jellyfin and the Sonarr, Radarr, Prowlarr, Bazarr, Jellyseerr, and Homarr suite, Immich for photos, monitoring, and the Discord bot from my Clear Channel project, plus a backup script.\n\nI keep a runbook and write an incident report whenever something breaks. A five-hour outage in April 2026 traced back to an Ubuntu volume sized at 100 GB of a 894 GB disk and to bind mounts that pointed at a path that never existed, so the media stack's settings had been living in containers and getting wiped on restart. I expanded the volume and fixed the paths, and later migrated Docker from the snap package to the apt package. There is also a step-by-step guide for moving a family's photos out of Google Photos into Immich safely, with the order of steps designed so nothing is deleted until the backup is verified.\n\nPython scripts organize movies and TV episodes, repair Jellyfin metadata and NFO files, and de-duplicate a music library. Two small tools sit alongside: a downloader that saves audio from streams with yt-dlp and ffmpeg, and a music manager built on beets that tags files using audio fingerprints, with its library kept on the NAS so it survives a PC failure. I also set up SSH access so that Claude Code can run commands on the server, with a separate non-interactive key for it.",
+    "year": 2026,
+    "yearApprox": false
+  },
+  {
+    "slug": "mirth-migration",
+    "title": "Cloverleaf to Mirth Migration",
+    "summary": "Led the move of 1,700+ live healthcare interfaces to a new integration engine with no customer-visible downtime.",
+    "description": "At a large health system, I prototyped Mirth Connect in my spare time, chose it as the replacement for our Cloverleaf interface engine, and led the migration.\n\nWe moved more than 1,700 live interfaces using parallel runs and output diffs, so the old and new engines could be compared message by message before each cutover. The work involved about a dozen teams and roughly 50 VPNs, and there was no customer-visible downtime.",
+    "tags": [
+      "Mirth Connect",
+      "Cloverleaf",
+      "HL7",
+      "Healthcare integration",
+      "Migration"
+    ],
+    "links": [
+      {
+        "label": "Cloverleaf code I published",
+        "url": "https://github.com/thorst/My-Cloverleaf-Code"
+      }
+    ]
+  },
+  {
+    "slug": "my-mirth-code",
+    "title": "My Mirth Code (public library)",
+    "summary": "A public collection of Mirth Connect code templates, admin API scripts, and tools, written to be reusable.",
+    "description": "A public repository of Mirth Connect code I wrote, shared for anyone building interfaces. My approach is to put as much as possible in code templates, written in JavaScript and accepting and returning JavaScript data types. Even when the underlying Java is short, I wrap it in a JavaScript template so other developers on staff can read, use, and change it without compiling anything.\n\nThe repository holds about 150 files. The code templates are grouped by purpose: date and time functions (parsing, formatting, converting between HL7, Java, and JavaScript, diffing, and detecting the duplicated hour at daylight saving changes), arrays (including HL7 segment helpers for keeping, removing, and renumbering segments), strings, files and directories, FTP, HTTP, email, databases and SQLite, maps, E4X, and server utilities. A full PGP library encrypts to multiple keys with configurable algorithms and an integrity check, decrypts with automatic algorithm detection, and caches keys in the global channel map. There are also scripts that call Mirth's API to create, rename, move, and re-library code templates, an HTTP-listener pattern that routes a URL path to a destination of the same name to build a small REST API inside a channel, a channel-speed analytics script, and an automatic backup template that writes encrypted zip backups of the server.\n\nIt is a personal, public counterpart to the larger internal library I built at work.",
+    "year": 2024,
+    "yearApprox": false,
+    "tags": [
+      "Mirth Connect",
+      "JavaScript",
+      "HL7",
+      "Code templates",
+      "PGP",
+      "Healthcare integration",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/My-Mirth-Code"
+      }
+    ]
+  },
+  {
+    "slug": "my-cloverleaf-code",
+    "title": "My Cloverleaf Code (public archive)",
+    "summary": "Over a hundred Tcl procedures from our Cloverleaf days, scrubbed of confidential content and shared for anyone still on the engine.",
+    "description": "We ran Cloverleaf for years and no longer do. I uploaded a large part of our old Tcl code, with everything confidential scrubbed out, in case it helps someone still running the engine. It is shared as is and is no longer updated.\n\nThe repository holds 112 Tcl procedures covering the work an interface engine does all day: building and acknowledging HL7 segments and messages, provider and NPI lookups, Epic-related routines, FTP, email, curl and JSON, GUIDs and date math, dictionary, list, and string helpers, file get and put, database save, list, and delete helpers, and daemon start, stop, and state control. A separate public repository, TCL-Tools, has general-purpose Tcl 8.5 scripts that make heavy use of dictionaries.",
+    "year": 2025,
+    "yearApprox": false,
+    "tags": [
+      "Tcl",
+      "Cloverleaf",
+      "HL7",
+      "Healthcare integration",
+      "Epic",
+      "Open source"
+    ],
+    "links": [
+      {
+        "label": "Source",
+        "url": "https://github.com/thorst/My-Cloverleaf-Code"
+      },
+      {
+        "label": "TCL-Tools",
+        "url": "https://github.com/thorst/TCL-Tools"
+      }
+    ]
+  },
+  {
+    "slug": "aws-migration",
+    "title": "AWS Migration",
+    "summary": "Moved 14 production servers from on-premises VMware to AWS and split the application and database tiers.",
+    "description": "In March 2026 I led the migration of 14 production servers from on-premises VMware to AWS, using NC2 and EC2.\n\nWe split the Mirth servers into separate application and database tiers, growing from 14 servers to 16, so each tier could be sized and scaled independently. After cutover, throughput fell short of expectations; I fixed it by moving to a disk-optimized instance type.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "AWS",
+      "EC2",
+      "NC2",
+      "VMware",
+      "Mirth Connect",
+      "Migration"
+    ]
+  },
+  {
+    "slug": "postgres-wraparound-recovery",
+    "title": "PostgreSQL Wraparound Recovery",
+    "summary": "Rebuilt a PostgreSQL database handling 2B+ write transactions within 30 minutes of approval, then made sure it could not recur.",
+    "description": "In fall 2025 the PostgreSQL database behind our Mirth integration engine, which had handled more than 2 billion write transactions, hit transaction ID wraparound.\n\nI argued for a clean rebuild over a slow in-place recovery, did it myself on the newest PostgreSQL version, and had it running within 30 minutes of approval. Afterward I added a weekly automated VACUUM job so it could not happen again.",
+    "year": 2025,
+    "yearApprox": false,
+    "tags": [
+      "PostgreSQL",
+      "Mirth Connect",
+      "Database recovery",
+      "Operations"
+    ]
+  },
+  {
+    "slug": "containerization",
+    "title": "Containerization and Cloud R&D",
+    "summary": "Led the start of moving our integration platform to containers, with OpenShift manifests and research into ECS, API Gateway, and S3.",
+    "description": "In 2026 I led the start of our containerization effort. I wrote the Kubernetes manifests (YAML) for OpenShift, then planned ECS for Mirth as we moved from Red Hat servers to containers.\n\nI also researched placing API Gateway in front of our Oracle ERP, which does not offer granular API access, and using S3 as a file-transfer option to replace much of our reliance on email, SFTP, and Windows shares, with tighter permission control and shareable links.\n\nThis work was research and development and had not moved to production.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "OpenShift",
+      "Kubernetes",
+      "Docker",
+      "ECS",
+      "API Gateway",
+      "S3"
+    ]
+  },
+  {
+    "slug": "mirth-monitoring-portal",
+    "title": "Mirth Monitoring and Management Portal",
+    "summary": "A web portal for interface health, debugging, reporting, and the build, debug, and deploy workflow.",
+    "description": "I built a .NET web portal that put interface health, debugging, and reporting in one place, along with the build, debug, and deploy workflow for our Mirth interfaces. It has a C# Web API back end with a web front end.\n\nNode scripts handled operational chores like starting and stopping channels, database vacuuming, and server audits that scraped ports and IP addresses into documentation.",
+    "tags": [
+      "C#",
+      "ASP.NET Web API",
+      "Node.js",
+      "PostgreSQL",
+      "Mirth Connect",
+      "Monitoring"
+    ]
+  },
+  {
+    "slug": "servicenow-process-layer",
+    "title": "ServiceNow Process Layer and Dashboard",
+    "summary": "Built our development process into ServiceNow tickets, with a self-service status dashboard that other teams adopted.",
+    "description": "ServiceNow was our system of record, but it did not reflect how my team actually delivered work. I built a .NET Core and Node application, synced with the ServiceNow API, that built our development process into the ticket itself.\n\nEach request moved through defined phases, so everyone stayed on the same page about where work stood and what came next, and a self-service view replaced status chasing. Other teams adopted it for their own work. The API sync shipped in September 2026.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      ".NET Core",
+      "Node.js",
+      "ServiceNow",
+      "REST APIs",
+      "Workflow"
+    ]
+  },
+  {
+    "slug": "dotnet-core-port-with-claude",
+    "title": ".NET Framework to .NET Core Port with Claude",
+    "summary": "Piloted Claude Code to port .NET Framework sites to .NET Core in about a third of the usual time.",
+    "description": "In 2025-26 I piloted Claude Code on my team with a real project: porting our .NET Framework sites to .NET Core. We finished in about a third of the usual time, with tests added and every change code reviewed.\n\nI wrote the team's AI guidelines (allowed uses, mandatory review and testing of all AI output, and no PHI in the tool) and trained staff on them.",
+    "year": 2025,
+    "yearApprox": true,
+    "tags": [
+      "Claude Code",
+      ".NET Core",
+      ".NET Framework",
+      "AI-assisted development",
+      "Migration"
+    ]
+  },
+  {
+    "slug": "integration-standards-library",
+    "title": "Integration Standards Library",
+    "summary": "150+ documented Mirth functions, naming conventions, and templates that standardized how the team built interfaces.",
+    "description": "I built a shared library of more than 150 Mirth functions, each documented with tests and examples, along with naming conventions and templates for each interface type. It gave every engineer the same foundation to build on.\n\nI also recorded an internal series of Mirth training videos used to train integration staff.",
+    "tags": [
+      "Mirth Connect",
+      "JavaScript",
+      "Standards",
+      "Documentation",
+      "Training"
+    ],
+    "links": [
+      {
+        "label": "Public Mirth code",
+        "url": "https://github.com/thorst/My-Mirth-Code"
+      }
+    ]
+  },
+  {
+    "slug": "pgp4-mirth-library",
+    "title": "PGP Library for Mirth",
+    "summary": "A 13-function PGP encrypt/decrypt library built on BouncyCastle for multi-vendor file feeds.",
+    "description": "A shared library for Mirth that handles PGP encryption and decryption using BouncyCastle. It has 13 functions, supports signature checks, and caches keys, so many vendors with different key setups could be handled consistently.",
+    "tags": [
+      "Mirth Connect",
+      "PGP",
+      "BouncyCastle",
+      "Encryption"
+    ],
+    "links": [
+      {
+        "label": "Public Mirth code",
+        "url": "https://github.com/thorst/My-Mirth-Code"
+      }
+    ]
+  },
+  {
+    "slug": "hl7-splitter-search",
+    "title": "HL7 Splitter and Search Tool",
+    "summary": "A .NET WinForms tool that made troubleshooting HL7 message files possible.",
+    "description": "During the Cloverleaf era our backend was file-based, which made troubleshooting slow. I built a .NET WinForms tool with multithreaded parsing and filters that could split and search HL7 message files quickly.",
+    "tags": [
+      "C#",
+      ".NET WinForms",
+      "HL7",
+      "Multithreading",
+      "Troubleshooting"
+    ]
+  },
+  {
+    "slug": "sheetdelta",
+    "title": "SheetDelta",
+    "summary": "A Python tool that shows a color-coded diff between .xlsx files, even when their columns do not match.",
+    "description": "SheetDelta compares two Excel workbooks and produces a color-coded diff, handling files whose columns do not line up. I used it to sync our helpdesk queue with client ticket sheets.",
+    "tags": [
+      "Python",
+      "Excel",
+      "Data comparison"
+    ]
+  },
+  {
+    "slug": "oracle-job-scheduler",
+    "title": "Oracle Job Scheduler",
+    "summary": "A scheduler for Oracle ERP jobs with pluggable connectors, downtime windows, dependency ordering, and a load heatmap.",
+    "description": "I designed and built a job scheduler for our Oracle ERP. It has pluggable connectors, downtime windows, dependency ordering between jobs, and a heatmap of scheduled load. It saved roughly 12 hours a month of manual scheduling.",
+    "year": 2025,
+    "yearApprox": true,
+    "tags": [
+      "Oracle ERP",
+      "Scheduling",
+      "Automation"
+    ]
+  },
+  {
+    "slug": "oracle-assets-to-git",
+    "title": "Oracle Assets to Git",
+    "summary": "A nightly export of all Oracle custom assets into git, making them searchable and versioned.",
+    "description": "A nightly job exports all of our Oracle custom assets into a git repository, making them searchable and versioned. It also automated a manual runbook.",
+    "year": 2025,
+    "yearApprox": true,
+    "tags": [
+      "Oracle ERP",
+      "Git",
+      "Automation",
+      "Version control"
+    ]
+  },
+  {
+    "slug": "oracle-erp-vscode-extension",
+    "title": "OHiSee: Oracle Cloud Developer for VS Code (prototype)",
+    "summary": "A VS Code extension that brings Oracle Cloud ERP development into the editor: BI Publisher, Integration Cloud, and Fast Formula, with Git as the source of truth.",
+    "description": "OHiSee is a VS Code extension I built to remove the browser from Oracle Cloud ERP development: copy-pasting SQL, uploading files by hand, and switching tabs to find out why an integration failed. It is a working prototype that I have not published to the Marketplace.\n\nBI Publisher: pull a data model from the catalog, edit its SQL as a normal file, and push it back. A .ohisee.json file in the workspace maps each local file to its catalog path, so teammates who clone the repo are already set up, and BIP reports become files in Git with diffs, branches, and code review. Whole folders can be pulled at once, and an optional auto-sync pushes on save. After an environment refresh, a Deploy All command rebuilds every mapped data model and pushes it to the active connection, creating or updating each one. A catalog browser in the sidebar shows which reports are already local. A linter checks SQL for the things that break CSV output (unprotected free-text columns, concatenation that can embed delimiters, comma-formatted number masks, SELECT *, missing aliases, legacy outer joins, and missing effective-date filters on dated tables). A preview panel detects bind variables, prompts for values, and shows sample data as a table, and Run Report downloads the real CSV.\n\nOracle Integration Cloud: an instance monitor replaces the browser console for day-to-day debugging, with status filtering, 30-second auto-refresh, one-click resubmit and abort, diagnostic log download, a group-by-error view that buckets failures by message, and an inline activity stream with payloads. A sidebar lists the integration catalog by package with activate and deactivate. Integrations can be exported as IAR archives with their XSLTs extracted locally, edited, and deployed back, with the deactivate, import, and activate steps handled for me. Other tools cover a schedule manager that edits iCal recurrence rules and can run a schedule now, a trigger tester that fires a payload at an integration, an XSLT test harness, and connection templates that apply connection settings across environments.\n\nAlso included: a schema explorer for common HCM, payroll, finance, and procurement tables, Fast Formula syntax highlighting and completion with remote compile, and a connection manager for Dev, Test, and Production with passwords kept in the operating system keychain through VS Code's SecretStorage. An optional LLM setting is wired for Claude or Gemini to assist with SQL and Fast Formula, the original motivation: giving an AI assistant direct access to Oracle data and schema.\n\nIt is about 7,600 lines of TypeScript, bundled with esbuild and packaged as a .vsix for side-loading. It talks to BIP over SOAP, using the catalog and report service WSDLs, and to OIC over REST. A getting-started walkthrough guides new users.",
+    "year": 2026,
+    "yearApprox": false,
+    "tags": [
+      "VS Code",
+      "TypeScript",
+      "Oracle ERP",
+      "BI Publisher",
+      "Oracle Integration Cloud",
+      "Fast Formula",
+      "SOAP",
+      "REST APIs",
+      "esbuild",
+      "Developer tools",
+      "AI-assisted development",
+      "Prototype"
+    ]
+  },
+  {
+    "slug": "iis-manager",
+    "title": "IIS Manager",
+    "summary": "A C# web API site for managing IIS sites and promoting them from dev to prod, with backups and required documentation.",
+    "description": "IIS Manager is a C# web API and site that lets people manage their own web sites on our IIS servers and promote them from a development server to production, instead of filing requests and waiting on an administrator.\n\nCreating a site sets up everything it needs: the application pool, the directories, and the shares. Users push to the dev server first, then to prod. The push to production is built to be safe. It takes the application offline while files are copied, and it first zips up the existing production version as a backup so a bad release can be rolled back.\n\nIt also forces basic documentation. Every site must record a link to its repository, its owners, its customers, and a brief description, so there is always an answer to who owns a site and who depends on it.",
+    "tags": [
+      "C#",
+      "ASP.NET Web API",
+      "IIS",
+      "Windows Server",
+      "Deployment",
+      "Automation"
+    ]
+  },
+  {
+    "slug": "on-call-management-system",
+    "title": "On-Call Management System",
+    "summary": "A system the IT department used to manage on-call.",
+    "description": "As a senior developer I built the system our IT department used to manage on-call.",
+    "tags": [
+      "On-call",
+      "Internal tools"
+    ]
+  },
+  {
+    "slug": "physician-office-integration",
+    "title": "Independent Physician Office Integration",
+    "summary": "Connected 28 external EMRs across 180 physician offices and 1,411 providers.",
+    "description": "I designed the independent physician office integration program in 2006-08 and managed it from 2015 to 2025. It connected 28 external EMRs across 180 offices and 1,411 providers.\n\nI ran the go-live with each office, some of them on site.",
+    "year": 2006,
+    "yearApprox": true,
+    "tags": [
+      "HL7",
+      "EMR integration",
+      "Healthcare integration",
+      "Go-live"
+    ]
+  },
+  {
+    "slug": "patient-portal",
+    "title": "Patient Portal",
+    "summary": "Built a patient portal from the ground up, through regulatory approval, to 80,000+ users in its first year.",
+    "description": "I built the health system's patient portal from the ground up and took it through regulatory approval. It reached more than 80,000 users in its first year, and used Twilio for messaging. Later work used FHIR against our Epic installation for the portal and other tools.",
+    "year": 2013,
+    "yearApprox": true,
+    "tags": [
+      "Healthcare",
+      "Twilio",
+      "FHIR",
+      "Epic",
+      "Web application"
+    ]
+  },
+  {
+    "slug": "patient-ios-app",
+    "title": "Patient iOS App",
+    "summary": "A native iPhone and iPad app that I built alone and shipped to the App Store in six months.",
+    "description": "I was the sole developer of the health system's iOS app, written in Objective-C for iPhone and iPad. It took six months to reach the App Store, and I set up the organization's Apple developer account along the way.",
+    "year": 2013,
+    "yearApprox": true,
+    "tags": [
+      "iOS",
+      "Objective-C",
+      "iPhone",
+      "iPad",
+      "App Store"
+    ]
+  },
+  {
+    "slug": "prescription-refill-workflow",
+    "title": "Prescription Refill Workflow",
+    "summary": "A refill system built around a pharmacy system that could not be integrated, with admin tools, an iOS barcode scanner, and a portal page.",
+    "description": "The pharmacy system could not be integrated with, so I worked around it. I built an admin tool for pharmacy staff at every location, web services behind it, an iOS app that scans prescription barcodes, and a portal page for patients.\n\nAn Android app, written by another developer, used the same web services.",
+    "year": 2013,
+    "yearApprox": true,
+    "tags": [
+      "Web services",
+      "iOS",
+      "Barcode scanning",
+      "Healthcare"
+    ]
+  },
+  {
+    "slug": "surgery-tracker",
+    "title": "Surgery Tracker",
+    "summary": "A display board and mobile website that let families follow a loved one's progress through surgery, anonymously and HIPAA compliant.",
+    "description": "Waiting for news during a loved one's surgery is stressful. I built a surgery tracker that showed families where their patient was in the process, on a display board in the ER and on a mobile website they could open on their own phone.\n\nProgress was shown as a small number of simple, plain-language steps rather than clinical detail. The system was designed around patient privacy: patients were tracked anonymously and it was built to be HIPAA compliant, so a family could follow along without the board exposing who anyone was.\n\nThe surgery information came from Epic over FHIR. The board and the website read the same live status.",
+    "tags": [
+      "FHIR",
+      "Epic",
+      "Healthcare",
+      "HIPAA",
+      "Mobile web",
+      "Display board",
+      "Web application"
+    ]
+  },
+  {
+    "slug": "adaptive-patient-questionnaire",
+    "title": "Adaptive Patient Questionnaire",
+    "summary": "An adaptive medical-history questionnaire patients completed on locked-down office iPads, built on the Instant Medical History APIs.",
+    "description": "Patients completed this questionnaire on office iPads through a mobile view. It was built on the Instant Medical History vendor APIs, whose rules-based branching drilled into areas of concern with more and more questions: for example, answering that you smoke opened follow-up questions about tobacco.\n\nI built an admin UI that staff used to pair an iPad with a specific patient. When the patient finished, their answers were submitted straight to that patient's chart, so nothing had to be re-entered.\n\nThe iPads were handed to patients locked down and fenced to the premises, so a device could not leave the building and the patient could only use the questionnaire. It was simple for patients to use, and painless for provider offices to get going.",
+    "tags": [
+      "Mobile web",
+      "iPad",
+      "Instant Medical History",
+      "Vendor APIs",
+      "Rules engine",
+      "Device management",
+      "Healthcare"
+    ]
+  },
+  {
+    "slug": "kafka-prototype",
+    "title": "Kafka Prototype",
+    "summary": "A prototype exploring Apache Kafka for event streaming.",
+    "tags": [
+      "Kafka",
+      "Prototype"
+    ]
+  },
+  {
+    "slug": "sqs-prototype",
+    "title": "AWS SQS Prototype",
+    "summary": "A prototype exploring AWS SQS for asynchronous messaging.",
+    "tags": [
+      "AWS",
+      "SQS",
+      "Prototype"
+    ]
+  },
+  {
+    "slug": "rabbitmq-prototype",
+    "title": "RabbitMQ Prototype",
+    "summary": "A prototype exploring RabbitMQ for message queuing.",
+    "tags": [
+      "RabbitMQ",
+      "Prototype"
+    ]
+  },
+  {
+    "slug": "mongodb-prototype",
+    "title": "MongoDB Prototype",
+    "summary": "A prototype exploring MongoDB as a document store.",
+    "tags": [
+      "MongoDB",
+      "Prototype"
+    ]
+  },
+  {
+    "slug": "graphql-prototype",
+    "title": "GraphQL Prototype",
+    "summary": "A prototype exploring GraphQL APIs.",
+    "tags": [
+      "GraphQL",
+      "Prototype"
+    ]
+  },
+  {
+    "slug": "rails-prototype",
+    "title": "Ruby on Rails Prototype",
+    "summary": "A prototype exploring Ruby on Rails.",
+    "tags": [
+      "Ruby on Rails",
+      "Prototype"
+    ]
   }
 ]
