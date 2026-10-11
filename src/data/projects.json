@@ -28,7 +28,7 @@
     "slug": "tasty-tracker",
     "title": "Tasty Tracker",
     "summary": "A trade-journaling SaaS product I founded in 2018 and still run.",
-    "description": "Tasty Tracker is a subscription trade-journaling product. I own everything: strategy, pricing, development, releases, payments, production support, and customer feedback.\n\nThe prior version grew to 2,725 members. I later rebuilt it on a modern foundation, and the rebuild has 151 members and is growing.\n\nWhat it does: members log options and stock trades into portfolios, group them into positions, and follow them from open to close, including scaling, dividends, and reopening. The app identifies each position's strategy, calculates buying power for equity and futures, and rolls results up by security, strategy, and time, with a trade list and activity history. A signal engine compares each open position's profit against the time held and the time remaining to suggest holding, closing, or rolling, and scheduled jobs send profit-target and expiry alerts by email and in-app notification. Around the journal there is a diary, a social feed with following, blocking, direct messages, and public profiles, a blog with comments, and a dashboard of market indicators: investor and consumer sentiment, market breadth, the McClellan oscillator, credit spreads, drawdowns, days since the market's high, year highs and lows, an overnight futures chart, and an economic calendar.\n\nThe web app: Laravel 12 on PHP 8.2 with MySQL, upgraded in place from Laravel 10. Fortify handles authentication, Sanctum handles sessions and personal API tokens, and Socialite provides OAuth2 sign-in with Google, GitHub, Facebook, and Twitter. Billing uses Cashier with Stripe checkout, a customer portal, and webhooks. The REST API is versioned, built with Eloquent API resources and form requests, and documented with Swagger. Laravel Pulse, a job-run table, and a scheduled health check watch production, and an admin area can re-run background jobs and impersonate users for support. The front end is built with Vite and uses jQuery, JsRender templates, Bootstrap 5, Chart.js, Luxon, Quill for the blog editor, Cropper for profile photos, and html2canvas for sharing a position as an image. It also uses my own idle-session package to keep session timeouts in sync across tabs.\n\nBackground work: a single cron entry triggers Laravel's scheduler, which keeps a prioritized queue worker running (high, medium, low), pulls market indicator data on a schedule, caches heavy calculations such as drawdowns and days since the high, refreshes market snapshots for open positions, and purges stale unverified accounts. Every job records its status so a health check can tell me when something stops running. A separate beta environment runs the same code with the data jobs switched off and a weekly wipe-and-reseed.\n\nThe Node component: a companion Node.js service streams live market data. It runs in Docker on Node 20, uses node-cron on New York time to open and close WebSocket streams around the trading day and the overnight futures session, and trades OAuth2 refresh tokens for short-lived stream tokens. It writes minute, daily, and monthly price records into the same MySQL database the web app reads from, and after the close it backfills daily and monthly candles for the S&P 500 index. It reports each run to the shared job-run table, and it forwards persistent errors to a Discord webhook with thresholds and cooldowns so a flapping error cannot flood the channel. GitHub Actions builds the image into GitHub Container Registry on every push to main, and the server pulls it with Docker Compose.\n\nDeployment and quality: tagging a release in GitHub starts an Actions workflow that builds the front end with Vite, syncs the files to shared hosting, and then over SSH puts the site into maintenance mode, updates dependencies with Composer, runs migrations, caches configuration, routes, events, and views, regenerates the API docs, and brings the site back up. There are more than 90 database migrations and a PHPUnit suite covering authentication, the API, and the data jobs.",
+    "description": "Tasty Tracker is a subscription trade-journaling product. I own everything: strategy, pricing, development, releases, payments, production support, and customer feedback.\n\nThe prior version grew to 2,725 members. I later rebuilt it on a modern foundation, and the rebuild has 151 members and is growing.\n\nWhat it does: members log options and stock trades into portfolios, group them into positions, and follow them from open to close, including scaling, dividends, and reopening. The app identifies each position's strategy, calculates buying power for equity and futures, and rolls results up by security, strategy, and time, with a trade list and activity history. A signal engine compares each open position's profit against the time held and the time remaining to suggest holding, closing, or rolling, and scheduled jobs send profit-target and expiry alerts by email and in-app notification. Around the journal there is a diary, a social feed with following, blocking, direct messages, and public profiles, a blog with comments, and a dashboard of market indicators: investor and consumer sentiment, market breadth, the McClellan oscillator, credit spreads, drawdowns, days since the market's high, year highs and lows, an overnight futures chart, and an economic calendar.\n\nThe web app: Laravel 12 on PHP 8.2 with MySQL, upgraded in place from Laravel 10. Fortify handles authentication, Sanctum handles sessions and personal API tokens, and Socialite provides OAuth2 sign-in with Google, GitHub, Facebook, and Twitter. Billing uses Cashier with Stripe checkout, a customer portal, and webhooks. The REST API is versioned, built with Eloquent API resources and form requests, and documented with Swagger. Laravel Pulse, a job-run table, and a scheduled health check watch production, and an admin area can re-run background jobs and impersonate users for support. The front end is built with Vite and uses jQuery, JsRender templates, Bootstrap 5, Chart.js, Luxon, Quill for the blog editor, Cropper for profile photos, and html2canvas for sharing a position as an image. It also uses my own idle-session package to keep session timeouts in sync across tabs. Email is sent through AWS email.\n\nBackground work: a single cron entry triggers Laravel's scheduler, which keeps a prioritized queue worker running (high, medium, low), pulls market indicator data on a schedule, caches heavy calculations such as drawdowns and days since the high, refreshes market snapshots for open positions, and purges stale unverified accounts. Every job records its status so a health check can tell me when something stops running. A separate beta environment runs the same code with the data jobs switched off and a weekly wipe-and-reseed.\n\nThe Node component: a companion Node.js service streams live market data. It runs in Docker on Node 20, uses node-cron on New York time to open and close WebSocket streams around the trading day and the overnight futures session, and trades OAuth2 refresh tokens for short-lived stream tokens. It writes minute, daily, and monthly price records into the same MySQL database the web app reads from, and after the close it backfills daily and monthly candles for the S&P 500 index. It reports each run to the shared job-run table, and it forwards persistent errors to a Discord webhook with thresholds and cooldowns so a flapping error cannot flood the channel. GitHub Actions builds the image into GitHub Container Registry on every push to main, and the server pulls it with Docker Compose.\n\nDeployment and quality: tagging a release in GitHub starts an Actions workflow that builds the front end with Vite, syncs the files to shared hosting, and then over SSH puts the site into maintenance mode, updates dependencies with Composer, runs migrations, caches configuration, routes, events, and views, regenerates the API docs, and brings the site back up. There are more than 90 database migrations and a PHPUnit suite covering authentication, the API, and the data jobs.",
     "year": 2018,
     "yearApprox": false,
     "tags": [
@@ -55,7 +55,8 @@
       "CI/CD",
       "node-cron",
       "PHPUnit",
-      "SaaS"
+      "SaaS",
+      "AWS SES"
     ],
     "demo": {
       "type": "iframe",
@@ -358,27 +359,6 @@
     ]
   },
   {
-    "slug": "laravel-jetstream-impersonate",
-    "title": "Laravel Jetstream Impersonate (unfinished)",
-    "summary": "An attempt at letting administrators impersonate users in a Jetstream and Sanctum app.",
-    "description": "An open-source attempt at letting administrators sign in as another user to test what they see. It works when the administrator and the impersonated user share the same password, but with different passwords the first page loads and later refreshes sign the administrator out. The README documents the exact behavior, my architecture, and the Stack Overflow question I asked, and I never fully solved it.",
-    "year": 2024,
-    "yearApprox": false,
-    "tags": [
-      "Laravel",
-      "PHP",
-      "Jetstream",
-      "Sanctum",
-      "Open source"
-    ],
-    "links": [
-      {
-        "label": "Source",
-        "url": "https://github.com/thorst/laravel-jetstream-impersonate"
-      }
-    ]
-  },
-  {
     "slug": "pfp-styler",
     "title": "PFP Styler",
     "summary": "A prototype that restyles a profile photo into 50+ presets while keeping the face recognizable.",
@@ -491,7 +471,8 @@
       "Socialite",
       "OAuth2",
       "GitHub Actions",
-      "Prototype"
+      "Prototype",
+      "AWS SES"
     ]
   },
   {
@@ -588,13 +569,17 @@
   {
     "slug": "chatterbox",
     "title": "Chatterbox",
-    "summary": "A proof-of-concept end-to-end encrypted chat that even the server could not read.",
-    "description": "Chatterbox was a proof of concept for end-to-end encrypted chat built on SignalR. Messages were encrypted between clients, so even the server could not decrypt them.",
+    "summary": "A proof-of-concept end-to-end encrypted chat: each client held its own private key, so even the server could not read messages.",
+    "description": "Chatterbox was a proof of concept for secure chat where the server never sees a readable message.\n\nEach client generated its own key pair in the browser and published the public key. The private key stayed in JavaScript on the client, which decrypted every received message on the fly. To send a message, the client encrypted it with the public key of the intended recipient, so the server only ever relayed ciphertext.\n\nSignalR kept a WebSocket open to each client and pushed messages to them in real time. Getting the browser cryptography to work against a .NET back end took some tweaks and demos, which I contributed back to the Forge JavaScript crypto library.",
     "year": 2014,
     "yearApprox": true,
     "tags": [
       "SignalR",
+      "WebSockets",
       "Encryption",
+      "RSA",
+      "JavaScript",
+      "C#",
       "Real-time"
     ]
   },
@@ -602,7 +587,7 @@
     "slug": "forge-contribution",
     "title": "Forge Open-Source Contribution",
     "summary": "A merged pull request adding the demos section to the Forge JavaScript crypto library.",
-    "description": "I contributed the demos section to Forge, a JavaScript cryptography library, and the pull request was merged. The demos included C# RSA key interoperability, showing keys moving between the JavaScript library and .NET.",
+    "description": "I contributed the demos section to Forge, a JavaScript cryptography library, and the pull request was merged. The demos included C# RSA key interoperability, showing keys moving between the JavaScript library and .NET.\n\nThe work came out of building Chatterbox, my encrypted chat proof of concept, which needed some tweaks to Forge and working examples of keys moving between a browser and a .NET back end.",
     "year": 2014,
     "yearApprox": false,
     "tags": [
@@ -630,7 +615,7 @@
       "beets",
       "Self-hosting"
     ],
-    "description": "A home server I run on Ubuntu with Docker Compose, managed as code. Each workload is its own stack: a media server with Jellyfin and the Sonarr, Radarr, Prowlarr, Bazarr, Jellyseerr, and Homarr suite, Immich for photos, monitoring, and the Discord bot from my Clear Channel project, plus a backup script.\n\nI keep a runbook and write an incident report whenever something breaks. A five-hour outage in April 2026 traced back to an Ubuntu volume sized at 100 GB of a 894 GB disk and to bind mounts that pointed at a path that never existed, so the media stack's settings had been living in containers and getting wiped on restart. I expanded the volume and fixed the paths, and later migrated Docker from the snap package to the apt package. There is also a step-by-step guide for moving a family's photos out of Google Photos into Immich safely, with the order of steps designed so nothing is deleted until the backup is verified.\n\nPython scripts organize movies and TV episodes, repair Jellyfin metadata and NFO files, and de-duplicate a music library. Two small tools sit alongside: a downloader that saves audio from streams with yt-dlp and ffmpeg, and a music manager built on beets that tags files using audio fingerprints, with its library kept on the NAS so it survives a PC failure. I also set up SSH access so that Claude Code can run commands on the server, with a separate non-interactive key for it.",
+    "description": "A home server I run on Ubuntu with Docker Compose, managed as code. Each workload is its own stack: a Jellyfin media server, Immich for photos, monitoring, and the Discord bot from my Clear Channel project, plus a backup script.\n\nI keep a runbook and write an incident report whenever something breaks. A five-hour outage in April 2026 traced back to an Ubuntu volume sized at 100 GB of a 894 GB disk and to bind mounts that pointed at a path that never existed, so several containers' settings had been living inside the containers and getting wiped on restart. I expanded the volume and fixed the paths, and later migrated Docker from the snap package to the apt package. There is also a step-by-step guide for moving a family's photos out of Google Photos into Immich safely, with the order of steps designed so nothing is deleted until the backup is verified.\n\nPython scripts organize movies and TV episodes, repair Jellyfin metadata and NFO files, and de-duplicate a music library. Two small tools sit alongside: a downloader that saves audio from streams with yt-dlp and ffmpeg, and a music manager built on beets that tags files using audio fingerprints, with its library kept on the NAS so it survives a PC failure. I also set up SSH access so that Claude Code can run commands on the server, with a separate non-interactive key for it.",
     "year": 2026,
     "yearApprox": false
   },
@@ -645,19 +630,13 @@
       "HL7",
       "Healthcare integration",
       "Migration"
-    ],
-    "links": [
-      {
-        "label": "Cloverleaf code I published",
-        "url": "https://github.com/thorst/My-Cloverleaf-Code"
-      }
     ]
   },
   {
     "slug": "my-mirth-code",
     "title": "My Mirth Code (public library)",
     "summary": "A public collection of Mirth Connect code templates, admin API scripts, and tools, written to be reusable.",
-    "description": "A public repository of Mirth Connect code I wrote, shared for anyone building interfaces. My approach is to put as much as possible in code templates, written in JavaScript and accepting and returning JavaScript data types. Even when the underlying Java is short, I wrap it in a JavaScript template so other developers on staff can read, use, and change it without compiling anything.\n\nThe repository holds about 150 files. The code templates are grouped by purpose: date and time functions (parsing, formatting, converting between HL7, Java, and JavaScript, diffing, and detecting the duplicated hour at daylight saving changes), arrays (including HL7 segment helpers for keeping, removing, and renumbering segments), strings, files and directories, FTP, HTTP, email, databases and SQLite, maps, E4X, and server utilities. A full PGP library encrypts to multiple keys with configurable algorithms and an integrity check, decrypts with automatic algorithm detection, and caches keys in the global channel map. There are also scripts that call Mirth's API to create, rename, move, and re-library code templates, an HTTP-listener pattern that routes a URL path to a destination of the same name to build a small REST API inside a channel, a channel-speed analytics script, and an automatic backup template that writes encrypted zip backups of the server.\n\nIt is a personal, public counterpart to the larger internal library I built at work.",
+    "description": "A public repository of Mirth Connect code I wrote, shared for anyone building interfaces. My approach is to put as much as possible in code templates, written in JavaScript and accepting and returning JavaScript data types. Even when the underlying Java is short, I wrap it in a JavaScript template so other developers on staff can read, use, and change it without compiling anything.\n\nThe repository holds about 150 files. The code templates are grouped by purpose: date and time functions (parsing, formatting, converting between HL7, Java, and JavaScript, diffing, and detecting the duplicated hour at daylight saving changes), arrays (including HL7 segment helpers for keeping, removing, and renumbering segments), strings, files and directories, FTP, HTTP, email, databases and SQLite, maps, E4X, and server utilities. A full PGP library encrypts to multiple keys with configurable algorithms and an integrity check, decrypts with automatic algorithm detection, and caches keys in the global channel map. There are also scripts that call Mirth's API to create, rename, move, and re-library code templates, an HTTP-listener pattern that routes a URL path to a destination of the same name to build a small REST API inside a channel, a channel-speed analytics script, and an automatic backup template that writes encrypted zip backups of the server.",
     "year": 2024,
     "yearApprox": false,
     "tags": [
@@ -793,25 +772,6 @@
     ]
   },
   {
-    "slug": "integration-standards-library",
-    "title": "Integration Standards Library",
-    "summary": "150+ documented Mirth functions, naming conventions, and templates that standardized how the team built interfaces.",
-    "description": "I built a shared library of more than 150 Mirth functions, each documented with tests and examples, along with naming conventions and templates for each interface type. It gave every engineer the same foundation to build on.\n\nI also recorded an internal series of Mirth training videos used to train integration staff.",
-    "tags": [
-      "Mirth Connect",
-      "JavaScript",
-      "Standards",
-      "Documentation",
-      "Training"
-    ],
-    "links": [
-      {
-        "label": "Public Mirth code",
-        "url": "https://github.com/thorst/My-Mirth-Code"
-      }
-    ]
-  },
-  {
     "slug": "pgp4-mirth-library",
     "title": "PGP Library for Mirth",
     "summary": "A 13-function PGP encrypt/decrypt library built on BouncyCastle for multi-vendor file feeds.",
@@ -881,6 +841,33 @@
     ]
   },
   {
+    "slug": "oracle-erp-integrations",
+    "title": "Oracle ERP Integrations (program I oversaw)",
+    "summary": "Oversaw all of our Oracle ERP integrations: seeded web services, Oracle Integration Cloud, BI Publisher, and HCM Extracts.",
+    "description": "I oversaw all of our Oracle ERP integrations. They were built with the tools Oracle provides: its seeded web services, Oracle Integration Cloud (OIC), BI Publisher (BIP) reports, and HCM Extracts.",
+    "tags": [
+      "Oracle ERP",
+      "Oracle Integration Cloud",
+      "BI Publisher",
+      "HCM Extracts",
+      "Web services",
+      "Integration"
+    ]
+  },
+  {
+    "slug": "oracle-admin",
+    "title": "Oracle Admin",
+    "summary": "The foundation for runbooks and asset documentation on our Oracle ERP, and the home of the external scheduler and payroll automation.",
+    "description": "Oracle Admin was the foundation that made a runbook, meaning documentation of our Oracle assets, possible. It is also where the Oracle external scheduler lived, and where I built payroll automation.\n\nThe scheduler and the nightly export of Oracle assets to Git are described as their own projects.",
+    "tags": [
+      "Oracle ERP",
+      "Runbook",
+      "Documentation",
+      "Automation",
+      "Payroll"
+    ]
+  },
+  {
     "slug": "oracle-erp-vscode-extension",
     "title": "OHiSee: Oracle Cloud Developer for VS Code (prototype)",
     "summary": "A VS Code extension that brings Oracle Cloud ERP development into the editor: BI Publisher, Integration Cloud, and Fast Formula, with Git as the source of truth.",
@@ -929,15 +916,58 @@
   {
     "slug": "physician-office-integration",
     "title": "Independent Physician Office Integration",
-    "summary": "Connected 28 external EMRs across 180 physician offices and 1,411 providers.",
-    "description": "I designed the independent physician office integration program in 2006-08 and managed it from 2015 to 2025. It connected 28 external EMRs across 180 offices and 1,411 providers.\n\nI ran the go-live with each office, some of them on site.",
+    "summary": "Connected 28 external EMRs across 180 physician offices and 1,411 providers, delivering results, orders, scheduling, and discharge summaries.",
+    "description": "I designed the independent physician office integration program in 2006-08 and managed it from 2015 to 2025. It connected 28 external EMRs across 180 offices and 1,411 providers.\n\nWhile we ran Cloverleaf, I used Cloverleaf Secure Courier to securely deliver lab and radiology results to the offices. Orders flowed the other way, from the physician office back to the health system. I also sent scheduling messages (SIU) and discharge summaries, and I created the monitoring and documentation that let us support the offices.\n\nI ran the go-live with each office, some of them on site.",
     "year": 2006,
     "yearApprox": true,
     "tags": [
       "HL7",
+      "Cloverleaf",
+      "Secure Courier",
       "EMR integration",
       "Healthcare integration",
+      "Lab and radiology results",
       "Go-live"
+    ]
+  },
+  {
+    "slug": "wel",
+    "title": "WEL: Enterprise Lookup (EMPI)",
+    "summary": "An enterprise patient lookup and service that combined patient information from every system. I advised on its creation and later owned its support and server migration.",
+    "description": "WEL, the enterprise lookup, is an enterprise master patient index (EMPI). It was written when we had several sources of truth for patients. It takes patient information from all of the systems and provides a lookup and a service on top, so other systems have one place to ask who a patient is.\n\nI was on the initial committee for its development, acting as an advisor. Later the responsibility for it fell to me. I did not develop it, but my employee was responsible for it, and my team migrated it to new servers even though we were not its original authors.",
+    "tags": [
+      "EMPI",
+      "Patient lookup",
+      "Healthcare integration",
+      "Migration",
+      "Web services"
+    ]
+  },
+  {
+    "slug": "catch-and-release",
+    "title": "Catch and Release",
+    "summary": "My idea, built in .NET: a Catch folder for files that need manual approval and a site where customers release them, so integration stays out of weekly payroll.",
+    "description": "Catch and Release was my idea, a .NET project created under my responsibility. Some files, payroll in particular, need a person to approve them before they continue on their way. Instead of the integration team being involved every week, files that needed manual approval were caught in a Catch folder.\n\nCustomers signed in to a GUI where they could see what was waiting and release a file once they had approved it, and the file then continued through its integration. The integration team stopped taking part in producing payroll each week and only facilitated the process.",
+    "tags": [
+      ".NET",
+      "C#",
+      "Payroll",
+      "Workflow",
+      "Integration",
+      "Automation"
+    ]
+  },
+  {
+    "slug": "open-enrollment",
+    "title": "Open Enrollment",
+    "summary": "Ran the annual benefits open enrollment project across HR tech, benefits, HR, and integration, from the June announcement to the January 1 vendor go-live.",
+    "description": "I ran the open enrollment project every year. It is a tight annual cycle with fixed dates: plan changes are announced in June, preliminary testing happens in September, the changes go live for employees in November, and they go live with the benefit vendors on January 1.\n\nThe project involved four groups: HR technology, benefits, HR, and integration. My part was keeping them in step through those milestones so that the vendor connections were ready when the new plan year began.",
+    "tags": [
+      "Project management",
+      "Benefits",
+      "HR technology",
+      "Integration",
+      "Healthcare"
     ]
   },
   {

@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProjectCard from '../components/ProjectCard.jsx'
 import Tag from '../components/Tag.jsx'
 import site from '../data/site.json'
 import { allTags, filterProjects } from '../lib/projects.js'
+
+const TAGS_COLLAPSED = 14
 
 export default function Home() {
   // Filter state lives in the URL so a filtered view can be linked/bookmarked.
@@ -10,6 +13,12 @@ export default function Home() {
   const q = params.get('q') ?? ''
   const selected = params.getAll('tag')
   const results = filterProjects(q, selected)
+
+  // Collapsed, only the most used tags show (plus any selected one, so an active filter never hides).
+  const [showAllTags, setShowAllTags] = useState(false)
+  const visibleTags = showAllTags
+    ? allTags
+    : allTags.filter(([t], i) => i < TAGS_COLLAPSED || selected.includes(t))
 
   const update = (nextQ, nextTags) => {
     const next = new URLSearchParams()
@@ -30,10 +39,16 @@ export default function Home() {
         placeholder="Search projects or technologies…" aria-label="Search projects"
         className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 dark:border-slate-700 dark:bg-slate-900" />
 
-      <div className="mt-4 flex flex-wrap gap-1.5">
-        {allTags.map(([t, n]) => (
+      <div className="mt-4 flex flex-wrap items-center gap-1.5">
+        {visibleTags.map(([t, n]) => (
           <Tag key={t} label={t} count={n} active={selected.includes(t)} onClick={() => toggle(t)} />
         ))}
+        {allTags.length > TAGS_COLLAPSED && (
+          <button type="button" onClick={() => setShowAllTags(!showAllTags)} aria-expanded={showAllTags}
+            className="px-2 text-xs text-indigo-600 hover:underline dark:text-indigo-400">
+            {showAllTags ? 'Show fewer tags' : `Show all ${allTags.length} tags`}
+          </button>
+        )}
         {(q || selected.length > 0) && (
           <button type="button" onClick={() => update('', [])}
             className="px-2 text-xs text-indigo-600 hover:underline dark:text-indigo-400">Clear</button>
