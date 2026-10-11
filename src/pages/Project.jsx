@@ -13,8 +13,21 @@ function Demo({ demo }) {
         {demo.label ?? 'Open live demo'} ↗
       </a>
     )
-  if (demo.type === 'iframe')
-    return <iframe src={demo.url} title="Demo" className="h-[32rem] w-full rounded-lg border border-slate-200 bg-white dark:border-slate-800" />
+  if (demo.type === 'iframe') {
+    // Some sites forbid being framed (X-Frame-Options / frame-ancestors) and the iframe just stays blank,
+    // so always offer a plain link as well.
+    if (!demo.url) return <p className="text-sm text-red-600">Demo is missing a "url".</p>
+    return (
+      <div>
+        <iframe src={demo.url} title="Demo" loading="lazy"
+          className="h-[32rem] w-full rounded-lg border border-slate-200 bg-white dark:border-slate-800" />
+        <a href={demo.url} target="_blank" rel="noreferrer"
+          className="mt-2 inline-block text-sm text-indigo-600 hover:underline dark:text-indigo-400">
+          {demo.label ?? 'Open in a new tab'} ↗
+        </a>
+      </div>
+    )
+  }
   const Component = demos[demo.component]
   if (!Component) return <p className="text-sm text-red-600">Unknown demo “{demo.component}”.</p>
   return (

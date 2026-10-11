@@ -60,7 +60,7 @@
     ],
     "demo": {
       "type": "iframe",
-      "component": "https://tastytracker.com"
+      "url": "https://tastytracker.com"
     },
     "links": [
       {
