@@ -260,14 +260,18 @@
   },
   {
     "slug": "integration-engine",
-    "title": "Integration Engine (in progress)",
-    "summary": "A new integration engine with a high-performance Rust core and a TypeScript developer experience.",
-    "description": "In October 2026 I started writing a new integration engine from scratch. The core is written in Rust for performance, and developers write their interfaces in TypeScript.\n\nIt is meant to hold the lessons from 20 years of integration work, with automatic documentation, monitoring, testing, examples, edge cases, and scalability built in from day one rather than bolted on.",
+    "title": "Ductus: Integration Engine (in progress)",
+    "summary": "A code-first healthcare integration engine I am building from scratch: a Rust runtime, interfaces written in TypeScript, PostgreSQL as the store and queue, and a React web UI built into one binary.",
+    "description": "In October 2026 I started writing a new integration engine from scratch, called Ductus. It is meant to hold the lessons from 20 years of integration work, with automatic documentation, monitoring, testing, examples, edge cases, and scalability built in from day one rather than bolted on. It is in early development and not production-ready yet.\n\nIt is code-first. Each interface is a folder: its configuration is a small YAML file, its logic is TypeScript, and its tests sit next to it. The TypeScript SDK knows HL7, so hovering over a field in the editor shows what it is, and a validate command type-checks everything before anything runs.\n\nThe engine itself is written in Rust for performance. It deploys as one binary plus PostgreSQL, which serves as both the store and the queue, so there is no message broker, no JVM, and no Node.js to run. Each destination gets its own queue, retries, and status, and operators get monitoring and message replay.\n\nThe web UI is a React application. It is built into the engine's binary and uses only the engine's public REST API, so anything the UI can do, a script can do too. It is written in TypeScript with React 19 and Vite, uses TanStack Router, Query, Table, and Virtual for routing, data, and large message lists, and Radix components. Its API types are generated from the engine's OpenAPI description, and it is tested with Vitest and Playwright, including automated accessibility checks.",
     "year": 2026,
     "yearApprox": false,
     "tags": [
       "Rust",
       "TypeScript",
+      "React",
+      "PostgreSQL",
+      "HL7",
+      "Healthcare",
       "Integration"
     ],
     "links": [
@@ -277,7 +281,16 @@
       }
     ],
     "keywords": [
-      "Work in progress"
+      "Work in progress",
+      "TanStack",
+      "Radix",
+      "Vite",
+      "OpenAPI",
+      "REST API",
+      "Playwright",
+      "Vitest",
+      "Accessibility",
+      "Message replay"
     ],
     "featured": 5
   },
@@ -1273,8 +1286,8 @@
   {
     "slug": "open-enrollment",
     "title": "Open Enrollment",
-    "summary": "Ran the annual benefits open enrollment project across HR tech, benefits, HR, and integration, from the June announcement to the January 1 vendor go-live.",
-    "description": "I ran the open enrollment project every year. It is a tight annual cycle with fixed dates: plan changes are announced in June, preliminary testing happens in September, the changes go live for employees in November, and they go live with the benefit vendors on January 1.\n\nThe project spans four teams and 15 people (HR technology, benefits, HR, and integration), and runs from vendor contracts and business associate agreements through go-live. We finished early in 2025 and ahead of schedule in 2026, when we onboarded three new vendor integrations for the plan year. My part was keeping the groups in step through those milestones so the vendor connections were ready when the new plan year began.",
+    "summary": "Ran the benefits open enrollment project every year as business manager (2025 and 2026) across HR tech, benefits, HR, and integration, from the June announcement to the January 1 vendor go-live.",
+    "description": "I ran the open enrollment project every year I was the business manager, which was the 2025 and 2026 cycles. It is a tight annual cycle with fixed dates: plan changes are announced in June, preliminary testing happens in September, the changes go live for employees in November, and they go live with the benefit vendors on January 1.\n\nThe project spans four teams and 15 people (HR technology, benefits, HR, and integration), and runs from vendor contracts and business associate agreements through go-live. We finished early in 2025, and ahead of schedule in 2026, when we onboarded three new vendor integrations for the plan year. My part was keeping the groups in step through those milestones so the vendor connections were ready when the new plan year began.",
     "tags": [
       "Project management",
       "HR & Payroll",
@@ -1285,7 +1298,9 @@
       "Benefits",
       "HR technology"
     ],
-    "role": "managed"
+    "role": "managed",
+    "year": 2025,
+    "yearApprox": false
   },
   {
     "slug": "patient-portal",
@@ -1486,7 +1501,9 @@
       "Integration",
       "Oracle ERP"
     ],
-    "role": "managed"
+    "role": "managed",
+    "year": 2026,
+    "yearApprox": false
   },
   {
     "slug": "wel-onboarding",
