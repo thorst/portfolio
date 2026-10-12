@@ -12,7 +12,7 @@ Notes for making the portfolio stronger for employers. Roughly in priority order
 - [ ] Screenshots and mockups for the internal projects: build a small mock project for each, using Claude, then add images (`screenshots` in the JSON, images in `public/projects/<slug>/`)
 - [ ] Prototypes tab: for each prototype, write the small public repo, then add its Source link and a real description (the six experiments Kafka, SQS, RabbitMQ, MongoDB, GraphQL, Rails have none yet)
 - [ ] Surgery Tracker: add the Epic FHIR endpoints used once a prototype exists
-- [ ] Review the Featured choices (`"featured": 1..6` in `projects.json`)
+- [ ] Review the Featured choices (`"featured": 1..7` in `projects.json`)
 
 ## Features
 - [ ] Develop the Managed section further: the team size, outcomes, and what I personally contributed for each entry

@@ -704,8 +704,8 @@
   {
     "slug": "mirth-migration",
     "title": "Cloverleaf to Mirth Migration",
-    "summary": "Led the move of 1,700+ live healthcare interfaces to a new integration engine with no customer-visible downtime.",
-    "description": "At a large health system, I prototyped Mirth Connect in my spare time, chose it as the replacement for our Cloverleaf interface engine, and led the migration.\n\nWe moved more than 1,700 live interfaces using parallel runs and output diffs, so the old and new engines could be compared message by message before each cutover. The work involved about a dozen teams and roughly 50 VPNs, and there was no customer-visible downtime.\n\nRunning both engines in parallel and diffing every output also surfaced and fixed older bugs, and the move saved about $500,000 a year.",
+    "summary": "Evaluated the market, chose Mirth Connect, built its templates and standards, and led the move of 1,700+ live interfaces off Cloverleaf with no customer-visible downtime.",
+    "description": "The migration began in 2020. I evaluated the integration engines on the market, prototyped Mirth Connect in my spare time, and chose it as the replacement for our Cloverleaf interface engine.\n\nFrom the first investigation to shutting down Cloverleaf took about three years, with gaps along the way, because the team kept doing its day jobs throughout. The time went into extensive prototyping to prove Mirth could meet our needs, contracting for its professional features, building the servers, training staff (most of whom did not know JavaScript at all), and then converting that many assets.\n\nBefore anyone migrated an interface, I created the foundation for doing it well: an interface template, and code templates that enforced our standards and kept the code clean. I then led the migration. I migrated several interfaces myself, and advised the team on best practices and on the specifics of converting from Cloverleaf.\n\nWe moved more than 1,700 live interfaces using parallel runs and output diffs, so the old and new engines could be compared message by message before each cutover. The work involved about a dozen teams and roughly 50 VPNs, and there was no customer-visible downtime.\n\nRunning both engines in parallel and diffing every output also surfaced and fixed older bugs, and the move saved about $500,000 a year.",
     "tags": [
       "Mirth Connect",
       "Cloverleaf",
@@ -715,10 +715,17 @@
       "Migration"
     ],
     "keywords": [
-      "Healthcare integration"
+      "Healthcare integration",
+      "Code templates",
+      "Interface templates",
+      "Standards",
+      "Training",
+      "Prototyping"
     ],
     "featured": 3,
-    "role": "managed"
+    "role": "managed",
+    "year": 2020,
+    "yearApprox": false
   },
   {
     "slug": "my-mirth-code",
@@ -781,19 +788,23 @@
   {
     "slug": "aws-migration",
     "title": "AWS Migration",
-    "summary": "Moved 14 production servers from on-premises VMware to AWS and split the application and database tiers.",
-    "description": "In March 2026 I led the migration of 14 production servers from on-premises VMware to AWS, using NC2 and EC2.\n\nWe split the Mirth servers into separate application and database tiers, growing from 14 servers to 16, so each tier could be sized and scaled independently. After cutover, throughput fell short of expectations; I fixed it by moving to a disk-optimized instance type.\n\nThe move avoided a multi-million-dollar VMware bill.",
+    "summary": "Led a three-person team moving 14 production servers to AWS. The ADT feed, about 1M transactions a day, could not keep up at first; after tuning and splitting the tiers, backlogs were lower than on site.",
+    "description": "In March 2026 I led the migration of 14 production servers from on-premises VMware to AWS, using NC2 and EC2. The team was me and two other developers.\n\nWe split the Mirth servers into separate application and database tiers, growing from 14 servers to 16, so each tier could be sized and scaled independently. The two developers primarily validated the systems as each wave moved. Once the tiers were split, I optimized the PostgreSQL and Mirth configurations.\n\nThe outcome came in two stages. When we first moved, the ADT feed, which carries about a million transactions a day, could not keep up. I fixed throughput by moving to a disk-optimized instance type and by the PostgreSQL and Mirth optimizations. After that work and the tier split, we had fewer backups than we ever had on site.\n\nThe move also avoided a multi-million-dollar VMware bill.",
     "year": 2026,
     "yearApprox": false,
     "tags": [
       "AWS",
       "Mirth Connect",
-      "Migration"
+      "Migration",
+      "PostgreSQL"
     ],
     "keywords": [
       "EC2",
       "NC2",
-      "VMware"
+      "VMware",
+      "ADT",
+      "Throughput",
+      "Performance tuning"
     ],
     "role": "managed"
   },
@@ -974,8 +985,8 @@
   {
     "slug": "oracle-erp-integrations",
     "title": "Oracle ERP Integrations (program I oversaw)",
-    "summary": "Oversaw all of our Oracle ERP integrations: seeded web services, Oracle Integration Cloud, BI Publisher, and HCM Extracts.",
-    "description": "I oversaw all of our Oracle ERP integrations. They were built with the tools Oracle provides: its seeded web services, Oracle Integration Cloud (OIC), BI Publisher (BIP) reports, and HCM Extracts.",
+    "summary": "Took over about 1,200 Oracle ERP integration assets in June 2025, trained 9 people, and replaced 12 consultants and 2 contractors in 7 months, retiring $3M+ a year.",
+    "description": "When I took over the business team in June 2025, I took over its integrations with the Oracle ERP as well: about 1,200 integration assets in Oracle. They are built with Oracle's seeded web services, Oracle Integration Cloud (OIC), BI Publisher (BIP) reports, and HCM Extracts.\n\nThe team had not been properly trained on these tools, so I acquired the training for them, nine people in all, and carved out time for them to complete it despite their busy schedules. The training was needed to remove contractors from the work and to make sure the interfaces complied with our standards.\n\nWe prioritized the integrations that were buggy or not performant and rewrote them first. We used HCM Extracts strategically, rather than letting them be the base platform for everything, and moved more of the logic into our integration engine, where it is easier to manipulate, monitor, and fan out to other systems.\n\nThe result: in seven months we replaced 12 external consultants and 2 contractors, retiring more than $3 million a year in spend with no customer impact.",
     "tags": [
       "Oracle ERP",
       "Integration"
@@ -984,9 +995,19 @@
       "Oracle Integration Cloud",
       "BI Publisher",
       "HCM Extracts",
-      "Web services"
+      "Web services",
+      "Integration engine",
+      "Training",
+      "Rewrites",
+      "Contractor transition",
+      "Cost savings",
+      "Consultants",
+      "1,200 integration assets"
     ],
-    "role": "managed"
+    "role": "managed",
+    "year": 2025,
+    "yearApprox": false,
+    "featured": 7
   },
   {
     "slug": "oracle-admin",
@@ -1064,8 +1085,8 @@
   {
     "slug": "physician-office-integration",
     "title": "Independent Physician Office Integration",
-    "summary": "Connected 28 external EMRs across 180 physician offices and 1,411 providers, delivering results, orders, scheduling, and discharge summaries.",
-    "description": "I designed the independent physician office integration program in 2006-08 and managed it from 2015 to 2025. It connected 28 external EMRs across 180 offices and 1,411 providers.\n\nWhile we ran Cloverleaf, I used Cloverleaf Secure Courier to securely deliver lab and radiology results to the offices. Orders flowed the other way, from the physician office back to the health system. I also sent scheduling messages (SIU) and discharge summaries, and I created the monitoring and documentation that let us support the offices.\n\nI ran the go-live with each office, some of them on site.",
+    "summary": "Designed and maintained, then managed, the integration of 28 external EMRs across 180 physician offices and 1,411 providers: results, orders, scheduling, and discharge summaries.",
+    "description": "I designed and maintained the independent physician office integration program from 2006 to 2015, then moved into managing it. It connected 28 external EMRs across 180 offices and 1,411 providers.\n\nWhile we ran Cloverleaf, I used Cloverleaf Secure Courier to securely deliver lab and radiology results to the offices. Orders flowed the other way, from the physician office back to the health system. I also sent scheduling messages (SIU) and discharge summaries, and I created the monitoring and documentation that let us support the offices.\n\nAfter we moved to Mirth, I wrote a secure SFTP client to deliver files to the offices, described as its own project.\n\nI ran the go-live with each office, some of them on site.",
     "year": 2006,
     "yearApprox": true,
     "tags": [
@@ -1076,38 +1097,87 @@
       "Project management"
     ],
     "keywords": [
-      "Secure Courier",
       "EMR integration",
+      "Go-live",
       "Healthcare integration",
       "Lab and radiology results",
-      "Go-live"
+      "Secure Courier"
     ],
     "featured": 6,
     "role": "managed"
   },
   {
+    "slug": "secure-sftp-delivery-client",
+    "title": "Secure SFTP Delivery Client",
+    "summary": "A C# console app I wrote as sole developer, running every 5 minutes to pull pending files from a custom Mirth API and deliver them to a customer's EHR.",
+    "description": "After we moved from Cloverleaf to Mirth in 2020, physician offices still needed their files delivered securely. I wrote a secure SFTP client for that.\n\nIt is a C# console application, scheduled with Windows Task Scheduler to run every five minutes. Each run connects to a custom API I built on Mirth, downloads the files pending for that customer, and securely delivers them into the customer's EHR. It ran this way from 2020 onward.\n\nI was the sole developer: I wrote it, patched it, and deployed it. It is part of the independent physician office integration program, which I designed and maintained and later managed.",
+    "tags": [
+      "C#",
+      "Healthcare",
+      "Integration",
+      "Mirth Connect",
+      "APIs"
+    ],
+    "keywords": [
+      "SFTP",
+      "EHR",
+      "Secure delivery",
+      "Windows Task Scheduler",
+      "Console app"
+    ],
+    "year": 2020,
+    "yearApprox": false
+  },
+  {
+    "slug": "blood-bank-backup",
+    "title": "Blood Bank Backup Utility",
+    "summary": "A pull-based backup utility with heartbeats, replacing a push that kept failing. It runs on a dozen machines, one at each site.",
+    "description": "The blood bank system sends its backups to a server, and the original design pushed them out to a backup machine at each site. That push frequently ran into trouble: the PC was down or otherwise unreachable.\n\nI replaced it with a utility that reverses the direction. Each client pulls the latest backup from the server instead of waiting for one to be pushed, and it checks in with a regular heartbeat. If a client misses its heartbeat, or a download is not confirmed, the system messages support. It does not depend on a particular time of day. Because the clients check frequently, a delayed backup is simply picked up as soon as it becomes available.\n\nA web admin site lets support approve new clients, see the status of each one, and retrieve their logs. It was deployed to a dozen backup machines, one located at each site.",
+    "tags": [
+      "Healthcare",
+      "Automation",
+      "Monitoring"
+    ],
+    "keywords": [
+      "Backup",
+      "Heartbeat",
+      "Pull-based",
+      "Web admin",
+      "Blood bank"
+    ]
+  },
+  {
     "slug": "wel",
     "title": "WEL: Enterprise Lookup (EMPI)",
-    "summary": "An enterprise patient lookup and service that combined patient information from every system. I advised on its creation and later owned its support and server migration.",
-    "description": "WEL, the enterprise lookup, is an enterprise master patient index (EMPI). It was written when we had several sources of truth for patients. It takes patient information from all of the systems and provides a lookup and a service on top, so other systems have one place to ask who a patient is.\n\nI was on the initial committee for its development, acting as an advisor. Later the responsibility for it fell to me. I did not develop it, but my employee was responsible for it, and my team migrated it to new servers even though we were not its original authors.",
+    "summary": "An enterprise master patient index with APIs, duplicate-patient workflows, and deceased-patient checks. Epic held it up as a model of clean data. I advised from 2012 and managed it from 2020.",
+    "description": "WEL, the enterprise lookup, is an enterprise master patient index (EMPI), in use from 2012 onward. It was written when we had several sources of truth for patients. It takes patient demographics from many internal and external systems and provides a lookup and a service on top, so other systems have one place to ask who a patient is.\n\nIt has APIs that let incoming external data look up our MRN. Based on match metrics, a message is either passed along or rejected into a manual work queue, with built-in queue rejection management. I used this for the independent physician offices. It also has workflows for health information management (HIM) staff to investigate duplicate patients.\n\nThe results were notable. Epic held us up as a model of a clean system, with some of the lowest data-quality issues they had seen. Because the index brings together demographics from multiple internal and external systems, it also helped with accounts-receivable rundown. It was integrated first with the Social Security Administration and later with LexisNexis to mark patients as deceased, so we do not send mailers and other communications when a loved one has passed.\n\nI was on the initial committee for its development, acting as an advisor. In 2020 I took over management of the product, and I and another developer helped support it and migrated it to new servers.\n\nOnboarding new facilities onto it, which has been under my responsibility since 2015, is described in its own entry: Onboarding New Facilities to the EMPI.",
     "tags": [
       "Healthcare",
       "Integration",
-      "Migration"
+      "APIs",
+      "Epic"
     ],
     "keywords": [
       "EMPI",
       "Patient lookup",
-      "Healthcare integration",
-      "Web services"
+      "MPI",
+      "Duplicate patients",
+      "HIM",
+      "LexisNexis",
+      "Social Security Administration",
+      "Deceased patients",
+      "Work queue",
+      "Migration"
     ],
-    "role": "managed"
+    "role": "managed",
+    "year": 2012,
+    "yearApprox": false
   },
   {
     "slug": "catch-and-release",
     "title": "Catch and Release",
-    "summary": "My idea, built in .NET: a Catch folder for files that need manual approval and a site where customers release them, so integration stays out of weekly payroll.",
-    "description": "Catch and Release was my idea, a .NET project created under my responsibility. Some files, payroll in particular, need a person to approve them before they continue on their way. Instead of the integration team being involved every week, files that needed manual approval were caught in a Catch folder.\n\nCustomers signed in to a GUI where they could see what was waiting and release a file once they had approved it, and the file then continued through its integration. The integration team stopped taking part in producing payroll each week and only facilitated the process.",
+    "summary": "My idea, built in .NET in 2025: files that need manual approval are caught in a folder, and customers review and release them through a web UI, so integration stays out of weekly payroll.",
+    "description": "Catch and Release was my idea, a .NET project built in 2025 under my responsibility. Some files, payroll in particular, need a person to approve them before they continue on their way. Instead of the integration team being involved every week, files that needed manual approval were caught in a folder, and the customer decided when to release them.\n\nSetup is done through profiles. A profile defines the catch and release directories and which customers can access those folders.\n\nCustomers sign in to a UI where they can view, delete, release, or download the files that were caught. To let them verify the data without opening a huge file, the UI shows the head and the tail of each file, meaning its first and last lines (the header and footer records). It never tries to render a whole file that is too large, and for larger files it only offers a download.\n\nWhen a file is released, Catch and Release moves it on by copying it or by FTP, depending on where the source and the destination are, and the file continues through its integration. The integration team stopped taking part in producing payroll each week and only facilitated the process.\n\nSo far the only users are the payroll team, which makes it extremely high visibility and high risk. It runs weekly, for about ten files. Because it has gone well, there are plans to roll it out to more customers.",
     "tags": [
       ".NET",
       "C#",
@@ -1117,9 +1187,15 @@
     ],
     "keywords": [
       "Payroll",
-      "Workflow"
+      "Workflow",
+      "Head and tail preview",
+      "Profiles",
+      "FTP",
+      "Web UI"
     ],
-    "role": "managed"
+    "role": "managed",
+    "year": 2025,
+    "yearApprox": false
   },
   {
     "slug": "open-enrollment",
@@ -1338,17 +1414,57 @@
   {
     "slug": "wel-onboarding",
     "title": "Onboarding New Facilities to the EMPI",
-    "summary": "My team onboarded new facilities onto WEL, the enterprise patient lookup.",
-    "description": "As new facilities joined the health system, my team onboarded them onto WEL, our enterprise lookup (EMPI), so they became part of the single patient lookup the other systems rely on.",
+    "summary": "About one major facility onboarding a quarter: WEL analyzes patient overlap, tells new patients from duplicates, and my team's automation loads large populations into Epic gradually. Under me since 2015.",
+    "description": "Whenever a new facility joined the health system, we used WEL, our enterprise lookup (EMPI), to bring its patients in. This process has been under my responsibility since 2015, and we did about one major onboarding a quarter.\n\nIt starts with analysis. WEL compares the facility's patient population with ours and shows how much they overlap, which gives the business what it needs to make decisions about the new facility.\n\nNext, for the patients who overlap, WEL gathers the additional demographic information and correctly identifies what is new and what is a duplicate. The patients who are new are imported into Epic, and their MRNs are created.\n\nPopulations can be massive, so they are loaded slowly, on purpose, so the load does not negatively affect the system. My team built the automation for this, so nobody has to manually drop files. We monitored progress and errors to make sure everything ran smoothly, and otherwise the process needed minimal oversight.\n\nWEL itself, the enterprise lookup behind all of this, is described in its own entry: WEL: Enterprise Lookup (EMPI).",
     "tags": [
       "Healthcare",
-      "Integration"
+      "Integration",
+      "Epic"
     ],
     "keywords": [
       "EMPI",
+      "WEL",
       "Patient lookup",
-      "Onboarding"
+      "Onboarding",
+      "MRN",
+      "Duplicate patients",
+      "Patient population analysis",
+      "Data load",
+      "Automation",
+      "Quarterly onboarding"
     ],
-    "role": "managed"
+    "role": "managed",
+    "year": 2015,
+    "yearApprox": false
+  },
+  {
+    "slug": "pure-ohs-to-enterprise-health",
+    "title": "Pure OHS to Enterprise Health Data Conversion",
+    "summary": "In 2025, joined late and converted about 1 TB for 24,000 employees from Pure OHS to Enterprise Health in about 15 days, meeting a deadline others feared they'd miss. Moving the transfers to my dev VM made it possible.",
+    "description": "In 2025 I was the developer for converting all of the employee data from Pure OHS into Enterprise Health, covering our 24,000 employees. It was not my project to own. I came in late, when the people involved had started scrambling because they were worried they would not hit their deadline. The data was about a terabyte, which is not crazy, but it was large enough that they could not get it done: they were having trouble transmitting it and formatting the load for the new system. I took it on and saw it through.\n\nThe first problem was throughput. The sender was uploading about 100 GB a day, but through our servers we could pull only about 10 GB a day, so we could not keep up and the project would have run past its deadline. I wrote a script that used multiple connections, which helped a little, but 10 GB a day was the most I could reach.\n\nThe second problem was reliability. The files were large zip archives, and I was seeing a lot of failed transfers. Their SFTP server did not allow resuming, so every failure meant starting that file again.\n\nRouting the work through my developer VM fixed both, which I believe was because it used a different internet connection than our production servers. From my machine, each day's 100 GB took about four hours end to end: downloading it, validating it, producing the reports, backing it up, and uploading it to the new server. That was ten times what we could manage through our servers.\n\nThen came the data itself. I formatted the data for the load and created summary reports. I validated what we received against what they said they were sending us, to make sure it had transferred correctly with no corruption. I then compared that against what had actually been loaded into the new system, which showed exactly what needed to be resent.\n\nIt took about 15 days, a push to meet their deadline, and I got it done. It was a one-time effort, part automation and part manual work. It is a good example of how I work: I can take on any task that is asked of me and see it through to completion, even when I am not the owner.",
+    "tags": [
+      "Healthcare",
+      "Integration",
+      "Migration",
+      "Automation"
+    ],
+    "keywords": [
+      "Data conversion",
+      "Data validation",
+      "Reconciliation",
+      "Pure OHS",
+      "Enterprise Health",
+      "Summary reports",
+      "1 TB",
+      "24,000 employees",
+      "Network performance",
+      "SFTP",
+      "Resumable transfers",
+      "100 GB a day vs 10 GB a day",
+      "Deadline",
+      "15 days"
+    ],
+    "year": 2025,
+    "yearApprox": false
   }
 ]
