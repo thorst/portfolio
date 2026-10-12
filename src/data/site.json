@@ -1,7 +1,11 @@
 {
   "name": "Todd Horst",
-  "tagline": "Software developer. A selection of things I've built.",
+  "tagline": "Engineering leader who still builds. A selection of things I've made.",
+  "bio": "I'm an engineering leader and builder based in York, Pennsylvania. For 20 years I worked in healthcare technology at WellSpan Health, growing from integration analyst to leading a team of 11 and a platform of 2,800+ integration components. I've migrated 1,700+ live interfaces with no downtime, moved servers to AWS, and built the tools and standards that make teams faster. I've never stopped writing code: I founded and run two SaaS products, Tasty Tracker and LeaseTracker, and this site collects some of what I've built along the way.",
+  "email": "toddmhorst@gmail.com",
+  "resume": "Todd_Horst_Resume.pdf",
   "links": [
-    { "label": "GitHub", "url": "https://github.com/thorst" }
+    { "label": "GitHub", "url": "https://github.com/thorst" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/toddmhorst/" }
   ]
 }

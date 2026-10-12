@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import Gallery from '../components/Gallery.jsx'
 import Tag from '../components/Tag.jsx'
 import { demos } from '../demos/index.js'
-import { getProject, yearLabel } from '../lib/projects.js'
+import { getProject, viewOf, viewQuery, yearLabel } from '../lib/projects.js'
 
 function Demo({ demo }) {
   if (demo.type === 'link')
@@ -55,14 +55,18 @@ export default function Project() {
   const year = yearLabel(p)
   return (
     <article>
-      <Link to="/" className="text-sm text-indigo-600 hover:underline dark:text-indigo-400">← All projects</Link>
+      <Link to={`/?${viewQuery(p)}`} className="text-sm text-indigo-600 hover:underline dark:text-indigo-400">← All {viewOf(p)}</Link>
       <h1 className="mt-3 text-3xl font-bold">{p.title}</h1>
       {year && <p className="mt-1 text-sm text-slate-500">{year}</p>}
       <div className="mt-3 flex flex-wrap gap-1.5">
         {p.tags?.map((t) => (
-          <Link key={t} to={`/?tag=${encodeURIComponent(t)}`}><Tag label={t} /></Link>
+          <Link key={t} to={`/?${viewQuery(p)}${viewQuery(p) ? '&' : ''}tag=${encodeURIComponent(t)}`}><Tag label={t} /></Link>
         ))}
       </div>
+
+      {p.keywords?.length > 0 && (
+        <p className="mt-3 text-sm text-slate-500">Also: {p.keywords.join(', ')}</p>
+      )}
 
       <div className="mt-6 space-y-4 text-slate-700 dark:text-slate-300">
         {(p.description ?? p.summary).split(/\n\s*\n/).map((para, i) => <p key={i}>{para}</p>)}

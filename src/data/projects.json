@@ -9,26 +9,29 @@
     "tags": [
       "JavaScript",
       "React",
-      "Vite",
       "Tailwind CSS",
-      "Github Pages",
-      "Github Actions",
-      "NPM",
-      "JSON",
-      "Git"
+      "CI/CD"
     ],
     "links": [
       {
         "label": "Source",
         "url": "https://github.com/thorst/portfolio"
       }
+    ],
+    "keywords": [
+      "Vite",
+      "Github Pages",
+      "Github Actions",
+      "NPM",
+      "JSON",
+      "Git"
     ]
   },
   {
     "slug": "tasty-tracker",
     "title": "Tasty Tracker",
     "summary": "A trade-journaling SaaS product I founded in 2018 and still run.",
-    "description": "Tasty Tracker is a subscription trade-journaling product. I own everything: strategy, pricing, development, releases, payments, production support, and customer feedback.\n\nThe prior version grew to 2,725 members. I later rebuilt it on a modern foundation, and the rebuild has 151 members and is growing.\n\nWhat it does: members log options and stock trades into portfolios, group them into positions, and follow them from open to close, including scaling, dividends, and reopening. The app identifies each position's strategy, calculates buying power for equity and futures, and rolls results up by security, strategy, and time, with a trade list and activity history. A signal engine compares each open position's profit against the time held and the time remaining to suggest holding, closing, or rolling, and scheduled jobs send profit-target and expiry alerts by email and in-app notification. Around the journal there is a diary, a social feed with following, blocking, direct messages, and public profiles, a blog with comments, and a dashboard of market indicators: investor and consumer sentiment, market breadth, the McClellan oscillator, credit spreads, drawdowns, days since the market's high, year highs and lows, an overnight futures chart, and an economic calendar.\n\nThe web app: Laravel 12 on PHP 8.2 with MySQL, upgraded in place from Laravel 10. Fortify handles authentication, Sanctum handles sessions and personal API tokens, and Socialite provides OAuth2 sign-in with Google, GitHub, Facebook, and Twitter. Billing uses Cashier with Stripe checkout, a customer portal, and webhooks. The REST API is versioned, built with Eloquent API resources and form requests, and documented with Swagger. Laravel Pulse, a job-run table, and a scheduled health check watch production, and an admin area can re-run background jobs and impersonate users for support. The front end is built with Vite and uses jQuery, JsRender templates, Bootstrap 5, Chart.js, Luxon, Quill for the blog editor, Cropper for profile photos, and html2canvas for sharing a position as an image. It also uses my own idle-session package to keep session timeouts in sync across tabs. Email is sent through AWS email.\n\nBackground work: a single cron entry triggers Laravel's scheduler, which keeps a prioritized queue worker running (high, medium, low), pulls market indicator data on a schedule, caches heavy calculations such as drawdowns and days since the high, refreshes market snapshots for open positions, and purges stale unverified accounts. Every job records its status so a health check can tell me when something stops running. A separate beta environment runs the same code with the data jobs switched off and a weekly wipe-and-reseed.\n\nThe Node component: a companion Node.js service streams live market data. It runs in Docker on Node 20, uses node-cron on New York time to open and close WebSocket streams around the trading day and the overnight futures session, and trades OAuth2 refresh tokens for short-lived stream tokens. It writes minute, daily, and monthly price records into the same MySQL database the web app reads from, and after the close it backfills daily and monthly candles for the S&P 500 index. It reports each run to the shared job-run table, and it forwards persistent errors to a Discord webhook with thresholds and cooldowns so a flapping error cannot flood the channel. GitHub Actions builds the image into GitHub Container Registry on every push to main, and the server pulls it with Docker Compose.\n\nDeployment and quality: tagging a release in GitHub starts an Actions workflow that builds the front end with Vite, syncs the files to shared hosting, and then over SSH puts the site into maintenance mode, updates dependencies with Composer, runs migrations, caches configuration, routes, events, and views, regenerates the API docs, and brings the site back up. There are more than 90 database migrations and a PHPUnit suite covering authentication, the API, and the data jobs.",
+    "description": "Tasty Tracker is a subscription trade-journaling product. I own everything: strategy, pricing, development, releases, payments, production support, and customer feedback.\n\nThe prior version grew to 2,725 members. I later rebuilt it on Laravel. The original used no framework, so moving to a standard one sped up development, made features like OAuth sign-in straightforward, helped ensure security, and gave me something new to learn. The rebuild has 151 members and is growing.\n\nWhat it does: members log options and stock trades into portfolios, group them into positions, and follow them from open to close, including scaling, dividends, and reopening. The app identifies each position's strategy, calculates buying power for equity and futures, and rolls results up by security, strategy, and time, with a trade list and activity history. A signal engine compares each open position's profit against the time held and the time remaining to suggest holding, closing, or rolling, and scheduled jobs send profit-target and expiry alerts by email and in-app notification. Around the journal there is a diary, a social feed with following, blocking, direct messages, and public profiles, a blog with comments, and a dashboard of market indicators: investor and consumer sentiment, market breadth, the McClellan oscillator, credit spreads, drawdowns, days since the market's high, year highs and lows, an overnight futures chart, and an economic calendar.\n\nThe web app: Laravel 12 on PHP 8.2 with MySQL, upgraded in place from Laravel 10. Fortify handles authentication, Sanctum handles sessions and personal API tokens, and Socialite provides OAuth2 sign-in with Google, GitHub, Facebook, and Twitter. Billing uses Cashier with Stripe checkout, a customer portal, and webhooks. The REST API is versioned, built with Eloquent API resources and form requests, and documented with Swagger. Laravel Pulse, a job-run table, and a scheduled health check watch production, and an admin area can re-run background jobs and impersonate users for support. The front end is built with Vite and uses jQuery, JsRender templates, Bootstrap 5, Chart.js, Luxon, Quill for the blog editor, Cropper for profile photos, and html2canvas for sharing a position as an image. It also uses my own idle-session package to keep session timeouts in sync across tabs. Email is sent through AWS email.\n\nBackground work: a single cron entry triggers Laravel's scheduler, which keeps a prioritized queue worker running (high, medium, low), pulls market indicator data on a schedule, caches heavy calculations such as drawdowns and days since the high, refreshes market snapshots for open positions, and purges stale unverified accounts. Every job records its status so a health check can tell me when something stops running. A separate beta environment runs the same code with the data jobs switched off and a weekly wipe-and-reseed.\n\nThe Node component: a companion Node.js service streams live market data. It runs in Docker on Node 20, uses node-cron on New York time to open and close WebSocket streams around the trading day and the overnight futures session, and trades OAuth2 refresh tokens for short-lived stream tokens. It writes minute, daily, and monthly price records into the same MySQL database the web app reads from, and after the close it backfills daily and monthly candles for the S&P 500 index. It reports each run to the shared job-run table, and it forwards persistent errors to a Discord webhook with thresholds and cooldowns so a flapping error cannot flood the channel. GitHub Actions builds the image into GitHub Container Registry on every push to main, and the server pulls it with Docker Compose.\n\nDeployment and quality: tagging a release in GitHub starts an Actions workflow that builds the front end with Vite, syncs the files to shared hosting, and then over SSH puts the site into maintenance mode, updates dependencies with Composer, runs migrations, caches configuration, routes, events, and views, regenerates the API docs, and brings the site back up. There are more than 90 database migrations and a PHPUnit suite covering authentication, the API, and the data jobs.",
     "year": 2018,
     "yearApprox": false,
     "tags": [
@@ -38,25 +41,16 @@
       "Node.js",
       "JavaScript",
       "jQuery",
-      "Chart.js",
-      "Vite",
       "Bootstrap",
       "Stripe",
-      "Sanctum",
-      "Socialite",
-      "OAuth2",
-      "Swagger",
-      "REST API",
-      "WebSockets",
+      "Authentication",
+      "APIs",
+      "Real-time",
       "Docker",
-      "Docker Compose",
-      "GitHub Actions",
-      "GitHub Container Registry",
       "CI/CD",
-      "node-cron",
-      "PHPUnit",
+      "Testing",
       "SaaS",
-      "AWS SES"
+      "AWS"
     ],
     "demo": {
       "type": "iframe",
@@ -67,7 +61,24 @@
         "label": "Website",
         "url": "https://tastytracker.com"
       }
-    ]
+    ],
+    "keywords": [
+      "Chart.js",
+      "Vite",
+      "Sanctum",
+      "Socialite",
+      "OAuth2",
+      "Swagger",
+      "REST API",
+      "WebSockets",
+      "Docker Compose",
+      "GitHub Actions",
+      "GitHub Container Registry",
+      "node-cron",
+      "PHPUnit",
+      "AWS SES"
+    ],
+    "featured": 1
   },
   {
     "slug": "leasetracker",
@@ -80,26 +91,13 @@
       "Laravel",
       "PHP",
       "MySQL",
-      "Blade",
       "Bootstrap",
-      "Vite",
-      "Sass",
-      "Chart.js",
       "Stripe",
-      "Stripe Connect",
-      "Laravel Cashier",
-      "OAuth2",
-      "Google Sign-In",
-      "Two-Factor Auth",
+      "Authentication",
       "Android",
-      "Capacitor",
-      "Firebase Cloud Messaging",
-      "Biometric Auth",
-      "Google Play",
-      "AWS SES",
-      "GitHub Actions",
+      "AWS",
       "CI/CD",
-      "PHPUnit",
+      "Testing",
       "SaaS"
     ],
     "demo": {
@@ -134,7 +132,26 @@
         "src": "projects/leasetracker/analytics.png",
         "caption": "Analytics (Android app, demo data)"
       }
-    ]
+    ],
+    "keywords": [
+      "Blade",
+      "Vite",
+      "Sass",
+      "Chart.js",
+      "Stripe Connect",
+      "Laravel Cashier",
+      "OAuth2",
+      "Google Sign-In",
+      "Two-Factor Auth",
+      "Capacitor",
+      "Firebase Cloud Messaging",
+      "Biometric Auth",
+      "Google Play",
+      "AWS SES",
+      "GitHub Actions",
+      "PHPUnit"
+    ],
+    "featured": 2
   },
   {
     "slug": "contractors",
@@ -146,6 +163,11 @@
     "tags": [
       "Laravel",
       "PHP",
+      "Authentication",
+      "CI/CD",
+      "Testing"
+    ],
+    "keywords": [
       "Google Sign-In",
       "OAuth2",
       "Blade",
@@ -163,7 +185,6 @@
     "tags": [
       "PHP",
       "JavaScript",
-      "Web application",
       "Open source"
     ],
     "links": [
@@ -175,6 +196,9 @@
         "label": "Today: LeaseTracker",
         "url": "https://leasetracker.net"
       }
+    ],
+    "keywords": [
+      "Web application"
     ]
   },
   {
@@ -188,15 +212,18 @@
       "Laravel",
       "PHP",
       "Tailwind CSS",
-      "Vite",
       "Android",
       "Java",
+      "APIs",
+      "SQLite",
+      "MySQL"
+    ],
+    "keywords": [
+      "Vite",
       "Android SDK",
       "REST API",
       "Progressive Web App",
-      "Parental Controls",
-      "SQLite",
-      "MySQL"
+      "Parental Controls"
     ]
   },
   {
@@ -209,15 +236,18 @@
     "tags": [
       "Rust",
       "TypeScript",
-      "Integration",
-      "Work in progress"
+      "Integration"
     ],
     "links": [
       {
         "label": "Website",
         "url": "https://getductus.com"
       }
-    ]
+    ],
+    "keywords": [
+      "Work in progress"
+    ],
+    "featured": 5
   },
   {
     "slug": "idle-session",
@@ -228,12 +258,8 @@
     "yearApprox": false,
     "tags": [
       "JavaScript",
-      "ES Modules",
-      "BroadcastChannel",
-      "npm",
-      "GitHub Actions",
-      "jsDelivr",
-      "Accessibility"
+      "Real-time",
+      "CI/CD"
     ],
     "links": [
       {
@@ -244,6 +270,14 @@
         "label": "npm",
         "url": "https://www.npmjs.com/package/idle-session"
       }
+    ],
+    "keywords": [
+      "ES Modules",
+      "BroadcastChannel",
+      "npm",
+      "GitHub Actions",
+      "jsDelivr",
+      "Accessibility"
     ]
   },
   {
@@ -256,10 +290,7 @@
     "tags": [
       "JavaScript",
       "jQuery",
-      "jQuery plugin",
-      "Library",
-      "Open source",
-      "Session management"
+      "Open source"
     ],
     "links": [
       {
@@ -270,7 +301,13 @@
         "label": "Successor: IdleSession",
         "url": "https://github.com/thorst/idle-session"
       }
-    ]
+    ],
+    "keywords": [
+      "jQuery plugin",
+      "Library",
+      "Session management"
+    ],
+    "featured": 4
   },
   {
     "slug": "idletimer",
@@ -281,8 +318,6 @@
     "yearApprox": false,
     "tags": [
       "JavaScript",
-      "ES modules",
-      "Library",
       "Open source"
     ],
     "links": [
@@ -290,6 +325,10 @@
         "label": "Source",
         "url": "https://github.com/thorst/idletimer"
       }
+    ],
+    "keywords": [
+      "ES modules",
+      "Library"
     ]
   },
   {
@@ -302,8 +341,6 @@
     "tags": [
       "JavaScript",
       "jQuery",
-      "ES modules",
-      "Library",
       "Open source"
     ],
     "links": [
@@ -311,6 +348,10 @@
         "label": "Source",
         "url": "https://github.com/thorst/jQuery-FormLoader"
       }
+    ],
+    "keywords": [
+      "ES modules",
+      "Library"
     ]
   },
   {
@@ -322,8 +363,6 @@
     "yearApprox": false,
     "tags": [
       "JavaScript",
-      "Browser detection",
-      "Library",
       "Open source"
     ],
     "links": [
@@ -335,6 +374,10 @@
         "label": "Live demo",
         "url": "http://thorst.github.io/supportedBrowser.js/"
       }
+    ],
+    "keywords": [
+      "Browser detection",
+      "Library"
     ]
   },
   {
@@ -348,7 +391,6 @@
       "JavaScript",
       "jQuery",
       "Bootstrap",
-      "jQuery plugin",
       "Open source"
     ],
     "links": [
@@ -356,6 +398,9 @@
         "label": "Source",
         "url": "https://github.com/thorst/Bootstrap-Typeahead-Fork"
       }
+    ],
+    "keywords": [
+      "jQuery plugin"
     ]
   },
   {
@@ -367,20 +412,22 @@
     "yearApprox": false,
     "tags": [
       "Python",
-      "Replicate",
-      "InstantID",
-      "Gradio",
-      "Pillow",
-      "AI",
-      "Image generation",
-      "Prototype"
+      "AI"
     ],
     "links": [
       {
         "label": "Source",
         "url": "https://github.com/thorst/pfp-styler"
       }
-    ]
+    ],
+    "keywords": [
+      "Replicate",
+      "InstantID",
+      "Gradio",
+      "Pillow",
+      "Image generation"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "trading-bender",
@@ -394,21 +441,26 @@
       "JavaScript",
       "Laravel",
       "PHP",
-      "Inertia.js",
-      "Jetstream",
-      "Tradier API",
-      "OAuth2",
+      "APIs",
+      "Authentication",
       "Bootstrap",
-      "Sass",
-      "GitHub Actions",
-      "Prototype"
+      "CI/CD"
     ],
     "links": [
       {
         "label": "Source",
         "url": "https://github.com/thorst/tradingbender"
       }
-    ]
+    ],
+    "keywords": [
+      "Inertia.js",
+      "Jetstream",
+      "Tradier API",
+      "OAuth2",
+      "Sass",
+      "GitHub Actions"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "tastyworks-mod",
@@ -420,8 +472,7 @@
     "tags": [
       "JavaScript",
       "jQuery",
-      "Chrome extension",
-      "Bookmarklet",
+      "Developer tools",
       "Open source"
     ],
     "links": [
@@ -429,6 +480,10 @@
         "label": "Source",
         "url": "https://github.com/thorst/jquery-tastyworksmod"
       }
+    ],
+    "keywords": [
+      "Chrome extension",
+      "Bookmarklet"
     ]
   },
   {
@@ -439,20 +494,22 @@
     "year": 2023,
     "yearApprox": false,
     "tags": [
-      "HTML",
-      "CSS",
       "JavaScript",
       "jQuery",
-      "Bootstrap",
-      "Static site",
-      "Prototype"
+      "Bootstrap"
     ],
     "links": [
       {
         "label": "Source",
         "url": "https://github.com/thorst/ToddsTrades"
       }
-    ]
+    ],
+    "keywords": [
+      "HTML",
+      "CSS",
+      "Static site"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "timesheeit",
@@ -464,16 +521,21 @@
     "tags": [
       "Laravel",
       "PHP",
-      "Inertia.js",
       "React",
       "TypeScript",
       "Tailwind CSS",
+      "Authentication",
+      "CI/CD",
+      "AWS"
+    ],
+    "keywords": [
+      "Inertia.js",
       "Socialite",
       "OAuth2",
       "GitHub Actions",
-      "Prototype",
       "AWS SES"
-    ]
+    ],
+    "category": "prototype"
   },
   {
     "slug": "flask-prototype",
@@ -485,11 +547,13 @@
     "tags": [
       "Python",
       "Flask",
+      "SQLite"
+    ],
+    "keywords": [
       "SQLAlchemy",
-      "SQLite",
-      "Jinja",
-      "Prototype"
-    ]
+      "Jinja"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "biweekly-budget",
@@ -501,22 +565,26 @@
     "tags": [
       "Android",
       "Kotlin",
-      "Jetpack Compose",
-      "Material 3",
-      "Room",
-      "DataStore",
-      "Google Play Billing",
+      "AWS",
+      "Stripe",
       "Java",
-      "SQLite",
-      "Robolectric",
-      "Gradle",
-      "In-app purchases"
+      "SQLite"
     ],
     "links": [
       {
         "label": "Google Play",
         "url": "https://play.google.com/store/apps/details?id=com.thorst.biweeklybudget"
       }
+    ],
+    "keywords": [
+      "Jetpack Compose",
+      "Material 3",
+      "Room",
+      "DataStore",
+      "Google Play Billing",
+      "Robolectric",
+      "Gradle",
+      "In-app purchases"
     ]
   },
   {
@@ -529,9 +597,8 @@
     "tags": [
       "C#",
       "Python",
-      "Windows Forms",
-      "RetroPie",
-      "Utility",
+      ".NET",
+      "Developer tools",
       "Open source"
     ],
     "links": [
@@ -539,6 +606,11 @@
         "label": "Source",
         "url": "https://github.com/thorst/CueMaker"
       }
+    ],
+    "keywords": [
+      "Windows Forms",
+      "RetroPie",
+      "Utility"
     ]
   },
   {
@@ -551,19 +623,22 @@
     "tags": [
       "Node.js",
       "JavaScript",
-      "Discord",
-      "discord.js",
-      "Express",
       "Docker",
-      "Docker Compose",
-      "GitHub Actions",
-      "GitHub Container Registry"
+      "CI/CD"
     ],
     "links": [
       {
         "label": "Source",
         "url": "https://github.com/thorst/discord-ClearChannelBot"
       }
+    ],
+    "keywords": [
+      "Discord",
+      "discord.js",
+      "Express",
+      "Docker Compose",
+      "GitHub Actions",
+      "GitHub Container Registry"
     ]
   },
   {
@@ -574,13 +649,15 @@
     "year": 2014,
     "yearApprox": true,
     "tags": [
+      "Real-time",
+      "Encryption",
+      "JavaScript",
+      "C#"
+    ],
+    "keywords": [
       "SignalR",
       "WebSockets",
-      "Encryption",
-      "RSA",
-      "JavaScript",
-      "C#",
-      "Real-time"
+      "RSA"
     ]
   },
   {
@@ -593,9 +670,12 @@
     "tags": [
       "JavaScript",
       "C#",
-      "RSA",
-      "Cryptography",
+      "Encryption",
       "Open source"
+    ],
+    "keywords": [
+      "RSA",
+      "Cryptography"
     ]
   },
   {
@@ -603,34 +683,42 @@
     "title": "Home Server",
     "summary": "An Ubuntu server running my Docker workloads: media, photos, music, monitoring, and bots.",
     "tags": [
-      "Ubuntu",
-      "Docker",
-      "Docker Compose",
       "Linux",
-      "Python",
+      "Docker",
+      "Python"
+    ],
+    "description": "A home server I run on Ubuntu with Docker Compose, managed as code. Each workload is its own stack: a Jellyfin media server, Immich for photos, monitoring, and the Discord bot from my Clear Channel project, plus a backup script.\n\nI keep a runbook and write an incident report whenever something breaks. A five-hour outage in April 2026 traced back to an Ubuntu volume sized at 100 GB of a 894 GB disk and to bind mounts that pointed at a path that never existed, so several containers' settings had been living inside the containers and getting wiped on restart. I expanded the volume and fixed the paths, and later migrated Docker from the snap package to the apt package. There is also a step-by-step guide for moving a family's photos out of Google Photos into Immich safely, with the order of steps designed so nothing is deleted until the backup is verified.\n\nPython scripts organize movies and TV episodes, repair Jellyfin metadata and NFO files, and de-duplicate a music library. Two small tools sit alongside: a downloader that saves audio from streams with yt-dlp and ffmpeg, and a music manager built on beets that tags files using audio fingerprints, with its library kept on the NAS so it survives a PC failure. I also set up SSH access so that Claude Code can run commands on the server, with a separate non-interactive key for it.",
+    "year": 2026,
+    "yearApprox": false,
+    "keywords": [
+      "Ubuntu",
+      "Docker Compose",
       "Jellyfin",
       "Immich",
       "yt-dlp",
       "FFmpeg",
       "beets",
       "Self-hosting"
-    ],
-    "description": "A home server I run on Ubuntu with Docker Compose, managed as code. Each workload is its own stack: a Jellyfin media server, Immich for photos, monitoring, and the Discord bot from my Clear Channel project, plus a backup script.\n\nI keep a runbook and write an incident report whenever something breaks. A five-hour outage in April 2026 traced back to an Ubuntu volume sized at 100 GB of a 894 GB disk and to bind mounts that pointed at a path that never existed, so several containers' settings had been living inside the containers and getting wiped on restart. I expanded the volume and fixed the paths, and later migrated Docker from the snap package to the apt package. There is also a step-by-step guide for moving a family's photos out of Google Photos into Immich safely, with the order of steps designed so nothing is deleted until the backup is verified.\n\nPython scripts organize movies and TV episodes, repair Jellyfin metadata and NFO files, and de-duplicate a music library. Two small tools sit alongside: a downloader that saves audio from streams with yt-dlp and ffmpeg, and a music manager built on beets that tags files using audio fingerprints, with its library kept on the NAS so it survives a PC failure. I also set up SSH access so that Claude Code can run commands on the server, with a separate non-interactive key for it.",
-    "year": 2026,
-    "yearApprox": false
+    ]
   },
   {
     "slug": "mirth-migration",
     "title": "Cloverleaf to Mirth Migration",
     "summary": "Led the move of 1,700+ live healthcare interfaces to a new integration engine with no customer-visible downtime.",
-    "description": "At a large health system, I prototyped Mirth Connect in my spare time, chose it as the replacement for our Cloverleaf interface engine, and led the migration.\n\nWe moved more than 1,700 live interfaces using parallel runs and output diffs, so the old and new engines could be compared message by message before each cutover. The work involved about a dozen teams and roughly 50 VPNs, and there was no customer-visible downtime.",
+    "description": "At a large health system, I prototyped Mirth Connect in my spare time, chose it as the replacement for our Cloverleaf interface engine, and led the migration.\n\nWe moved more than 1,700 live interfaces using parallel runs and output diffs, so the old and new engines could be compared message by message before each cutover. The work involved about a dozen teams and roughly 50 VPNs, and there was no customer-visible downtime.\n\nRunning both engines in parallel and diffing every output also surfaced and fixed older bugs, and the move saved about $500,000 a year.",
     "tags": [
       "Mirth Connect",
       "Cloverleaf",
       "HL7",
-      "Healthcare integration",
+      "Healthcare",
+      "Integration",
       "Migration"
-    ]
+    ],
+    "keywords": [
+      "Healthcare integration"
+    ],
+    "featured": 3,
+    "role": "managed"
   },
   {
     "slug": "my-mirth-code",
@@ -643,9 +731,9 @@
       "Mirth Connect",
       "JavaScript",
       "HL7",
-      "Code templates",
-      "PGP",
-      "Healthcare integration",
+      "Encryption",
+      "Healthcare",
+      "Integration",
       "Open source"
     ],
     "links": [
@@ -653,6 +741,11 @@
         "label": "Source",
         "url": "https://github.com/thorst/My-Mirth-Code"
       }
+    ],
+    "keywords": [
+      "Code templates",
+      "PGP",
+      "Healthcare integration"
     ]
   },
   {
@@ -666,7 +759,8 @@
       "Tcl",
       "Cloverleaf",
       "HL7",
-      "Healthcare integration",
+      "Healthcare",
+      "Integration",
       "Epic",
       "Open source"
     ],
@@ -679,23 +773,29 @@
         "label": "TCL-Tools",
         "url": "https://github.com/thorst/TCL-Tools"
       }
+    ],
+    "keywords": [
+      "Healthcare integration"
     ]
   },
   {
     "slug": "aws-migration",
     "title": "AWS Migration",
     "summary": "Moved 14 production servers from on-premises VMware to AWS and split the application and database tiers.",
-    "description": "In March 2026 I led the migration of 14 production servers from on-premises VMware to AWS, using NC2 and EC2.\n\nWe split the Mirth servers into separate application and database tiers, growing from 14 servers to 16, so each tier could be sized and scaled independently. After cutover, throughput fell short of expectations; I fixed it by moving to a disk-optimized instance type.",
+    "description": "In March 2026 I led the migration of 14 production servers from on-premises VMware to AWS, using NC2 and EC2.\n\nWe split the Mirth servers into separate application and database tiers, growing from 14 servers to 16, so each tier could be sized and scaled independently. After cutover, throughput fell short of expectations; I fixed it by moving to a disk-optimized instance type.\n\nThe move avoided a multi-million-dollar VMware bill.",
     "year": 2026,
     "yearApprox": false,
     "tags": [
       "AWS",
-      "EC2",
-      "NC2",
-      "VMware",
       "Mirth Connect",
       "Migration"
-    ]
+    ],
+    "keywords": [
+      "EC2",
+      "NC2",
+      "VMware"
+    ],
+    "role": "managed"
   },
   {
     "slug": "postgres-wraparound-recovery",
@@ -707,6 +807,10 @@
     "tags": [
       "PostgreSQL",
       "Mirth Connect",
+      "Monitoring",
+      "Automation"
+    ],
+    "keywords": [
       "Database recovery",
       "Operations"
     ]
@@ -719,9 +823,12 @@
     "year": 2026,
     "yearApprox": false,
     "tags": [
-      "OpenShift",
       "Kubernetes",
       "Docker",
+      "AWS"
+    ],
+    "keywords": [
+      "OpenShift",
       "ECS",
       "API Gateway",
       "S3"
@@ -734,11 +841,14 @@
     "description": "I built a .NET web portal that put interface health, debugging, and reporting in one place, along with the build, debug, and deploy workflow for our Mirth interfaces. It has a C# Web API back end with a web front end.\n\nNode scripts handled operational chores like starting and stopping channels, database vacuuming, and server audits that scraped ports and IP addresses into documentation.",
     "tags": [
       "C#",
-      "ASP.NET Web API",
+      ".NET",
       "Node.js",
       "PostgreSQL",
       "Mirth Connect",
       "Monitoring"
+    ],
+    "keywords": [
+      "ASP.NET Web API"
     ]
   },
   {
@@ -749,8 +859,12 @@
     "year": 2026,
     "yearApprox": false,
     "tags": [
-      ".NET Core",
+      ".NET",
       "Node.js",
+      "APIs"
+    ],
+    "keywords": [
+      ".NET Core",
       "ServiceNow",
       "REST APIs",
       "Workflow"
@@ -764,12 +878,17 @@
     "year": 2025,
     "yearApprox": true,
     "tags": [
+      "AI",
+      ".NET",
+      "Migration"
+    ],
+    "keywords": [
       "Claude Code",
       ".NET Core",
       ".NET Framework",
-      "AI-assisted development",
-      "Migration"
-    ]
+      "AI-assisted development"
+    ],
+    "role": "managed"
   },
   {
     "slug": "pgp4-mirth-library",
@@ -778,8 +897,6 @@
     "description": "A shared library for Mirth that handles PGP encryption and decryption using BouncyCastle. It has 13 functions, supports signature checks, and caches keys, so many vendors with different key setups could be handled consistently.",
     "tags": [
       "Mirth Connect",
-      "PGP",
-      "BouncyCastle",
       "Encryption"
     ],
     "links": [
@@ -787,6 +904,10 @@
         "label": "Public Mirth code",
         "url": "https://github.com/thorst/My-Mirth-Code"
       }
+    ],
+    "keywords": [
+      "PGP",
+      "BouncyCastle"
     ]
   },
   {
@@ -796,8 +917,12 @@
     "description": "During the Cloverleaf era our backend was file-based, which made troubleshooting slow. I built a .NET WinForms tool with multithreaded parsing and filters that could split and search HL7 message files quickly.",
     "tags": [
       "C#",
-      ".NET WinForms",
+      ".NET",
       "HL7",
+      "Monitoring"
+    ],
+    "keywords": [
+      ".NET WinForms",
       "Multithreading",
       "Troubleshooting"
     ]
@@ -808,7 +933,9 @@
     "summary": "A Python tool that shows a color-coded diff between .xlsx files, even when their columns do not match.",
     "description": "SheetDelta compares two Excel workbooks and produces a color-coded diff, handling files whose columns do not line up. I used it to sync our helpdesk queue with client ticket sheets.",
     "tags": [
-      "Python",
+      "Python"
+    ],
+    "keywords": [
       "Excel",
       "Data comparison"
     ]
@@ -822,8 +949,10 @@
     "yearApprox": true,
     "tags": [
       "Oracle ERP",
-      "Scheduling",
       "Automation"
+    ],
+    "keywords": [
+      "Scheduling"
     ]
   },
   {
@@ -835,8 +964,10 @@
     "yearApprox": true,
     "tags": [
       "Oracle ERP",
+      "Automation"
+    ],
+    "keywords": [
       "Git",
-      "Automation",
       "Version control"
     ]
   },
@@ -847,23 +978,29 @@
     "description": "I oversaw all of our Oracle ERP integrations. They were built with the tools Oracle provides: its seeded web services, Oracle Integration Cloud (OIC), BI Publisher (BIP) reports, and HCM Extracts.",
     "tags": [
       "Oracle ERP",
+      "Integration"
+    ],
+    "keywords": [
       "Oracle Integration Cloud",
       "BI Publisher",
       "HCM Extracts",
-      "Web services",
-      "Integration"
-    ]
+      "Web services"
+    ],
+    "role": "managed"
   },
   {
     "slug": "oracle-admin",
     "title": "Oracle Admin",
     "summary": "The foundation for runbooks and asset documentation on our Oracle ERP, and the home of the external scheduler and payroll automation.",
-    "description": "Oracle Admin was the foundation that made a runbook, meaning documentation of our Oracle assets, possible. It is also where the Oracle external scheduler lived, and where I built payroll automation.\n\nThe scheduler and the nightly export of Oracle assets to Git are described as their own projects.",
+    "description": "Oracle Admin was the foundation that made a runbook, meaning documentation of our Oracle assets, possible. It also housed the Oracle external scheduler and the payroll automation.\n\nThe scheduler and the nightly export of Oracle assets to Git are described as their own projects.",
     "tags": [
       "Oracle ERP",
+      "Automation",
+      "HR & Payroll"
+    ],
+    "keywords": [
       "Runbook",
       "Documentation",
-      "Automation",
       "Payroll"
     ]
   },
@@ -875,19 +1012,23 @@
     "year": 2026,
     "yearApprox": false,
     "tags": [
-      "VS Code",
+      "Developer tools",
       "TypeScript",
       "Oracle ERP",
+      "APIs",
+      "AI"
+    ],
+    "keywords": [
+      "VS Code",
       "BI Publisher",
       "Oracle Integration Cloud",
       "Fast Formula",
       "SOAP",
       "REST APIs",
       "esbuild",
-      "Developer tools",
-      "AI-assisted development",
-      "Prototype"
-    ]
+      "AI-assisted development"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "iis-manager",
@@ -896,11 +1037,15 @@
     "description": "IIS Manager is a C# web API and site that lets people manage their own web sites on our IIS servers and promote them from a development server to production, instead of filing requests and waiting on an administrator.\n\nCreating a site sets up everything it needs: the application pool, the directories, and the shares. Users push to the dev server first, then to prod. The push to production is built to be safe. It takes the application offline while files are copied, and it first zips up the existing production version as a backup so a bad release can be rolled back.\n\nIt also forces basic documentation. Every site must record a link to its repository, its owners, its customers, and a brief description, so there is always an answer to who owns a site and who depends on it.",
     "tags": [
       "C#",
+      ".NET",
+      "Windows Server",
+      "CI/CD",
+      "Automation"
+    ],
+    "keywords": [
       "ASP.NET Web API",
       "IIS",
-      "Windows Server",
-      "Deployment",
-      "Automation"
+      "Deployment"
     ]
   },
   {
@@ -909,6 +1054,9 @@
     "summary": "A system the IT department used to manage on-call.",
     "description": "As a senior developer I built the system our IT department used to manage on-call.",
     "tags": [
+      "Monitoring"
+    ],
+    "keywords": [
       "On-call",
       "Internal tools"
     ]
@@ -923,12 +1071,19 @@
     "tags": [
       "HL7",
       "Cloverleaf",
+      "Healthcare",
+      "Integration",
+      "Project management"
+    ],
+    "keywords": [
       "Secure Courier",
       "EMR integration",
       "Healthcare integration",
       "Lab and radiology results",
       "Go-live"
-    ]
+    ],
+    "featured": 6,
+    "role": "managed"
   },
   {
     "slug": "wel",
@@ -936,12 +1091,17 @@
     "summary": "An enterprise patient lookup and service that combined patient information from every system. I advised on its creation and later owned its support and server migration.",
     "description": "WEL, the enterprise lookup, is an enterprise master patient index (EMPI). It was written when we had several sources of truth for patients. It takes patient information from all of the systems and provides a lookup and a service on top, so other systems have one place to ask who a patient is.\n\nI was on the initial committee for its development, acting as an advisor. Later the responsibility for it fell to me. I did not develop it, but my employee was responsible for it, and my team migrated it to new servers even though we were not its original authors.",
     "tags": [
+      "Healthcare",
+      "Integration",
+      "Migration"
+    ],
+    "keywords": [
       "EMPI",
       "Patient lookup",
       "Healthcare integration",
-      "Migration",
       "Web services"
-    ]
+    ],
+    "role": "managed"
   },
   {
     "slug": "catch-and-release",
@@ -951,24 +1111,32 @@
     "tags": [
       ".NET",
       "C#",
-      "Payroll",
-      "Workflow",
+      "HR & Payroll",
       "Integration",
       "Automation"
-    ]
+    ],
+    "keywords": [
+      "Payroll",
+      "Workflow"
+    ],
+    "role": "managed"
   },
   {
     "slug": "open-enrollment",
     "title": "Open Enrollment",
     "summary": "Ran the annual benefits open enrollment project across HR tech, benefits, HR, and integration, from the June announcement to the January 1 vendor go-live.",
-    "description": "I ran the open enrollment project every year. It is a tight annual cycle with fixed dates: plan changes are announced in June, preliminary testing happens in September, the changes go live for employees in November, and they go live with the benefit vendors on January 1.\n\nThe project involved four groups: HR technology, benefits, HR, and integration. My part was keeping them in step through those milestones so that the vendor connections were ready when the new plan year began.",
+    "description": "I ran the open enrollment project every year. It is a tight annual cycle with fixed dates: plan changes are announced in June, preliminary testing happens in September, the changes go live for employees in November, and they go live with the benefit vendors on January 1.\n\nThe project spans four teams and 15 people (HR technology, benefits, HR, and integration), and runs from vendor contracts and business associate agreements through go-live. We finished early in 2025 and ahead of schedule in 2026, when we onboarded three new vendor integrations for the plan year. My part was keeping the groups in step through those milestones so the vendor connections were ready when the new plan year began.",
     "tags": [
       "Project management",
-      "Benefits",
-      "HR technology",
+      "HR & Payroll",
       "Integration",
       "Healthcare"
-    ]
+    ],
+    "keywords": [
+      "Benefits",
+      "HR technology"
+    ],
+    "role": "managed"
   },
   {
     "slug": "patient-portal",
@@ -979,11 +1147,40 @@
     "yearApprox": true,
     "tags": [
       "Healthcare",
-      "Twilio",
       "FHIR",
-      "Epic",
+      "Epic"
+    ],
+    "keywords": [
+      "Twilio",
       "Web application"
     ]
+  },
+  {
+    "slug": "virtual-visit-prototype",
+    "title": "Virtual Waiting Room and E-Visit (WebRTC prototype)",
+    "summary": "An early WebRTC prototype: patients sign in to the portal, wait in a virtual waiting room, and a provider connects for a video e-visit.",
+    "description": "I prototyped a video visit product built on WebRTC, at the point when WebRTC was only just arriving in Chrome. A patient would sign in to our portal and wait in a virtual waiting room. A provider could then see who was waiting, connect to the patient, and hold an e-visit by video in the browser, with no plug-in or separate application to install.\n\nIt was too early for the organization to take it on. The technology was new and the idea was not yet understood, so it stayed a prototype. Today the health system buys this capability from a vendor, which is what the prototype was pointing at.\n\nThe core technique is in a public sample I wrote in late 2012, an open WebRTC implementation targeting a Chrome development build. A client gives a name and starts a session, an administrator sees the waiting clients and joins one, and the browsers exchange the WebRTC offer, answer, and network candidates through SignalR WebSockets until a direct connection is made. I tested it on one machine, across a local network, and externally hosted, and documented which network setups worked and which did not. It was built with ASP.NET on IIS, jQuery, JsRender, and Bootstrap.",
+    "year": 2012,
+    "yearApprox": true,
+    "tags": [
+      "Real-time",
+      "C#",
+      "JavaScript",
+      "Healthcare"
+    ],
+    "links": [
+      {
+        "label": "Public WebRTC sample",
+        "url": "https://github.com/thorst/RTC"
+      }
+    ],
+    "keywords": [
+      "WebRTC",
+      "SignalR",
+      "WebSockets",
+      "Telehealth"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "patient-ios-app",
@@ -993,7 +1190,9 @@
     "year": 2013,
     "yearApprox": true,
     "tags": [
-      "iOS",
+      "iOS"
+    ],
+    "keywords": [
       "Objective-C",
       "iPhone",
       "iPad",
@@ -1008,10 +1207,13 @@
     "year": 2013,
     "yearApprox": true,
     "tags": [
-      "Web services",
+      "Integration",
       "iOS",
-      "Barcode scanning",
       "Healthcare"
+    ],
+    "keywords": [
+      "Web services",
+      "Barcode scanning"
     ]
   },
   {
@@ -1022,7 +1224,9 @@
     "tags": [
       "FHIR",
       "Epic",
-      "Healthcare",
+      "Healthcare"
+    ],
+    "keywords": [
       "HIPAA",
       "Mobile web",
       "Display board",
@@ -1035,13 +1239,17 @@
     "summary": "An adaptive medical-history questionnaire patients completed on locked-down office iPads, built on the Instant Medical History APIs.",
     "description": "Patients completed this questionnaire on office iPads through a mobile view. It was built on the Instant Medical History vendor APIs, whose rules-based branching drilled into areas of concern with more and more questions: for example, answering that you smoke opened follow-up questions about tobacco.\n\nI built an admin UI that staff used to pair an iPad with a specific patient. When the patient finished, their answers were submitted straight to that patient's chart, so nothing had to be re-entered.\n\nThe iPads were handed to patients locked down and fenced to the premises, so a device could not leave the building and the patient could only use the questionnaire. It was simple for patients to use, and painless for provider offices to get going.",
     "tags": [
+      "iOS",
+      "Healthcare",
+      "Integration"
+    ],
+    "keywords": [
       "Mobile web",
       "iPad",
       "Instant Medical History",
       "Vendor APIs",
       "Rules engine",
-      "Device management",
-      "Healthcare"
+      "Device management"
     ]
   },
   {
@@ -1049,9 +1257,12 @@
     "title": "Kafka Prototype",
     "summary": "A prototype exploring Apache Kafka for event streaming.",
     "tags": [
-      "Kafka",
-      "Prototype"
-    ]
+      "Messaging"
+    ],
+    "keywords": [
+      "Kafka"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "sqs-prototype",
@@ -1059,44 +1270,85 @@
     "summary": "A prototype exploring AWS SQS for asynchronous messaging.",
     "tags": [
       "AWS",
-      "SQS",
-      "Prototype"
-    ]
+      "Messaging"
+    ],
+    "keywords": [
+      "SQS"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "rabbitmq-prototype",
     "title": "RabbitMQ Prototype",
     "summary": "A prototype exploring RabbitMQ for message queuing.",
     "tags": [
-      "RabbitMQ",
-      "Prototype"
-    ]
+      "Messaging"
+    ],
+    "keywords": [
+      "RabbitMQ"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "mongodb-prototype",
     "title": "MongoDB Prototype",
     "summary": "A prototype exploring MongoDB as a document store.",
     "tags": [
-      "MongoDB",
-      "Prototype"
-    ]
+      "MongoDB"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "graphql-prototype",
     "title": "GraphQL Prototype",
     "summary": "A prototype exploring GraphQL APIs.",
     "tags": [
-      "GraphQL",
-      "Prototype"
-    ]
+      "APIs"
+    ],
+    "keywords": [
+      "GraphQL"
+    ],
+    "category": "prototype"
   },
   {
     "slug": "rails-prototype",
     "title": "Ruby on Rails Prototype",
     "summary": "A prototype exploring Ruby on Rails.",
     "tags": [
-      "Ruby on Rails",
-      "Prototype"
-    ]
+      "Ruby"
+    ],
+    "keywords": [
+      "Ruby on Rails"
+    ],
+    "category": "prototype"
+  },
+  {
+    "slug": "payroll-automation",
+    "title": "Payroll Automation",
+    "summary": "Oversaw payroll automation for 24,000+ employees ($100M+ per pay period), with gated states and validation checkpoints.",
+    "description": "I oversaw the automation of payroll for more than 24,000 employees, over $100 million in each pay period. The process moves through gated states with validation checkpoints, so each step has to be verified before payroll moves on.\n\nI also owned the HR identity feeds that create and disable downstream accounts, and moved our banking integrations to a new bank in under a year.\n\nCatch and Release, my idea, lets customers approve the files that need a person to review them, so the integration team no longer takes part in weekly payroll production. The automation lived in Oracle Admin, alongside the external scheduler.",
+    "tags": [
+      "HR & Payroll",
+      "Automation",
+      "Integration",
+      "Oracle ERP"
+    ],
+    "role": "managed"
+  },
+  {
+    "slug": "wel-onboarding",
+    "title": "Onboarding New Facilities to the EMPI",
+    "summary": "My team onboarded new facilities onto WEL, the enterprise patient lookup.",
+    "description": "As new facilities joined the health system, my team onboarded them onto WEL, our enterprise lookup (EMPI), so they became part of the single patient lookup the other systems rely on.",
+    "tags": [
+      "Healthcare",
+      "Integration"
+    ],
+    "keywords": [
+      "EMPI",
+      "Patient lookup",
+      "Onboarding"
+    ],
+    "role": "managed"
   }
 ]

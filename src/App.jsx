@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Link, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
+import ContactLinks from './components/ContactLinks.jsx'
 import Home from './pages/Home.jsx'
 import Project from './pages/Project.jsx'
 import site from './data/site.json'
@@ -46,12 +47,7 @@ export default function App() {
       <ScrollManager />
       <header className="mb-8 flex items-center justify-between text-sm">
         <Link to="/" className="font-semibold">{site.name}</Link>
-        <nav className="flex gap-4">
-          {site.links.map((l) => (
-            <a key={l.url} href={l.url} target="_blank" rel="noreferrer"
-              className="text-slate-600 hover:text-indigo-600 dark:text-slate-400">{l.label}</a>
-          ))}
-        </nav>
+        <ContactLinks />
       </header>
       <main>
         <Routes>
