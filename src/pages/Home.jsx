@@ -1,11 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProjectCard from '../components/ProjectCard.jsx'
 import Tag from '../components/Tag.jsx'
 import site from '../data/site.json'
 import { featuredProjects, filterProjects, projects, tagCounts, viewOf } from '../lib/projects.js'
 
-const TAGS_COLLAPSED = 14
+// Fewer tags when collapsed on a phone, so the projects are not pushed below the fold.
+const TAGS_COLLAPSED_DESKTOP = 14
+const TAGS_COLLAPSED_PHONE = 8
+
+function useIsPhone() {
+  const query = '(max-width: 639px)'
+  const [phone, setPhone] = useState(() => window.matchMedia(query).matches)
+  useEffect(() => {
+    const mq = window.matchMedia(query)
+    const onChange = () => setPhone(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+  return phone
+}
 
 const TABS = [
   { id: 'developed', label: 'Developed', intro: 'Things I built myself.', list: projects.filter((p) => viewOf(p) === 'developed') },
@@ -34,6 +48,8 @@ export default function Home() {
 
   // Collapsed, only the most used tags show (plus any selected one, so an active filter never hides).
   const [showAllTags, setShowAllTags] = useState(false)
+  const [bioOpen, setBioOpen] = useState(false)
+  const TAGS_COLLAPSED = useIsPhone() ? TAGS_COLLAPSED_PHONE : TAGS_COLLAPSED_DESKTOP
   const allTags = tagCounts(tab.list)
   const visibleTags = showAllTags
     ? allTags
@@ -61,7 +77,16 @@ export default function Home() {
       <section className="mb-8">
         <h1 className="text-3xl font-bold">{site.name}</h1>
         <p className="mt-1 text-slate-600 dark:text-slate-400">{site.tagline}</p>
-        {site.bio && <p className="mt-4 max-w-3xl text-slate-700 dark:text-slate-300">{site.bio}</p>}
+        {site.bio && (
+          <div className="mt-4 max-w-3xl">
+            {/* On a phone the bio is clamped to a few lines so the projects stay near the top. */}
+            <p className={`text-slate-700 dark:text-slate-300 ${bioOpen ? '' : 'line-clamp-3 sm:line-clamp-none'}`}>{site.bio}</p>
+            <button type="button" onClick={() => setBioOpen(!bioOpen)} aria-expanded={bioOpen}
+              className="mt-1 text-sm text-indigo-600 hover:underline sm:hidden dark:text-indigo-400">
+              {bioOpen ? 'Show less' : 'Read more'}
+            </button>
+          </div>
+        )}
       </section>
 
       <div role="tablist" aria-label="Project type" className="mb-4 inline-flex rounded-lg bg-slate-200 p-1 dark:bg-slate-800">

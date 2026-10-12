@@ -1,18 +1,24 @@
 [
   {
     "slug": "portfolio",
-    "title": "Portfolio",
-    "summary": "This simple portfolio website.",
-    "description": "To showcase my work and projects I've compiled a list of various things I've worked on throughout the years.",
+    "title": "This Portfolio Site",
+    "summary": "A data-driven portfolio of more than 60 projects, built with Vite, React, and Tailwind, with every project stored as JSON and the whole site published free on GitHub Pages.",
+    "description": "This site is the portfolio you are reading. Its purpose is to show the work behind a resume. A resume has room for a line or two on each project, and this site holds the whole story behind each one, with the evidence, so a reader can go as deep as they like.\n\nIt separates what I built from what I led. Over 20 years I have both written software and managed teams, programs, and platforms, and a single list would blur the two. So the projects are split into three tabs: Developed (things I built myself), Managed (programs and platforms I led, oversaw, or advised, where my teams built the work and I owned the outcome), and Prototypes (experiments and unfinished ideas). A short Featured row leads each of the first two.\n\nThere is no back end. Every project is an entry in a JSON file, with a title, summary, description, year, tags, links, and optional screenshots and a demo. Adding a project means editing that file and pushing. A demo can be a link, an embedded page, or a React component that is loaded only when its page is opened. Screenshots open in a lightbox with zoom and captions.\n\nFinding things is a first-class feature. Search covers titles, descriptions, tags, and a set of extra keywords, and tags filter the list. I reduced more than 200 ad hoc tags to about 55 canonical ones so filtering is useful, and kept the originals as searchable keywords and as an \"Also\" line on each project. The tab, search, and tags all live in the URL, so any filtered view can be bookmarked or shared.\n\nIt is built with Vite, React 19, React Router, and Tailwind CSS 4. It uses hash-based routes because GitHub Pages cannot rewrite deep links, and a small scroll manager that starts new pages at the top but restores your position when you go back, which keeps phone scrolling from fighting you. The page works in light and dark mode and on phones, and it has link-preview metadata so a shared link shows a proper card. A GitHub Actions workflow builds the site and deploys it to GitHub Pages on every push to main.\n\nI built it with Claude Code, working in short iterations: I supplied the content and decisions, and checked the results in a real browser, including a headless browser test for the behaviors that broke along the way.",
     "year": 2026,
     "yearApprox": false,
     "tags": [
       "JavaScript",
       "React",
       "Tailwind CSS",
-      "CI/CD"
+      "CI/CD",
+      "AI",
+      "Open source"
     ],
     "links": [
+      {
+        "label": "Live site",
+        "url": "https://thorst.github.io/portfolio/"
+      },
       {
         "label": "Source",
         "url": "https://github.com/thorst/portfolio"
@@ -20,11 +26,37 @@
     ],
     "keywords": [
       "Vite",
-      "Github Pages",
-      "Github Actions",
+      "React Router",
+      "GitHub Pages",
+      "GitHub Actions",
       "NPM",
       "JSON",
-      "Git"
+      "Git",
+      "Static site",
+      "Lightbox",
+      "Claude Code",
+      "Responsive design",
+      "Dark mode",
+      "Search and filter",
+      "Open Graph"
+    ],
+    "screenshots": [
+      {
+        "src": "projects/portfolio/home.png",
+        "caption": "Home: the Developed tab with search, tag filters, and the Featured row"
+      },
+      {
+        "src": "projects/portfolio/managed.png",
+        "caption": "The Managed tab: programs and platforms I led, with their own Featured row"
+      },
+      {
+        "src": "projects/portfolio/project.png",
+        "caption": "A project page: the full story, tags, and keywords behind a resume line"
+      },
+      {
+        "src": "projects/portfolio/mobile.png",
+        "caption": "The same site on a phone"
+      }
     ]
   },
   {
