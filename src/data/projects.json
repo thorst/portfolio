@@ -1414,8 +1414,8 @@
   {
     "slug": "wel-onboarding",
     "title": "Onboarding New Facilities to the EMPI",
-    "summary": "About one major facility onboarding a quarter: WEL analyzes patient overlap, tells new patients from duplicates, and my team's automation loads large populations into Epic gradually. Under me since 2015.",
-    "description": "Whenever a new facility joined the health system, we used WEL, our enterprise lookup (EMPI), to bring its patients in. This process has been under my responsibility since 2015, and we did about one major onboarding a quarter.\n\nIt starts with analysis. WEL compares the facility's patient population with ours and shows how much they overlap, which gives the business what it needs to make decisions about the new facility.\n\nNext, for the patients who overlap, WEL gathers the additional demographic information and correctly identifies what is new and what is a duplicate. The patients who are new are imported into Epic, and their MRNs are created.\n\nPopulations can be massive, so they are loaded slowly, on purpose, so the load does not negatively affect the system. My team built the automation for this, so nobody has to manually drop files. We monitored progress and errors to make sure everything ran smoothly, and otherwise the process needed minimal oversight.\n\nWEL itself, the enterprise lookup behind all of this, is described in its own entry: WEL: Enterprise Lookup (EMPI).",
+    "summary": "About one major facility onboarding a quarter, the largest bringing in 140,000 to 185,000 patients each. WEL analyzes overlap and tells new patients from duplicates, and my team's automation loads them into Epic gradually.",
+    "description": "Whenever a new facility joined the health system, we used WEL, our enterprise lookup (EMPI), to bring its patients in. This process has been under my responsibility since 2015, and we did about one major onboarding a quarter.\n\nIt starts with analysis. WEL compares the facility's patient population with ours and shows how much they overlap, which gives the business what it needs to make decisions about the new facility.\n\nNext, for the patients who overlap, WEL gathers the additional demographic information and correctly identifies what is new and what is a duplicate. The patients who are new are imported into Epic, and their MRNs are created.\n\nPopulations can be massive: our five largest onboardings each brought in between 140,000 and 185,000 patients. They are loaded slowly, on purpose, so the load does not negatively affect the system. My team built the automation for this, so nobody has to manually drop files. We monitored progress and errors to make sure everything ran smoothly, and otherwise the process needed minimal oversight.\n\nWEL itself, the enterprise lookup behind all of this, is described in its own entry: WEL: Enterprise Lookup (EMPI).",
     "tags": [
       "Healthcare",
       "Integration",
@@ -1431,7 +1431,8 @@
       "Patient population analysis",
       "Data load",
       "Automation",
-      "Quarterly onboarding"
+      "Quarterly onboarding",
+      "185,000 patients"
     ],
     "role": "managed",
     "year": 2015,
