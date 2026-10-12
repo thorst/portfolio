@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Gallery from '../components/Gallery.jsx'
 import Tag from '../components/Tag.jsx'
 import { demos } from '../demos/index.js'
@@ -48,6 +48,17 @@ const Section = ({ title, children }) => (
 
 export default function Project() {
   const p = getProject(useParams().slug)
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  // Arrived from the list in this session: act like the browser's Back button, so the list comes back
+  // exactly as it was (scroll position, tab, search, tags) and they can carry on browsing.
+  const backToList = (e) => {
+    if (location.state?.fromList && window.history.length > 1) {
+      e.preventDefault()
+      navigate(-1)
+    }
+  }
   if (!p)
     return (
       <p>Project not found. <Link to="/" className="text-indigo-600 underline">Back to all projects</Link></p>
@@ -55,7 +66,7 @@ export default function Project() {
   const year = yearLabel(p)
   return (
     <article>
-      <Link to={`/?${viewQuery(p)}`} className="text-sm text-indigo-600 hover:underline dark:text-indigo-400">← All {viewOf(p)}</Link>
+      <Link to={`/?${viewQuery(p)}`} onClick={backToList} className="text-sm text-indigo-600 hover:underline dark:text-indigo-400">← All {viewOf(p)}</Link>
       <h1 className="mt-3 text-3xl font-bold">{p.title}</h1>
       {year && <p className="mt-1 text-sm text-slate-500">{year}</p>}
       <div className="mt-3 flex flex-wrap gap-1.5">

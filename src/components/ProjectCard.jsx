@@ -5,7 +5,7 @@ import { yearLabel } from '../lib/projects.js'
 export default function ProjectCard({ project: p }) {
   const year = yearLabel(p)
   return (
-    <Link to={`/project/${p.slug}`}
+    <Link to={`/project/${p.slug}`} state={{ fromList: true }}
       className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
       <div className="flex flex-1 flex-col gap-2 p-4">
         <div className="flex items-baseline justify-between gap-2">

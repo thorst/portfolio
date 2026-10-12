@@ -892,7 +892,9 @@
     ],
     "keywords": [
       "ASP.NET Web API"
-    ]
+    ],
+    "year": 2021,
+    "yearApprox": false
   },
   {
     "slug": "servicenow-process-layer",
@@ -936,8 +938,8 @@
   {
     "slug": "pgp4-mirth-library",
     "title": "PGP Library for Mirth",
-    "summary": "A 13-function PGP encrypt/decrypt library built on BouncyCastle for multi-vendor file feeds.",
-    "description": "A shared library for Mirth that handles PGP encryption and decryption using BouncyCastle. It has 13 functions, supports signature checks, and caches keys, so many vendors with different key setups could be handled consistently.",
+    "summary": "A PGP library for Mirth that made integrations with modern vendors possible again. Started in 2022, it is now a full product with documentation, training, and certificate tracking for about 100 certificates.",
+    "description": "A shared library for Mirth that handles PGP encryption and decryption using BouncyCastle. It has 13 functions, supports signature checks, and caches keys, so many vendors with different key setups could be handled consistently.\n\nI started it in 2022, and it has grown into a fully featured product with tooling around it, including certificate tracking that records where each key is used and when it expires. It tracks about 100 certificates, with about as many clients using PGP in their own SFTP implementations.\n\nThe certificate numbers are modest: about six certificates expire in a year. The real value was having the capability in Mirth at all. We used to do PGP in the Momentum engine, which was no longer being updated and did not support newer vendors running more modern setups, so those integrations were impossible until I wrote the library. I also fully documented not just the library but PGP itself, with training, because encryption is confusing for people who are not into it.",
     "tags": [
       "Mirth Connect",
       "Encryption"
@@ -950,8 +952,16 @@
     ],
     "keywords": [
       "PGP",
-      "BouncyCastle"
-    ]
+      "BouncyCastle",
+      "Certificate tracking",
+      "Key expiration",
+      "100 certificates",
+      "Momentum engine",
+      "Training",
+      "Documentation"
+    ],
+    "year": 2022,
+    "yearApprox": false
   },
   {
     "slug": "hl7-splitter-search",
@@ -968,20 +978,29 @@
       ".NET WinForms",
       "Multithreading",
       "Troubleshooting"
-    ]
+    ],
+    "year": 2008,
+    "yearApprox": false
   },
   {
     "slug": "sheetdelta",
     "title": "SheetDelta",
-    "summary": "A Python tool that shows a color-coded diff between .xlsx files, even when their columns do not match.",
-    "description": "SheetDelta compares two Excel workbooks and produces a color-coded diff, handling files whose columns do not line up. I used it to sync our helpdesk queue with client ticket sheets.",
+    "summary": "A Python tool that shows a color-coded diff between spreadsheets, even when their columns do not match. It let me keep one source of truth while each team kept its own sheet.",
+    "description": "SheetDelta compares two Excel workbooks and produces a color-coded diff, handling files whose columns do not line up.\n\nIn 2025 I was prototyping what data we needed to collect to prioritize and organize the work for my business team's customers. Those customers were the primary business units, which we called pillars, such as finance, supply chain, and HR. I kept one source of truth, and gave each pillar its own spreadsheet. I did not want the pillars to be able to edit my main sheet, but they needed to prioritize their own tasks. SheetDelta showed me what had changed in each pillar's sheet, so I could sync those changes back into the main one.\n\nOnce the process was ironed out and the pillars had adopted the spreadsheet, I converted it into a proper site. I also used SheetDelta to sync our helpdesk queue with client ticket sheets.",
     "tags": [
       "Python"
     ],
     "keywords": [
       "Excel",
-      "Data comparison"
-    ]
+      "Data comparison",
+      "Prioritization",
+      "Spreadsheet to site",
+      "Finance",
+      "Supply chain",
+      "HR"
+    ],
+    "year": 2025,
+    "yearApprox": false
   },
   {
     "slug": "oracle-job-scheduler",
@@ -1045,7 +1064,7 @@
     "slug": "oracle-admin",
     "title": "Oracle Admin",
     "summary": "The foundation for runbooks and asset documentation on our Oracle ERP, and the home of the external scheduler and payroll automation.",
-    "description": "Oracle Admin was the foundation that made a runbook, meaning documentation of our Oracle assets, possible. It also housed the Oracle external scheduler and the payroll automation.\n\nThe scheduler and the nightly export of Oracle assets to Git are described as their own projects.",
+    "description": "Oracle Admin was the foundation that made a runbook, meaning documentation of our Oracle assets, possible. It also housed the Oracle external scheduler and the payroll automation.\n\nIn 2025 the runbook was automated. It pulls the details of each asset from the asset archival process, the nightly export of our Oracle custom assets into Git, so the documentation stays current without anyone writing it by hand.\n\nThe scheduler and the nightly export of Oracle assets to Git are described as their own projects.",
     "tags": [
       "Oracle ERP",
       "Automation",
@@ -1054,8 +1073,12 @@
     "keywords": [
       "Runbook",
       "Documentation",
-      "Payroll"
-    ]
+      "Payroll",
+      "Asset archival",
+      "Automated runbook"
+    ],
+    "year": 2025,
+    "yearApprox": false
   },
   {
     "slug": "oracle-erp-vscode-extension",
@@ -1086,8 +1109,8 @@
   {
     "slug": "iis-manager",
     "title": "IIS Manager",
-    "summary": "A C# web API site for managing IIS sites and promoting them from dev to prod, with backups and required documentation.",
-    "description": "IIS Manager is a C# web API and site that lets people manage their own web sites on our IIS servers and promote them from a development server to production, instead of filing requests and waiting on an administrator.\n\nCreating a site sets up everything it needs: the application pool, the directories, and the shares. Users push to the dev server first, then to prod. The push to production is built to be safe. It takes the application offline while files are copied, and it first zips up the existing production version as a backup so a bad release can be rolled back.\n\nIt also forces basic documentation. Every site must record a link to its repository, its owners, its customers, and a brief description, so there is always an answer to who owns a site and who depends on it.",
+    "summary": "A web API and site for managing IIS sites and promoting them from dev to prod, with backups and required documentation. Started in 2014, rewritten in 2018, ported to .NET Core in 2026.",
+    "description": "IIS Manager is a C# web API and site that lets people manage their own web sites on our IIS servers and promote them from a development server to production, instead of filing requests and waiting on an administrator.\n\nCreating a site sets up everything it needs: the application pool, the directories, and the shares. Users push to the dev server first, then to prod. The push to production is built to be safe. It takes the application offline while files are copied, and it first zips up the existing production version as a backup so a bad release can be rolled back.\n\nIt also forces basic documentation. Every site must record a link to its repository, its owners, its customers, and a brief description, so there is always an answer to who owns a site and who depends on it.\n\nIt has been through three lives. I started it in 2014, rewrote it in 2018, and in 2026 ported it to .NET Core and added new features. One of them is a deploy loop: a deployment is retried until it is confirmed successful, instead of being assumed to have worked.",
     "tags": [
       "C#",
       ".NET",
@@ -1098,21 +1121,33 @@
     "keywords": [
       "ASP.NET Web API",
       "IIS",
-      "Deployment"
-    ]
+      "Deployment",
+      ".NET Core",
+      "Deploy retry loop"
+    ],
+    "year": 2014,
+    "yearApprox": false
   },
   {
     "slug": "on-call-management-system",
     "title": "On-Call Management System",
-    "summary": "A system the IT department used to manage on-call.",
-    "description": "As a senior developer I built the system our IT department used to manage on-call.",
+    "summary": "A system I built in 2012 that replaced the IT spreadsheet for who is on call, adopted by all of IS (about two dozen teams), and later replaced by SPOK.",
+    "description": "As a senior developer I built, in 2012, the system our IT department used to manage on-call. It replaced a spreadsheet we had been using, and it was adopted by all of IS, about two dozen teams.\n\nBecause it was backed by SQL, several people could edit the schedule at the same time, which a shared spreadsheet handles poorly.\n\nIts biggest strengths were practical. The schedule could be validated from reports, team members updated it themselves, and it was easy to search, so you could find just who was on call right now without parsing the whole schedule for every team.\n\nIt was eventually replaced by SPOK, but it served a critical role first. It showed the organization why it needed a modern system to identify who is on call and when, and how to contact them.",
     "tags": [
       "Monitoring"
     ],
     "keywords": [
       "On-call",
-      "Internal tools"
-    ]
+      "Internal tools",
+      "SQL",
+      "Spreadsheet replacement",
+      "SPOK",
+      "Two dozen teams",
+      "Searchable schedule",
+      "Reports"
+    ],
+    "year": 2012,
+    "yearApprox": false
   },
   {
     "slug": "physician-office-integration",
@@ -1163,8 +1198,8 @@
   {
     "slug": "blood-bank-backup",
     "title": "Blood Bank Backup Utility",
-    "summary": "A pull-based backup utility with heartbeats, replacing a push that kept failing. It runs on a dozen machines, one at each site.",
-    "description": "The blood bank system sends its backups to a server, and the original design pushed them out to a backup machine at each site. That push frequently ran into trouble: the PC was down or otherwise unreachable.\n\nI replaced it with a utility that reverses the direction. Each client pulls the latest backup from the server instead of waiting for one to be pushed, and it checks in with a regular heartbeat. If a client misses its heartbeat, or a download is not confirmed, the system messages support. It does not depend on a particular time of day. Because the clients check frequently, a delayed backup is simply picked up as soon as it becomes available.\n\nA web admin site lets support approve new clients, see the status of each one, and retrieve their logs. It was deployed to a dozen backup machines, one located at each site.",
+    "summary": "A pull-based backup utility with heartbeats that cut daily failures to one or two a month. It runs on a dozen machines, one at each site, and recovers by itself when a PC comes back.",
+    "description": "The blood bank system sends its backups to a server, and the original design pushed them out to a backup machine at each site. That push frequently ran into trouble: the PC was down or otherwise unreachable.\n\nI replaced it with a utility that reverses the direction. Each client pulls the latest backup from the server instead of waiting for one to be pushed, and it checks in with a regular heartbeat. If a client misses its heartbeat, or a download is not confirmed, the system messages support. It does not depend on a particular time of day. Because the clients check frequently, a delayed backup is simply picked up as soon as it becomes available.\n\nA web admin site lets support approve new clients, see the status of each one, and retrieve their logs. It was deployed to a dozen backup machines, one located at each site. Each machine needed just one copy a day, and that copy held everything the site would need for that week if there was downtime.\n\nThe difference was large. The old push process had problems daily. With the pull design, problems were rare, usually one or two a month, and almost always because an end user had shut a PC down. When that happened, the heartbeat notified support staff to turn it back on right away, and as soon as it came back the machine downloaded the latest file by itself, with no manual intervention.",
     "tags": [
       "Healthcare",
       "Automation",
@@ -1175,8 +1210,14 @@
       "Heartbeat",
       "Pull-based",
       "Web admin",
-      "Blood bank"
-    ]
+      "Blood bank",
+      "Downtime readiness",
+      "Daily backup",
+      "Self-healing",
+      "Failure reduction"
+    ],
+    "year": 2024,
+    "yearApprox": false
   },
   {
     "slug": "wel",
@@ -1339,7 +1380,9 @@
       "Mobile web",
       "Display board",
       "Web application"
-    ]
+    ],
+    "year": 2018,
+    "yearApprox": true
   },
   {
     "slug": "adaptive-patient-questionnaire",
@@ -1358,7 +1401,9 @@
       "Vendor APIs",
       "Rules engine",
       "Device management"
-    ]
+    ],
+    "year": 2010,
+    "yearApprox": true
   },
   {
     "slug": "kafka-prototype",
