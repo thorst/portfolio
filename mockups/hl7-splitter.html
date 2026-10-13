@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HL7 Splitter and Search Tool (mockup)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Demonstration mockup only: a hand-drawn Windows Forms look in plain HTML/CSS. Invented files and numbers. -->
+<style>
+  * { box-sizing: border-box; }
+  html { background: #d9e4f1; }
+  body { margin: 0; padding: 28px 32px; background: linear-gradient(135deg, #cfdcec, #e8eef6); font: 12px 'Segoe UI', Tahoma, sans-serif; color: #000; }
+  .win { width: 880px; background: #f0f0f0; border: 1px solid #5a86c0; box-shadow: 0 10px 34px rgba(30, 50, 90, .35); }
+  .title { display: flex; align-items: center; height: 31px; background: #fff; padding-left: 10px; }
+  .title .ico { width: 16px; height: 16px; margin-right: 8px; }
+  .title .txt { flex: 1; font-size: 12px; }
+  .title .ctl { display: flex; height: 100%; }
+  .title .ctl span { width: 46px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #222; }
+  .title .ctl .x { font-size: 16px; }
+  .menu { display: flex; gap: 2px; background: #fff; border-bottom: 1px solid #e0e0e0; padding: 2px 4px; }
+  .menu span { padding: 3px 8px; }
+  .body { padding: 10px 12px 0; }
+  fieldset { margin: 0 0 10px; padding: 8px 10px 10px; border: 1px solid #dcdcdc; }
+  legend { padding: 0 4px; }
+  .row { display: flex; gap: 10px; }
+  .btn { min-width: 96px; height: 25px; padding: 0 12px; border: 1px solid #adadad; background: #e1e1e1; font: inherit; color: #000; }
+  .btn.def { border: 2px solid #0078d7; padding: 0 11px; }
+  .btn.sm { min-width: 0; }
+  .col { display: flex; flex-direction: column; gap: 6px; }
+  /* list view and grid */
+  table { border-collapse: collapse; width: 100%; background: #fff; }
+  .lv { border: 1px solid #828790; background: #fff; flex: 1; }
+  th { font-weight: 400; text-align: left; padding: 3px 6px; border-right: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; background: #fff; color: #4c607a; }
+  td { padding: 2px 6px; white-space: nowrap; }
+  td.r, th.r { text-align: right; }
+  tr.sel td { background: #cce8ff; }
+  .drop { margin: 8px; padding: 9px; border: 1px dashed #a0a0a0; color: #777; text-align: center; }
+  .grid td, .grid th { border: 1px solid #d9d9d9; }
+  .grid th { background: #f5f5f5; color: #000; text-align: left; }
+  .grid .rh { width: 20px; background: #f5f5f5; padding: 0; text-align: center; font-size: 9px; color: #444; }
+  .grid tr.sel td:not(.rh) { background: #cce8ff; }
+  .cb { position: relative; padding-right: 20px; }
+  .cb::after { content: ''; position: absolute; right: 6px; top: 9px; border: 4px solid transparent; border-top: 5px solid #555; }
+  input[type=text] { height: 23px; border: 1px solid #7a7a7a; background: #fff; padding: 0 4px; font: inherit; }
+  label { display: flex; align-items: center; gap: 5px; }
+  input[type=radio], input[type=checkbox] { margin: 0; }
+  .indent { margin-left: 21px; }
+  .status { display: flex; align-items: center; gap: 10px; height: 24px; margin-top: 10px; padding: 0 8px; background: #f0f0f0; border-top: 1px solid #d6d6d6; }
+  .bar { width: 220px; height: 15px; border: 1px solid #bcbcbc; background: #e6e6e6; }
+  .bar i { display: block; height: 100%; width: 66%; background: #06b025; }
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="title">
+    <svg class="ico" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="#2b6cb0"/><path d="M4 5h8M4 8h8M4 11h5" stroke="#fff" stroke-width="1.4"/></svg>
+    <span class="txt">HL7 Splitter and Search Tool</span>
+    <div class="ctl"><span>&#x2013;</span><span>&#x25A1;</span><span class="x">&#x2715;</span></div>
+  </div>
+  <div class="menu"><span>File</span><span>Options</span><span>Help</span></div>
+
+  <div class="body">
+    <!-- input files -->
+    <fieldset>
+      <legend>Input files</legend>
+      <div class="row">
+        <div class="lv">
+          <table>
+            <thead><tr><th style="width:230px">File name</th><th>Folder</th><th class="r" style="width:70px">Size</th><th class="r" style="width:80px">Messages</th></tr></thead>
+            <tbody>
+              <tr><td>ADT_20080612.hl7</td><td>C:\Interfaces\archive\2008-06</td><td class="r">9,412 KB</td><td class="r">11,806</td></tr>
+              <tr><td>ADT_20080613.hl7</td><td>C:\Interfaces\archive\2008-06</td><td class="r">8,977 KB</td><td class="r">11,254</td></tr>
+              <tr class="sel"><td>ORU_Lab_20080612.hl7</td><td>C:\Interfaces\archive\2008-06</td><td class="r">14,230 KB</td><td class="r">13,019</td></tr>
+              <tr><td>ORM_Orders_20080612.hl7</td><td>C:\Interfaces\archive\2008-06</td><td class="r">5,108 KB</td><td class="r">6,342</td></tr>
+              <tr><td>SIU_Sched_20080613.hl7</td><td>C:\Interfaces\archive\2008-06</td><td class="r">1,764 KB</td><td class="r">2,190</td></tr>
+              <tr><td>DFT_Charges_20080612.hl7</td><td>C:\Interfaces\archive\2008-06</td><td class="r">3,325 KB</td><td class="r">3,602</td></tr>
+            </tbody>
+          </table>
+          <div class="drop">Drag and drop HL7 files here</div>
+        </div>
+        <div class="col">
+          <button class="btn">Add Files...</button>
+          <button class="btn">Remove Selected</button>
+          <button class="btn">Clear All</button>
+          <div style="margin-top:auto;color:#444">6 files<br>48,213 messages</div>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- filter criteria -->
+    <fieldset>
+      <legend>Filter criteria</legend>
+      <div class="row" style="align-items:flex-start">
+        <div style="flex:1">
+          <div class="row" style="margin-bottom:8px;gap:22px">
+            <label><input type="radio" name="logic" checked> Match <b>all</b> criteria (AND)</label>
+            <label><input type="radio" name="logic"> Match <b>any</b> criterion (OR)</label>
+            <label style="margin-left:auto"><input type="checkbox"> Case sensitive</label>
+          </div>
+          <div class="lv" style="border-color:#828790">
+            <table class="grid">
+              <thead><tr><th class="rh"></th><th style="width:90px">Segment</th><th style="width:110px">Field</th><th style="width:140px">Operator</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td class="rh">&#x25B6;</td><td>PV1</td><td>3 (Location)</td><td class="cb">Contains</td><td>ICU</td></tr>
+                <tr class="sel"><td class="rh"></td><td>MSH</td><td>9.1 (Type)</td><td class="cb">Equals</td><td>ADT</td></tr>
+                <tr><td class="rh"></td><td>PID</td><td>3.1 (MRN)</td><td class="cb">Starts with</td><td>00</td></tr>
+                <tr><td class="rh">*</td><td>&nbsp;</td><td></td><td></td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col" style="margin-top:28px">
+          <button class="btn">Add Criterion</button>
+          <button class="btn">Remove Criterion</button>
+        </div>
+      </div>
+      <div style="margin-top:8px;color:#444">Preview: <b>1,284</b> of 48,213 messages match</div>
+    </fieldset>
+
+    <!-- output -->
+    <fieldset>
+      <legend>Output</legend>
+      <label><input type="radio" name="out" checked> One consolidated file</label>
+      <div class="row indent" style="margin:6px 0 10px;align-items:center">
+        <span style="width:118px;white-space:nowrap">File name and path:</span>
+        <input type="text" style="flex:1" value="C:\Interfaces\results\icu_admits_2008-06.hl7">
+        <button class="btn sm" style="min-width:75px">Browse...</button>
+      </div>
+      <label><input type="radio" name="out"> One file per input file <span style="color:#666">(each output uses its input file's name)</span></label>
+      <div class="row indent" style="margin-top:6px;align-items:center">
+        <span style="width:118px">Output folder:</span>
+        <input type="text" style="flex:1;background:#f0f0f0;color:#7a7a7a;border-color:#ccc" value="C:\Interfaces\results" disabled>
+        <button class="btn sm" style="min-width:75px;color:#888;border-color:#ccc;background:#f0f0f0" disabled>Browse...</button>
+      </div>
+    </fieldset>
+
+    <div class="row" style="justify-content:flex-end;gap:8px;margin-bottom:0">
+      <label style="margin-right:auto"><input type="checkbox" checked> Open output when finished</label>
+      <button class="btn def">Run</button>
+      <button class="btn">Cancel</button>
+    </div>
+  </div>
+
+  <div class="status">
+    <span>Processing file 4 of 6 on 4 threads...</span>
+    <div class="bar"><i></i></div>
+    <span style="margin-left:auto;color:#444">832 messages matched so far</span>
+  </div>
+</div>
+</body>
+</html>

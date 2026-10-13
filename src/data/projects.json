@@ -85,8 +85,9 @@
       "AWS"
     ],
     "demo": {
-      "type": "iframe",
-      "url": "https://tastytracker.com"
+      "type": "link",
+      "url": "https://tastytracker.com",
+      "label": "Visit tastytracker.com"
     },
     "links": [
       {
@@ -256,6 +257,16 @@
       "REST API",
       "Progressive Web App",
       "Parental Controls"
+    ],
+    "screenshots": [
+      {
+        "src": "projects/cheesecake/messages.png",
+        "caption": "Parent dashboard: synced conversations with device, message count, and last activity (illustrative mockup, invented data)"
+      },
+      {
+        "src": "projects/cheesecake/thread.png",
+        "caption": "A conversation: sent and received messages with timestamps (illustrative mockup, invented data)"
+      }
     ]
   },
   {
@@ -615,6 +626,10 @@
       "Java",
       "SQLite"
     ],
+    "screenshots": [
+      { "src": "projects/biweekly-budget/1.png", "caption": "All budgets with the running total" },
+      { "src": "projects/biweekly-budget/2.png", "caption": "A budget's debits and credits" }
+    ],
     "links": [
       {
         "label": "Google Play",
@@ -703,6 +718,12 @@
       "SignalR",
       "WebSockets",
       "RSA"
+    ],
+    "screenshots": [
+      {
+        "src": "projects/chatterbox/chat.png",
+        "caption": "Chatterbox UI (illustrative mockup, not the original app): chat history, image upload, and contacts"
+      }
     ]
   },
   {
@@ -891,6 +912,36 @@
     ]
   },
   {
+    "slug": "cloverleaf-monitoring-portal",
+    "title": "Cloverleaf Monitoring and Management Portal",
+    "summary": "A web portal for monitoring our Cloverleaf interface engine servers and managing their Tcl code.",
+    "description": "A web portal for our Cloverleaf interface engine that put server health and Tcl code management in one place. It showed the production and non-production servers with CPU, memory, and disk over time, and let developers pick a site and edit the Tcl behind it.\n\nI built it around 2008, then maintained and expanded it through 2020.",
+    "year": 2008,
+    "yearEnd": 2020,
+    "yearApprox": true,
+    "tags": [
+      "Tcl",
+      "Cloverleaf",
+      "HL7",
+      "Healthcare",
+      "Integration",
+      "Monitoring"
+    ],
+    "keywords": [
+      "Healthcare integration"
+    ],
+    "screenshots": [
+      {
+        "src": "projects/cloverleaf-monitoring-portal/dashboard.png",
+        "caption": "Server dashboard: prod and non-prod Cloverleaf servers with CPU, memory, and disk over 24 hours (illustrative mockup, invented data)"
+      },
+      {
+        "src": "projects/cloverleaf-monitoring-portal/editor.png",
+        "caption": "Proc editor: pick a server, site, and Tcl proc, then edit, check, save, and push the code (illustrative mockup, invented data)"
+      }
+    ]
+  },
+  {
     "slug": "mirth-monitoring-portal",
     "title": "Mirth Monitoring and Management Portal",
     "summary": "A web portal for interface health, debugging, reporting, and the build, debug, and deploy workflow.",
@@ -905,6 +956,16 @@
     ],
     "keywords": [
       "ASP.NET Web API"
+    ],
+    "screenshots": [
+      {
+        "src": "projects/mirth-monitoring-portal/dashboard.png",
+        "caption": "Server dashboard: prod and non-prod Mirth servers with CPU, memory, and disk over 24 hours (illustrative mockup, invented data)"
+      },
+      {
+        "src": "projects/mirth-monitoring-portal/editor.png",
+        "caption": "Channel editor: pick a server, channel, and connector, then edit, format, save, and push the code (illustrative mockup, invented data)"
+      }
     ],
     "year": 2021,
     "yearApprox": false
@@ -993,7 +1054,13 @@
       "Troubleshooting"
     ],
     "year": 2008,
-    "yearApprox": false
+    "yearApprox": false,
+    "screenshots": [
+      {
+        "src": "projects/hl7-splitter-search/main.png",
+        "caption": "The WinForms tool: add or drag in HL7 files, set AND/OR filter criteria, and write one consolidated file or one file per input (illustrative mockup, invented data)"
+      }
+    ]
   },
   {
     "slug": "sheetdelta",
@@ -1014,6 +1081,34 @@
     ],
     "year": 2025,
     "yearApprox": false
+  },
+  {
+    "slug": "rehab-scheduling",
+    "title": "Rehab Scheduling System",
+    "summary": "A web app for scheduling physical-rehab sessions: pick an upcoming patient, then book the date, time, physician, and activity.",
+    "description": "A scheduling system for a physical rehabilitation service. Schedulers started from a list of upcoming patients and selected one, which opened a calendar view where they chose the date and time, the physician, and the rehab activity for the session.\n\nIt was a C# web application with a jQuery and Bootstrap front end, and it handled scheduling for about 100 physicians.",
+    "year": 2013,
+    "yearApprox": true,
+    "tags": [
+      "C#",
+      "jQuery",
+      "Bootstrap",
+      "Healthcare"
+    ],
+    "keywords": [
+      "Scheduling",
+      "Physical rehab"
+    ],
+    "screenshots": [
+      {
+        "src": "projects/rehab-scheduling/patients.png",
+        "caption": "Upcoming patients awaiting rehab scheduling; select one to book their sessions (illustrative mockup, invented data)"
+      },
+      {
+        "src": "projects/rehab-scheduling/calendar.png",
+        "caption": "Scheduling a session: choose the activity, physician, and an open time on the week calendar (illustrative mockup, invented data)"
+      }
+    ]
   },
   {
     "slug": "oracle-job-scheduler",
@@ -1418,7 +1513,17 @@
       "Device management"
     ],
     "year": 2010,
-    "yearApprox": true
+    "yearApprox": true,
+    "screenshots": [
+      {
+        "src": "projects/adaptive-patient-questionnaire/admin.png",
+        "caption": "Staff admin: the day's patients and appointment times, with a button to link a patient to an iPad (illustrative mockup, invented data)"
+      },
+      {
+        "src": "projects/adaptive-patient-questionnaire/ipad.png",
+        "caption": "The patient's iPad: one question at a time, with later questions adapting to the answers (illustrative mockup, invented data)"
+      }
+    ]
   },
   {
     "slug": "kafka-prototype",

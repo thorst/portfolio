@@ -11,7 +11,9 @@ export const asset = (path) =>
 
 export const getProject = (slug) => projects.find((p) => p.slug === slug)
 
-export const yearLabel = (p) => (p.year ? `${p.yearApprox ? 'c. ' : ''}${p.year}` : null)
+// "yearEnd" is optional, for work that spanned years: "2008–2020".
+export const yearLabel = (p) =>
+  p.year ? `${p.yearApprox ? 'c. ' : ''}${p.year}${p.yearEnd ? `–${p.yearEnd}` : ''}` : null
 
 // Every project lives in exactly one tab:
 //   "category": "prototype"  -> prototypes

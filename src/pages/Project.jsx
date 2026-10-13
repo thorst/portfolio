@@ -1,9 +1,20 @@
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Gallery from '../components/Gallery.jsx'
 import Tag from '../components/Tag.jsx'
 import { demos } from '../demos/index.js'
 import { getProject, viewOf, viewQuery, yearLabel } from '../lib/projects.js'
+
+// The markdown renderer is only needed on pages with a public repo, so load it on demand.
+const Readme = lazy(() => import('../components/Readme.jsx'))
+
+// "owner/repo" from the project's "Source" link, when it points at a public GitHub repo.
+// Set "readme": false on a project to leave its README off the page.
+const repoOf = (p) => {
+  if (p.readme === false) return null
+  const src = p.links?.find((l) => l.label === 'Source')
+  return src?.url.match(/^https:\/\/github\.com\/([^/]+\/[^/#?]+?)(?:\.git)?\/?$/i)?.[1] ?? null
+}
 
 function Demo({ demo }) {
   if (demo.type === 'link')
@@ -64,6 +75,7 @@ export default function Project() {
       <p>Project not found. <Link to="/" className="text-indigo-600 underline">Back to all projects</Link></p>
     )
   const year = yearLabel(p)
+  const repo = repoOf(p)
   return (
     <article>
       <Link to={`/?${viewQuery(p)}`} onClick={backToList} className="text-sm text-indigo-600 hover:underline dark:text-indigo-400">← All {viewOf(p)}</Link>
@@ -94,6 +106,13 @@ export default function Project() {
 
       {p.demo && <Section title="Demo"><Demo demo={p.demo} /></Section>}
       {p.screenshots?.length > 0 && <Section title="Screenshots"><Gallery screenshots={p.screenshots} /></Section>}
+      {repo && (
+        <Section title="README">
+          <Suspense fallback={<p className="text-sm text-slate-500">Loading README…</p>}>
+            <Readme repo={repo} />
+          </Suspense>
+        </Section>
+      )}
     </article>
   )
 }

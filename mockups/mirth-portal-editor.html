@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mirth Portal (mockup): Channel Editor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Demonstration mockup only: invented channel, servers, and code. Static HTML + Tailwind (CDN); a small script highlights the code. -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<style>
+  .code { font-family: 'Cascadia Mono', Consolas, 'Courier New', monospace; font-size: 13px; line-height: 22px; }
+  .k { color: #c586c0 } .s { color: #ce9178 } .c { color: #6a9955; font-style: italic } .n { color: #b5cea8 }
+  .f { color: #dcdcaa } .g { color: #4fc1ff } .t { color: #4ec9b0 }
+  .squiggle { text-decoration: underline wavy #e5a50a; text-underline-offset: 3px; }
+</style>
+</head>
+<body class="h-screen overflow-hidden bg-slate-100 font-sans text-slate-800">
+<div class="flex h-screen flex-col">
+
+<header class="flex items-center justify-between bg-slate-900 px-6 py-3 text-slate-200">
+  <div class="flex items-center gap-3">
+    <svg class="h-7 w-7 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span class="text-base font-semibold text-white">Interface Portal</span>
+    <span class="rounded bg-slate-700 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-300">Mirth</span>
+  </div>
+  <nav class="flex gap-1 text-sm">
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Servers</a>
+    <a class="rounded-md bg-slate-700 px-3 py-1.5 font-medium text-white">Channel Editor</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Message Search</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Reports</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Audit</a>
+  </nav>
+  <div class="flex items-center gap-3 text-sm"><div class="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 font-semibold text-white">TH</div></div>
+</header>
+
+<!-- selectors -->
+<div class="flex items-end gap-4 border-b border-slate-200 bg-white px-6 py-3">
+  <label class="block text-xs font-medium uppercase tracking-wide text-slate-500">Server
+    <select class="mt-1 block w-60 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal normal-case tracking-normal text-slate-800"><option>mirth-test-01 (non-prod)</option></select></label>
+  <label class="block text-xs font-medium uppercase tracking-wide text-slate-500">Channel
+    <select class="mt-1 block w-80 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal normal-case tracking-normal text-slate-800"><option>ADT_Inbound_Registration</option></select></label>
+  <label class="block text-xs font-medium uppercase tracking-wide text-slate-500">Connector
+    <select class="mt-1 block w-96 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal normal-case tracking-normal text-slate-800"><option>Destination 1: EHR Sender (Transformer)</option></select></label>
+  <div class="ml-auto flex items-center gap-2 pb-1.5 text-xs">
+    <span class="rounded-full bg-emerald-50 px-2.5 py-1 font-medium text-emerald-700 ring-1 ring-emerald-200">● Deployed</span>
+    <span class="rounded-full bg-slate-100 px-2.5 py-1 font-medium text-slate-600 ring-1 ring-slate-200">Revision 14</span>
+    <span class="text-slate-400">Last deployed 2 days ago by Todd</span>
+  </div>
+</div>
+
+<!-- toolbar -->
+<div class="flex items-center gap-2 border-b border-slate-200 bg-slate-50 px-6 py-2 text-sm">
+  <button class="flex items-center gap-1.5 rounded-lg bg-teal-600 px-3.5 py-1.5 font-medium text-white shadow-sm"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Save</button>
+  <button class="flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h12M3 18h16"/></svg>Format</button>
+  <button class="flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Validate</button>
+  <span class="mx-1 h-5 w-px bg-slate-300"></span>
+  <button class="rounded-lg px-3 py-1.5 font-medium text-slate-600">Find &amp; replace</button>
+  <button class="rounded-lg px-3 py-1.5 font-medium text-slate-600">Diff vs. server</button>
+  <button class="rounded-lg px-3 py-1.5 font-medium text-slate-600">History</button>
+  <button class="rounded-lg px-3 py-1.5 font-medium text-slate-600">Revert</button>
+  <span class="ml-3 flex items-center gap-1.5 text-xs font-medium text-amber-600"><span class="h-2 w-2 rounded-full bg-amber-500"></span>Unsaved changes</span>
+  <div class="ml-auto flex items-center gap-2">
+    <span class="text-xs text-slate-500">Deploy to</span>
+    <select class="rounded-lg border border-slate-300 bg-white px-2 py-1.5 text-sm"><option>mirth-test-01</option></select>
+    <button class="flex items-center gap-1.5 rounded-lg bg-slate-900 px-3.5 py-1.5 font-medium text-white shadow-sm"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Push to server</button>
+  </div>
+</div>
+
+<!-- workspace -->
+<div class="flex min-h-0 flex-1">
+  <!-- editor -->
+  <div class="flex min-w-0 flex-1 flex-col bg-[#1e1e1e]">
+    <div class="flex items-center bg-[#252526] text-xs text-slate-400">
+      <div class="border-t-2 border-teal-400 bg-[#1e1e1e] px-4 py-2 text-slate-200">Destination 1 · Transformer.js <span class="ml-1 text-amber-400">●</span></div>
+      <div class="px-4 py-2">Source · Filter.js</div>
+      <div class="px-4 py-2">Source · Transformer.js</div>
+    </div>
+    <div class="relative min-h-0 flex-1 overflow-hidden">
+      <div id="editor" class="code flex py-2"></div>
+    </div>
+    <!-- problems -->
+    <div class="border-t border-[#333] bg-[#1e1e1e] text-xs">
+      <div class="flex gap-5 border-b border-[#333] px-4 py-1.5 text-slate-400"><span class="border-b border-teal-400 text-slate-200">Problems (2)</span><span>Test output</span><span>Message preview</span></div>
+      <div class="space-y-1 px-4 py-2 font-mono text-[12px]">
+        <div class="text-amber-300">⚠ Line 7 &nbsp;<span class="text-slate-300">'visit' is assigned a value but never used</span></div>
+        <div class="text-sky-300">ℹ Line 22 <span class="text-slate-300">lookup() is a code template from the "Shared Utilities" library</span></div>
+      </div>
+    </div>
+    <div class="flex items-center justify-between bg-teal-700 px-4 py-1 text-[11px] text-white">
+      <span>JavaScript (Rhino) · UTF-8 · LF</span><span>Ln 22, Col 24 &nbsp;·&nbsp; 3 lines changed</span>
+    </div>
+  </div>
+
+  <!-- side panel -->
+  <aside class="w-80 shrink-0 overflow-hidden border-l border-slate-200 bg-white text-sm">
+    <div class="border-b border-slate-200 px-4 py-3">
+      <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Code templates</div>
+      <input class="mt-2 w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm" placeholder="Search templates">
+      <ul class="mt-2 divide-y divide-slate-100">
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">toTitleCase(str)</div><div class="text-xs text-slate-500">Strings</div></div><span class="text-xs font-medium text-teal-700">Insert</span></li>
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">parseHl7Date(ts)</div><div class="text-xs text-slate-500">Dates and times</div></div><span class="text-xs font-medium text-teal-700">Insert</span></li>
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">formatDate(d, fmt)</div><div class="text-xs text-slate-500">Dates and times</div></div><span class="text-xs font-medium text-teal-700">Insert</span></li>
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">lookup(table, key, dflt)</div><div class="text-xs text-slate-500">Shared Utilities</div></div><span class="text-xs font-medium text-teal-700">Insert</span></li>
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">keepSegments(msg, list)</div><div class="text-xs text-slate-500">HL7 segments</div></div><span class="text-xs font-medium text-teal-700">Insert</span></li>
+      </ul>
+    </div>
+    <div class="px-4 py-3">
+      <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Recent revisions</div>
+      <ol class="mt-3 space-y-3 border-l-2 border-slate-200 pl-4">
+        <li class="relative"><span class="absolute -left-[22px] top-1.5 h-2.5 w-2.5 rounded-full bg-amber-500"></span><div class="font-medium">Working copy</div><div class="text-xs text-slate-500">Unsaved · 3 lines changed</div></li>
+        <li class="relative"><span class="absolute -left-[22px] top-1.5 h-2.5 w-2.5 rounded-full bg-teal-600"></span><div class="font-medium">Rev 14 · deployed</div><div class="text-xs text-slate-500">Todd · 2 days ago · "Mask MRN in log line"</div></li>
+        <li class="relative"><span class="absolute -left-[22px] top-1.5 h-2.5 w-2.5 rounded-full bg-slate-300"></span><div class="font-medium">Rev 13</div><div class="text-xs text-slate-500">Priya · 9 days ago · "Add sex code lookup"</div></li>
+        <li class="relative"><span class="absolute -left-[22px] top-1.5 h-2.5 w-2.5 rounded-full bg-slate-300"></span><div class="font-medium">Rev 12</div><div class="text-xs text-slate-500">Devon · 3 weeks ago · "Title-case names"</div></li>
+      </ol>
+    </div>
+  </aside>
+</div>
+</div>
+
+<script type="text/plain" id="src">
+// ADT_Inbound_Registration / Destination 1: EHR Sender
+// Normalize patient demographics before they go to the EHR.
+
+var pid = msg['PID'];
+var mrn = pid['PID.3']['PID.3.1'].toString();
+
+var visit = msg['PV1'];
+
+if (mrn === '') {
+    throw 'Missing MRN in PID-3';
+}
+
+// Names arrive as LAST^FIRST in mixed case
+var lastName = toTitleCase(pid['PID.5']['PID.5.1'].toString());
+var firstName = toTitleCase(pid['PID.5']['PID.5.2'].toString());
+var dob = parseHl7Date(pid['PID.7']['PID.7.1'].toString());
+
+var patient = {
+    mrn: mrn,
+    name: lastName + ', ' + firstName,
+    dob: formatDate(dob, 'yyyy-MM-dd'),
+    sex: lookup('SexCodes', pid['PID.8'].toString(), 'U'),
+    facility: msg['MSH']['MSH.4']['MSH.4.1'].toString()
+};
+
+channelMap.put('patient', JSON.stringify(patient));
+logger.info('Normalized ADT for MRN ' + mrn.substring(0, 2) + '****');
+</script>
+<script>
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const re = /(\/\/.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(var|let|const|if|else|for|return|function|throw|new|true|false|null)\b|\b(msg|tmp|channelMap|connectorMap|globalMap|logger|sourceMap|responseMap|JSON)\b|\b(\d+)\b|([A-Za-z_$][\w$]*)(?=\()/g;
+const hi = line => esc(line).replace(re, (m, c, s, k, g, n, f) =>
+  c ? `<span class="c">${c}</span>` : s ? `<span class="s">${s}</span>` : k ? `<span class="k">${k}</span>` :
+  g ? `<span class="g">${g}</span>` : n ? `<span class="n">${n}</span>` : f ? `<span class="f">${f}</span>` : m);
+
+const lines = document.getElementById('src').textContent.replace(/^\n/, '').replace(/\n$/, '').split('\n');
+const changed = new Set([14, 15, 22]), current = 22, warn = 7;   // 1-based line numbers
+document.getElementById('editor').innerHTML =
+  `<div class="w-14 shrink-0 select-none pr-3 text-right text-[#6e7681]">${lines.map((_, i) => `<div class="${i + 1 === current ? 'text-slate-200' : ''}">${i + 1}</div>`).join('')}</div>
+   <div class="w-1 shrink-0">${lines.map((_, i) => `<div class="h-[22px] ${changed.has(i + 1) ? 'bg-emerald-500' : ''}"></div>`).join('')}</div>
+   <div class="min-w-0 flex-1 pl-3">${lines.map((l, i) =>
+     `<div class="h-[22px] whitespace-pre text-[#d4d4d4] ${i + 1 === current ? 'bg-[#2a2d2e]' : ''}">${i + 1 === warn ? `<span class="squiggle">${hi(l)}</span>` : hi(l) || ' '}</div>`).join('')}</div>`;
+</script>
+</body>
+</html>

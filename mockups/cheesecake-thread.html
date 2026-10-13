@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>cheesecake (mockup): Conversation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Demonstration mockup only: invented people, fictional numbers. Styles copied from the real app's layout. -->
+<style>
+    :root {
+        --bg: #faf7f5; --card: #ffffff; --ink: #2b2320; --muted: #8a7d76;
+        --line: #ece4e0; --accent: #c9707a; --accent-ink: #ffffff; --in: #eef3ee; --out: #f6eeee;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, Segoe UI, Roboto, sans-serif; }
+    a { color: inherit; }
+    header.top { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: var(--card); border-bottom: 1px solid var(--line); }
+    header.top .brand { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+    header.top .brand span { color: var(--accent); }
+    nav.tabs { display: flex; gap: 18px; }
+    nav.tabs a { text-decoration: none; color: var(--muted); padding: 4px 0; border-bottom: 2px solid transparent; font-size: 14px; }
+    nav.tabs a.active { color: var(--ink); border-color: var(--accent); }
+    .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--in); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+    main { max-width: 880px; margin: 0 auto; padding: 24px; }
+    .muted { color: var(--muted); }
+    .row { display: flex; }
+    .row.out { justify-content: flex-end; }
+    .bubble { max-width: 70%; border-radius: 12px; padding: 10px 14px; background: var(--in); }
+    .out .bubble { background: var(--out); }
+    .bubble > div:first-child { white-space: pre-wrap; }
+    .bubble .meta { font-size: 11px; margin-top: 4px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header class="top">
+    <div class="brand">🍰 <span>cheesecake</span></div>
+    <nav class="tabs"><a class="active">Messages</a><a>Calls</a><a>Devices</a></nav>
+    <div class="avatar">P</div>
+</header>
+<main>
+<a class="muted" style="text-decoration:none;font-size:13px;">&larr; All conversations</a>
+<h1 style="font-size:20px;margin:8px 0 4px;">Mom</h1>
+<p class="muted" style="margin:0 0 20px;font-size:13px;">Riley's Pixel 8 · <a>Call</a> · <a>Text</a> +17175550142</p>
+<form onsubmit="return false" style="margin-bottom:16px;">
+    <input type="search" placeholder="Search in this conversation…" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;width:280px;">
+</form>
+
+<div style="display:flex;flex-direction:column;gap:10px;">
+    <div class="row"><div class="bubble"><div>[picture/video, not synced]</div><div class="meta">From +17175550142 · Oct 13, 11:30 AM · 📎</div></div></div>
+    <div class="row out"><div class="bubble"><div>😂❤️</div><div class="meta">Sent · Oct 13, 10:57 AM</div></div></div>
+    <div class="row out"><div class="bubble"><div>Thanks! See you at 5</div><div class="meta">Sent · Oct 12, 9:22 PM</div></div></div>
+    <div class="row"><div class="bubble"><div>Practice ends at 4:30, can you be out front by then?</div><div class="meta">From +17175550142 · Oct 12, 5:13 PM</div></div></div>
+    <div class="row out"><div class="bubble"><div>Yep, I'll bring my bag so we can head straight to dinner</div><div class="meta">Sent · Oct 12, 5:12 PM</div></div></div>
+    <div class="row"><div class="bubble"><div>Don't forget your science project is due Friday. Do you need anything from the store for it? Poster board, markers, glue? I can pick some up on my way home from work tonight.
+
+Also Grandpa Joe is coming for dinner on Sunday, so please keep the afternoon free.</div><div class="meta">From +17175550142 · Oct 12, 3:41 PM</div></div></div>
+    <div class="row out"><div class="bubble"><div>Just got to school, love you</div><div class="meta">Sent · Oct 12, 7:48 AM</div></div></div>
+</div>
+</main>
+</body>
+</html>

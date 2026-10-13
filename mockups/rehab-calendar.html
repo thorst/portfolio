@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rehab Scheduling (mockup): Calendar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Demonstration mockup only: invented patients and clinicians. Static HTML + Tailwind (CDN); the week grid is drawn by the script below. -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+</head>
+<body class="min-h-screen bg-slate-100 font-sans text-slate-800">
+
+<header class="bg-teal-700 px-8 py-3 text-white shadow">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2"/><path d="M12 7v6m0 0-3 7m3-7 3 7M7 10l5-2 5 2"/></svg>
+      <div><div class="text-lg font-semibold leading-tight">Rehab Scheduling</div><div class="text-xs text-teal-100">Physical Rehabilitation Services</div></div>
+    </div>
+    <nav class="flex gap-1 text-sm">
+      <a class="rounded-md px-4 py-1.5 text-teal-100">Upcoming Patients</a>
+      <a class="rounded-md bg-white/20 px-4 py-1.5 font-medium">Schedule</a>
+      <a class="rounded-md px-4 py-1.5 text-teal-100">Clinicians</a>
+      <a class="rounded-md px-4 py-1.5 text-teal-100">Reports</a>
+    </nav>
+    <div class="text-sm text-teal-100">Signed in as <b class="text-white">scheduler1</b> &nbsp;·&nbsp; Sign out</div>
+  </div>
+</header>
+
+<main class="mx-auto max-w-[1280px] px-8 py-5">
+  <!-- patient banner -->
+  <div class="mb-4 flex items-center justify-between rounded-lg bg-white px-5 py-3 shadow-sm ring-1 ring-slate-200">
+    <div class="flex items-center gap-4">
+      <a class="text-sm text-teal-700">&larr; Upcoming patients</a>
+      <span class="h-6 w-px bg-slate-200"></span>
+      <div><div class="text-lg font-semibold leading-tight">Walter Brennan <span class="text-sm font-normal text-slate-500">· 67</span></div>
+        <div class="text-sm text-slate-500">Total knee replacement · referred by Dr. Patel · start by Jun 11</div></div>
+    </div>
+    <div class="text-right text-sm"><div class="font-semibold">0 of 12 sessions booked</div>
+      <div class="mt-1 h-2 w-44 overflow-hidden rounded-full bg-slate-200"><div class="h-full w-0 bg-teal-600"></div></div></div>
+  </div>
+
+  <div class="flex gap-5">
+    <!-- left: activity + physician -->
+    <aside class="w-72 shrink-0 space-y-4">
+      <section class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <h2 class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500"><span class="mr-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-teal-600 text-[11px] text-white">1</span>Activity</h2>
+        <ul id="activities" class="space-y-1.5 text-sm"></ul>
+      </section>
+      <section class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-200">
+        <h2 class="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500"><span class="mr-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-teal-600 text-[11px] text-white">2</span>Physician</h2>
+        <select class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"><option>Dr. Elena Alvarez, PT</option></select>
+        <p class="mt-2 text-xs text-slate-500">Showing this clinician's availability. Other patients' sessions appear as booked.</p>
+      </section>
+    </aside>
+
+    <!-- right: calendar -->
+    <section class="min-w-0 flex-1">
+      <div class="rounded-lg bg-white shadow-sm ring-1 ring-slate-200">
+        <div class="flex items-center justify-between border-b border-slate-200 px-4 py-2.5">
+          <div class="flex items-center gap-2"><span class="mr-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-teal-600 text-[11px] text-white">3</span><span class="text-xs font-semibold uppercase tracking-wide text-slate-500">Date and time</span></div>
+          <div class="flex items-center gap-2 text-sm">
+            <button class="rounded border border-slate-300 px-2.5 py-1">&lsaquo;</button>
+            <b>June 10 &ndash; 14, 2013</b>
+            <button class="rounded border border-slate-300 px-2.5 py-1">&rsaquo;</button>
+          </div>
+          <div class="flex gap-3 text-xs text-slate-500"><span><i class="mr-1 inline-block h-3 w-3 rounded border border-slate-300 bg-white align-middle"></i>Open</span><span><i class="mr-1 inline-block h-3 w-3 rounded bg-slate-200 align-middle"></i>Booked</span><span><i class="mr-1 inline-block h-3 w-3 rounded bg-teal-600 align-middle"></i>Selected</span></div>
+        </div>
+        <div id="cal" class="grid text-xs" style="grid-template-columns: 64px repeat(5, 1fr)"></div>
+      </div>
+
+      <!-- summary -->
+      <div class="mt-4 flex items-center justify-between rounded-lg bg-white px-5 py-3 shadow-sm ring-1 ring-slate-200">
+        <div class="text-sm"><span class="text-slate-500">Booking:</span>
+          <b>Wed, Jun 12, 10:00 &ndash; 11:00 AM</b> &nbsp;·&nbsp; Gait training &nbsp;·&nbsp; Dr. Elena Alvarez</div>
+        <div class="flex gap-2"><button class="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-600">Cancel</button>
+          <button class="rounded-md bg-teal-600 px-5 py-2 text-sm font-semibold text-white shadow-sm">Confirm appointment</button></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+// Left panel: activities (invented), one selected.
+const acts = [['Gait training', '60 min'], ['Therapeutic exercise', '45 min'], ['Balance and stability', '45 min'], ['Manual therapy', '30 min'], ['Aquatic therapy', '60 min'], ['Ultrasound / e-stim', '30 min']];
+document.getElementById('activities').innerHTML = acts.map(([n, d], i) => `
+  <li class="flex items-center justify-between rounded-md border px-3 py-2 ${i === 0 ? 'border-teal-600 bg-teal-50 font-medium text-teal-900' : 'border-slate-200'}">
+    <span class="flex items-center gap-2"><span class="flex h-4 w-4 items-center justify-center rounded-full border-2 ${i === 0 ? 'border-teal-600' : 'border-slate-300'}">${i === 0 ? '<i class="block h-2 w-2 rounded-full bg-teal-600"></i>' : ''}</span>${n}</span>
+    <span class="text-xs text-slate-500">${d}</span></li>`).join('');
+
+// Week grid: 8:00 AM to 4:00 PM in 30-minute rows. Invented bookings: [dayIndex, startRow, rows].
+const days = ['Mon 10', 'Tue 11', 'Wed 12', 'Thu 13', 'Fri 14'];
+const times = []; for (let m = 8 * 60; m < 16 * 60; m += 30) times.push(m);
+const fmt = m => { const h = Math.floor(m / 60), mm = m % 60; return (h > 12 ? h - 12 : h) + ':' + String(mm).padStart(2, '0') + (h >= 12 ? ' PM' : ' AM'); };
+const booked = [[0, 0, 2], [0, 4, 2], [0, 9, 1], [0, 11, 3], [1, 1, 2], [1, 6, 2], [1, 10, 2], [2, 0, 2], [2, 6, 1], [2, 8, 2], [2, 12, 2], [3, 0, 1], [3, 3, 2], [3, 5, 1], [3, 9, 2], [3, 13, 2], [4, 2, 2], [4, 6, 2], [4, 10, 1], [4, 12, 2]];
+const lunch = 8; // 12:00 PM row index; lunch is 12:00 to 1:00 (2 rows)
+const sel = { day: 2, row: 4, rows: 2 };                   // Wed 10:00, 60 minutes
+const taken = (d, r) => booked.some(([bd, br, n]) => bd === d && r >= br && r < br + n);
+const isStart = (d, r) => booked.some(([bd, br]) => bd === d && r === br);
+
+let html = '<div class="border-b border-slate-200 bg-slate-50"></div>' + days.map(d => `<div class="border-b border-l border-slate-200 bg-slate-50 py-2 text-center font-semibold text-slate-600">${d}</div>`).join('');
+times.forEach((t, r) => {
+  html += `<div class="h-[29px] pr-2 text-right ${t % 60 === 0 ? 'text-slate-500' : 'text-transparent'}" style="line-height:29px">${fmt(t)}</div>`;
+  days.forEach((_, d) => {
+    let cell = '', cls = 'border-l border-t border-slate-100 ';
+    if (r === lunch || r === lunch + 1) cls += 'bg-[repeating-linear-gradient(45deg,#f8fafc,#f8fafc_6px,#f1f5f9_6px,#f1f5f9_12px)]';
+    else if (d === sel.day && r >= sel.row && r < sel.row + sel.rows) {
+      cls = 'border-l border-teal-600 bg-teal-600 text-white '; cell = r === sel.row ? '<div class="px-2 pt-1 font-semibold">Walter B.</div>' : '<div class="px-2 pt-1">Gait training</div>';
+    }
+    else if (taken(d, r)) { cls += 'bg-slate-200 text-slate-500'; if (isStart(d, r)) cell = '<div class="px-2 pt-1">Booked</div>'; }
+    html += `<div class="relative h-[29px] ${cls}">${cell}</div>`;
+  });
+});
+document.getElementById('cal').innerHTML = html;
+</script>
+</body>
+</html>

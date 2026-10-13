@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>cheesecake (mockup): Messages</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Demonstration mockup only: invented people, fictional numbers. Styles copied from the real app's layout. -->
+<style>
+    :root {
+        --bg: #faf7f5; --card: #ffffff; --ink: #2b2320; --muted: #8a7d76;
+        --line: #ece4e0; --accent: #c9707a; --accent-ink: #ffffff; --in: #eef3ee; --out: #f6eeee;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, Segoe UI, Roboto, sans-serif; }
+    header.top { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: var(--card); border-bottom: 1px solid var(--line); }
+    header.top .brand { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+    header.top .brand span { color: var(--accent); }
+    nav.tabs { display: flex; gap: 18px; }
+    nav.tabs a { text-decoration: none; color: var(--muted); padding: 4px 0; border-bottom: 2px solid transparent; font-size: 14px; }
+    nav.tabs a.active { color: var(--ink); border-color: var(--accent); }
+    form.search-bar { display: flex; margin-bottom: 18px; }
+    form.search-bar input { flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 9px 14px; font-size: 14px; }
+    .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--in); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+    main { max-width: 880px; margin: 0 auto; padding: 24px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+    .muted { color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: 14px; }
+    th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+    tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+<header class="top">
+    <div class="brand">🍰 <span>cheesecake</span></div>
+    <nav class="tabs"><a class="active">Messages</a><a>Calls</a><a>Devices</a></nav>
+    <div class="avatar">P</div>
+</header>
+<main>
+<form class="search-bar" onsubmit="return false"><input type="search" placeholder="Search messages…"></form>
+<div class="card">
+<table>
+<thead><tr><th>Conversation</th><th>Device</th><th>Messages</th><th>Last activity</th></tr></thead>
+<tbody>
+<tr><td>Mom<div class="muted" style="font-size:12px;">+17175550142</div></td><td class="muted">Riley's Pixel 8</td><td class="muted">344</td><td class="muted">1 hour ago</td></tr>
+<tr><td>Jamie 💙<div class="muted" style="font-size:12px;">+12125550177</div></td><td class="muted">Riley's Pixel 8</td><td class="muted">2537</td><td class="muted">1 hour ago</td></tr>
+<tr><td>Dad<div class="muted" style="font-size:12px;">+17175550163</div></td><td class="muted">Riley's Pixel 8</td><td class="muted">47</td><td class="muted">16 hours ago</td></tr>
+<tr><td>The Fam</td><td class="muted">Riley's Pixel 8</td><td class="muted">42</td><td class="muted">16 hours ago</td></tr>
+<tr><td>Max 🏀<div class="muted" style="font-size:12px;">+17175550119</div></td><td class="muted">Riley's Pixel 8</td><td class="muted">41</td><td class="muted">1 day ago</td></tr>
+<tr><td>Grandpa Joe<div class="muted" style="font-size:12px;">+17175550188</div></td><td class="muted">Riley's Pixel 8</td><td class="muted">25</td><td class="muted">2 days ago</td></tr>
+<tr><td>Coach Dana<div class="muted" style="font-size:12px;">+17175550134</div></td><td class="muted">Riley's Pixel 8</td><td class="muted">12</td><td class="muted">3 days ago</td></tr>
+<tr><td>Sam<div class="muted" style="font-size:12px;">+17175550156</div></td><td class="muted">Riley's Pixel 8</td><td class="muted">8</td><td class="muted">4 days ago</td></tr>
+<tr><td>Pizza Place</td><td class="muted">Riley's Pixel 8</td><td class="muted">3</td><td class="muted">5 days ago</td></tr>
+<tr><td>Aunt Carol, Cousin Ben, Nana, Uncle Tim</td><td class="muted">Riley's Pixel 8</td><td class="muted">3</td><td class="muted">6 days ago</td></tr>
+</tbody>
+</table>
+</div>
+</main>
+</body>
+</html>

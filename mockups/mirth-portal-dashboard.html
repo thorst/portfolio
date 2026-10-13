@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mirth Portal (mockup): Server Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Demonstration mockup only: invented servers and numbers. Static HTML + Tailwind (CDN); sparklines drawn by the small script at the bottom. -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+</head>
+<body class="min-h-screen bg-slate-100 font-sans text-slate-800">
+
+<header class="flex items-center justify-between bg-slate-900 px-6 py-3 text-slate-200">
+  <div class="flex items-center gap-3">
+    <svg class="h-7 w-7 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>
+    <span class="text-base font-semibold text-white">Interface Portal</span>
+    <span class="rounded bg-slate-700 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-300">Mirth</span>
+  </div>
+  <nav class="flex gap-1 text-sm">
+    <a class="rounded-md bg-slate-700 px-3 py-1.5 font-medium text-white">Servers</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Channel Editor</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Message Search</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Reports</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Audit</a>
+  </nav>
+  <div class="flex items-center gap-3 text-sm"><span class="text-slate-400">Last refresh 12s ago</span><div class="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 font-semibold text-white">TH</div></div>
+</header>
+
+<main class="mx-auto max-w-[1360px] px-6 py-5">
+
+  <div class="mb-4 flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">Server health</h1>
+      <p class="text-sm text-slate-500">CPU, memory, and disk over the last 24 hours</p>
+    </div>
+    <div class="flex items-center gap-1 rounded-lg bg-white p-1 text-sm shadow-sm ring-1 ring-slate-200">
+      <button class="rounded-md bg-slate-900 px-3 py-1 font-medium text-white">All (4)</button>
+      <button class="rounded-md px-3 py-1 text-slate-600">Prod (2)</button>
+      <button class="rounded-md px-3 py-1 text-slate-600">Non-prod (2)</button>
+    </div>
+  </div>
+
+  <!-- summary tiles -->
+  <div class="mb-4 grid grid-cols-4 gap-4">
+    <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200"><div class="text-xs font-medium uppercase tracking-wide text-slate-500">Servers online</div><div class="mt-1 text-2xl font-semibold">4 <span class="text-base font-normal text-slate-400">/ 4</span></div></div>
+    <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200"><div class="text-xs font-medium uppercase tracking-wide text-slate-500">Channels deployed</div><div class="mt-1 text-2xl font-semibold">248 <span class="text-base font-normal text-slate-400">of 261</span></div></div>
+    <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200"><div class="text-xs font-medium uppercase tracking-wide text-slate-500">Messages today</div><div class="mt-1 text-2xl font-semibold">1.42M</div></div>
+    <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200"><div class="text-xs font-medium uppercase tracking-wide text-slate-500">Errors (24h)</div><div class="mt-1 text-2xl font-semibold text-amber-600">37</div></div>
+  </div>
+
+  <div id="cards" class="grid grid-cols-2 gap-4"></div>
+</main>
+
+<script>
+// Invented data. cpu/ram/disk: [current %, baseline %, wobble]. Edit freely.
+const servers = [
+  { name: 'mirth-prod-01', env: 'PROD',     status: 'Healthy',  ver: '4.5.2', up: '41d 6h',  cpu: [38, 36, 14], ram: [71, 68, 5],  disk: [58, 52, 1.2], ch: [96, 2],  q: 14,  err: 6 },
+  { name: 'mirth-prod-02', env: 'PROD',     status: 'Warning',  ver: '4.5.2', up: '41d 6h',  cpu: [64, 55, 22], ram: [86, 80, 6],  disk: [81, 74, 1.6], ch: [102, 3], q: 212, err: 29 },
+  { name: 'mirth-test-01', env: 'NON-PROD', status: 'Healthy',  ver: '4.5.2', up: '12d 19h', cpu: [14, 12, 9],  ram: [47, 45, 4],  disk: [33, 31, 0.6], ch: [31, 6],  q: 0,   err: 2 },
+  { name: 'mirth-dev-01',  env: 'NON-PROD', status: 'Healthy',  ver: '4.5.2', up: '5d 2h',   cpu: [9, 8, 6],    ram: [39, 37, 3],  disk: [27, 26, 0.4], ch: [19, 2],  q: 0,   err: 0 },
+];
+
+// Deterministic pseudo-random so the screenshot is repeatable.
+function rng(seed) { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+
+function spark(id, [cur, base, wob], seed, color, rising) {
+  const W = 220, H = 54, N = 48, r = rng(seed), pts = [];
+  for (let i = 0; i < N; i++) {
+    const t = i / (N - 1);
+    let v = rising ? base + (cur - base) * t + (r() - .5) * wob : base + Math.sin(t * 6.3 + seed) * wob * .35 + (r() - .5) * wob;
+    if (i === N - 1) v = cur;
+    pts.push([t * W, H - 3 - Math.max(2, Math.min(98, v)) / 100 * (H - 6)]);
+  }
+  const line = pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+  const area = `0,${H} ${line} ${W},${H}`;
+  return `<svg viewBox="0 0 ${W} ${H}" class="h-14 w-full" preserveAspectRatio="none">
+    <defs><linearGradient id="g${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity=".28"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+    <line x1="0" x2="${W}" y1="${H - 3 - .8 * (H - 6)}" y2="${H - 3 - .8 * (H - 6)}" stroke="#cbd5e1" stroke-dasharray="3 3"/>
+    <polygon points="${area}" fill="url(#g${id})"/><polyline points="${line}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round"/></svg>`;
+}
+
+function metric(label, m, id, seed, rising) {
+  const v = m[0], hot = v >= 85, warm = v >= 70;
+  const color = hot ? '#dc2626' : warm ? '#d97706' : '#0d9488';
+  return `<div>
+    <div class="flex items-baseline justify-between"><span class="text-xs font-medium uppercase tracking-wide text-slate-500">${label}</span>
+      <span class="text-lg font-semibold" style="color:${hot || warm ? color : '#1e293b'}">${v}%</span></div>
+    ${spark(id, m, seed, color, rising)}</div>`;
+}
+
+document.getElementById('cards').innerHTML = servers.map((s, i) => {
+  const prod = s.env === 'PROD';
+  const ok = s.status === 'Healthy';
+  return `<section class="rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
+    <div class="flex items-center justify-between border-b border-slate-100 px-5 py-3">
+      <div class="flex items-center gap-3">
+        <span class="h-2.5 w-2.5 rounded-full ${ok ? 'bg-emerald-500' : 'bg-amber-500'}"></span>
+        <span class="font-semibold">${s.name}</span>
+        <span class="rounded px-1.5 py-0.5 text-[10px] font-semibold tracking-wide ${prod ? 'bg-rose-100 text-rose-700' : 'bg-sky-100 text-sky-700'}">${s.env}</span>
+      </div>
+      <div class="text-xs text-slate-500">Mirth ${s.ver} · up ${s.up}</div>
+    </div>
+    <div class="grid grid-cols-3 gap-5 px-5 py-4">
+      ${metric('CPU', s.cpu, 'c' + i, 11 + i * 7, false)}
+      ${metric('Memory', s.ram, 'r' + i, 23 + i * 5, false)}
+      ${metric('Disk', s.disk, 'd' + i, 37 + i * 3, true)}
+    </div>
+    <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-xs text-slate-600 rounded-b-xl">
+      <span><b class="text-slate-800">${s.ch[0]}</b> deployed · <b class="text-slate-800">${s.ch[1]}</b> stopped</span>
+      <span>Queued <b class="${s.q > 100 ? 'text-amber-600' : 'text-slate-800'}">${s.q}</b></span>
+      <span>Errors <b class="${s.err > 20 ? 'text-amber-600' : 'text-slate-800'}">${s.err}</b></span>
+      <span class="font-medium text-teal-700">Open channels →</span>
+    </div>
+  </section>`;
+}).join('');
+</script>
+</body>
+</html>

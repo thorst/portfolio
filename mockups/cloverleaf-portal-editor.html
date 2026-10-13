@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cloverleaf Portal (mockup): Proc Editor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Demonstration mockup only: invented thread, servers, and Tcl. Static HTML + Tailwind (CDN); a small script highlights the code. -->
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<style>
+  .code { font-family: 'Cascadia Mono', Consolas, 'Courier New', monospace; font-size: 13px; line-height: 22px; }
+  .k { color: #c586c0 } .s { color: #ce9178 } .c { color: #6a9955; font-style: italic } .n { color: #b5cea8 }
+  .f { color: #dcdcaa } .g { color: #4fc1ff } .v { color: #9cdcfe } .t { color: #4ec9b0 }
+  .squiggle { text-decoration: underline wavy #e5a50a; text-underline-offset: 3px; }
+</style>
+</head>
+<body class="h-screen overflow-hidden bg-slate-100 font-sans text-slate-800">
+<div class="flex h-screen flex-col">
+
+<header class="flex items-center justify-between bg-slate-900 px-6 py-3 text-slate-200">
+  <div class="flex items-center gap-3">
+    <svg class="h-7 w-7 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="4"/><circle cx="15.5" cy="8.5" r="4"/><circle cx="8.5" cy="15.5" r="4"/><circle cx="15.5" cy="15.5" r="4"/><path d="M12 12l6 9"/></svg>
+    <span class="text-base font-semibold text-white">Interface Portal</span>
+    <span class="rounded bg-slate-700 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-300">Cloverleaf</span>
+  </div>
+  <nav class="flex gap-1 text-sm">
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Servers</a>
+    <a class="rounded-md bg-slate-700 px-3 py-1.5 font-medium text-white">Proc Editor</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Message Search</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Reports</a>
+    <a class="rounded-md px-3 py-1.5 text-slate-400">Audit</a>
+  </nav>
+  <div class="flex items-center gap-3 text-sm"><div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 font-semibold text-white">TH</div></div>
+</header>
+
+<!-- selectors -->
+<div class="flex items-end gap-4 border-b border-slate-200 bg-white px-6 py-3">
+  <label class="block text-xs font-medium uppercase tracking-wide text-slate-500">Server
+    <select class="mt-1 block w-60 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal normal-case tracking-normal text-slate-800"><option>clv-test-01 (non-prod)</option></select></label>
+  <label class="block text-xs font-medium uppercase tracking-wide text-slate-500">Site
+    <select class="mt-1 block w-80 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal normal-case tracking-normal text-slate-800"><option>registration</option></select></label>
+  <label class="block text-xs font-medium uppercase tracking-wide text-slate-500">Tcl proc
+    <select class="mt-1 block w-96 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal normal-case tracking-normal text-slate-800"><option>Inbound data: adt_normalize_pid</option></select></label>
+  <div class="ml-auto flex items-center gap-2 pb-1.5 text-xs">
+    <span class="rounded-full bg-emerald-50 px-2.5 py-1 font-medium text-emerald-700 ring-1 ring-emerald-200">● Site running</span>
+    <span class="rounded-full bg-slate-100 px-2.5 py-1 font-medium text-slate-600 ring-1 ring-slate-200">Revision 31</span>
+    <span class="text-slate-400">Last pushed 6 days ago by Todd</span>
+  </div>
+</div>
+
+<!-- toolbar -->
+<div class="flex items-center gap-2 border-b border-slate-200 bg-slate-50 px-6 py-2 text-sm">
+  <button class="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3.5 py-1.5 font-medium text-white shadow-sm"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Save</button>
+  <button class="flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h12M3 18h16"/></svg>Format</button>
+  <button class="flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Check syntax</button>
+  <button class="flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Test with message</button>
+  <span class="mx-1 h-5 w-px bg-slate-300"></span>
+  <button class="rounded-lg px-3 py-1.5 font-medium text-slate-600">Find &amp; replace</button>
+  <button class="rounded-lg px-3 py-1.5 font-medium text-slate-600">Diff vs. server</button>
+  <button class="rounded-lg px-3 py-1.5 font-medium text-slate-600">History</button>
+  <button class="rounded-lg px-3 py-1.5 font-medium text-slate-600">Revert</button>
+  <span class="ml-3 flex items-center gap-1.5 text-xs font-medium text-amber-600"><span class="h-2 w-2 rounded-full bg-amber-500"></span>Unsaved changes</span>
+  <div class="ml-auto flex items-center gap-2">
+    <span class="text-xs text-slate-500">Push to</span>
+    <select class="rounded-lg border border-slate-300 bg-white px-2 py-1.5 text-sm"><option>clv-test-01</option></select>
+    <button class="flex items-center gap-1.5 rounded-lg bg-slate-900 px-3.5 py-1.5 font-medium text-white shadow-sm"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Push to server</button>
+  </div>
+</div>
+
+<!-- workspace -->
+<div class="flex min-h-0 flex-1">
+  <div class="flex min-w-0 flex-1 flex-col bg-[#1e1e1e]">
+    <div class="flex items-center bg-[#252526] text-xs text-slate-400">
+      <div class="border-t-2 border-emerald-400 bg-[#1e1e1e] px-4 py-2 text-slate-200">adt_normalize_pid.tcl <span class="ml-1 text-amber-400">●</span></div>
+      <div class="px-4 py-2">adt_route_by_facility.tcl</div>
+      <div class="px-4 py-2">lib/hl7utils.tcl</div>
+    </div>
+    <div class="relative min-h-0 flex-1 overflow-hidden">
+      <div id="editor" class="code flex py-2"></div>
+    </div>
+    <div class="border-t border-[#333] bg-[#1e1e1e] text-xs">
+      <div class="flex gap-5 border-b border-[#333] px-4 py-1.5 text-slate-400"><span class="border-b border-emerald-400 text-slate-200">Problems (2)</span><span>Test output</span><span>Message preview</span></div>
+      <div class="space-y-1 px-4 py-2 font-mono text-[12px]">
+        <div class="text-amber-300">⚠ Line 8 &nbsp;<span class="text-slate-300">variable "startTime" is set but never used</span></div>
+        <div class="text-sky-300">ℹ Line 24 <span class="text-slate-300">string totitle needs Tcl 8.5 or later (this server runs Tcl 8.6.13)</span></div>
+      </div>
+    </div>
+    <div class="flex items-center justify-between bg-emerald-700 px-4 py-1 text-[11px] text-white">
+      <span>Tcl 8.6 · UTF-8 · LF</span><span>Ln 24, Col 30 &nbsp;·&nbsp; 3 lines changed</span>
+    </div>
+  </div>
+
+  <aside class="w-80 shrink-0 overflow-hidden border-l border-slate-200 bg-white text-sm">
+    <div class="border-b border-slate-200 px-4 py-3">
+      <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Library procs</div>
+      <input class="mt-2 w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm" placeholder="Search procs">
+      <ul class="mt-2 divide-y divide-slate-100">
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">hl7_get_field msg seg idx</div><div class="text-xs text-slate-500">lib/hl7utils.tcl</div></div><span class="text-xs font-medium text-emerald-700">Insert</span></li>
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">hl7_set_field msg seg idx val</div><div class="text-xs text-slate-500">lib/hl7utils.tcl</div></div><span class="text-xs font-medium text-emerald-700">Insert</span></li>
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">fmt_hl7_date ts</div><div class="text-xs text-slate-500">lib/dates.tcl</div></div><span class="text-xs font-medium text-emerald-700">Insert</span></li>
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">npi_lookup npi</div><div class="text-xs text-slate-500">lib/providers.tcl</div></div><span class="text-xs font-medium text-emerald-700">Insert</span></li>
+        <li class="flex items-center justify-between py-2"><div><div class="font-mono text-[13px] font-medium">send_alert subj body</div><div class="text-xs text-slate-500">lib/notify.tcl</div></div><span class="text-xs font-medium text-emerald-700">Insert</span></li>
+      </ul>
+    </div>
+    <div class="px-4 py-3">
+      <div class="text-xs font-semibold uppercase tracking-wide text-slate-500">Recent revisions</div>
+      <ol class="mt-3 space-y-3 border-l-2 border-slate-200 pl-4">
+        <li class="relative"><span class="absolute -left-[22px] top-1.5 h-2.5 w-2.5 rounded-full bg-amber-500"></span><div class="font-medium">Working copy</div><div class="text-xs text-slate-500">Unsaved · 3 lines changed</div></li>
+        <li class="relative"><span class="absolute -left-[22px] top-1.5 h-2.5 w-2.5 rounded-full bg-emerald-600"></span><div class="font-medium">Rev 31 · live</div><div class="text-xs text-slate-500">Todd · 6 days ago · "Reject blank MRN"</div></li>
+        <li class="relative"><span class="absolute -left-[22px] top-1.5 h-2.5 w-2.5 rounded-full bg-slate-300"></span><div class="font-medium">Rev 30</div><div class="text-xs text-slate-500">Priya · 5 weeks ago · "Log connection name"</div></li>
+        <li class="relative"><span class="absolute -left-[22px] top-1.5 h-2.5 w-2.5 rounded-full bg-slate-300"></span><div class="font-medium">Rev 29</div><div class="text-xs text-slate-500">Devon · 4 months ago · "Handle repeated PID-3"</div></li>
+      </ol>
+    </div>
+  </aside>
+</div>
+</div>
+
+<script type="text/plain" id="src">
+# adt_normalize_pid: TPS proc, inbound ADT thread
+# Normalize patient demographics before routing.
+
+proc adt_normalize_pid { args } {
+    global HciConnName
+    keylget args MODE mode
+    set dispList {}
+    set startTime [clock seconds]
+
+    switch -exact -- $mode {
+        start { }
+        run {
+            keylget args MSGID mh
+            set segs [split [msgget $mh] "\r"]
+            set pid  [split [lindex $segs 1] "|"]
+            set mrn  [lindex [split [lindex $pid 3] "^"] 0]
+
+            if { $mrn eq "" } {
+                echo "$HciConnName: missing MRN in PID-3"
+                lappend dispList "ERROR $mh"
+                return $dispList
+            }
+
+            set last [string totitle [lindex [split [lindex $pid 5] "^"] 0]]
+            set pid  [lreplace $pid 5 5 $last]
+            msgset $mh [join [lreplace $segs 1 1 [join $pid "|"]] "\r"]
+            lappend dispList "CONTINUE $mh"
+        }
+    }
+    return $dispList
+}
+</script>
+<script>
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const re = /(^\s*#.*$)|("(?:[^"\\]|\\.)*")|(\$[A-Za-z_]\w*)|\b(proc|set|if|else|elseif|switch|foreach|while|return|lappend|global|catch|expr|split|join|lindex|lreplace|lsearch|string|clock)\b|\b(keylget|keylset|msgget|msgset|echo|msgcopy|msgdump)\b|\b(CONTINUE|ERROR|KILL|OVER)\b|\b(\d+)\b/g;
+const hi = line => esc(line).replace(re, (m, c, s, v, k, g, t, n) =>
+  c ? `<span class="c">${c}</span>` : s ? `<span class="s">${s}</span>` : v ? `<span class="v">${v}</span>` : k ? `<span class="k">${k}</span>` :
+  g ? `<span class="f">${g}</span>` : t ? `<span class="t">${t}</span>` : n ? `<span class="n">${n}</span>` : m);
+// Highlight $vars inside strings too, as Tcl substitutes them.
+const hiLine = l => hi(l).replace(/(<span class="s">)([^<]*)(<\/span>)/g, (m, a, body, z) => a + body.replace(/(\$[A-Za-z_]\w*)/g, '<span class="v">$1</span>') + z);
+
+const lines = document.getElementById('src').textContent.replace(/^\n/, '').replace(/\n$/, '').split('\n');
+const changed = new Set([24, 25, 26]), current = 24, warn = 8;   // 1-based line numbers
+document.getElementById('editor').innerHTML =
+  `<div class="w-14 shrink-0 select-none pr-3 text-right text-[#6e7681]">${lines.map((_, i) => `<div class="${i + 1 === current ? 'text-slate-200' : ''}">${i + 1}</div>`).join('')}</div>
+   <div class="w-1 shrink-0">${lines.map((_, i) => `<div class="h-[22px] ${changed.has(i + 1) ? 'bg-emerald-500' : ''}"></div>`).join('')}</div>
+   <div class="min-w-0 flex-1 pl-3">${lines.map((l, i) =>
+     `<div class="h-[22px] whitespace-pre text-[#d4d4d4] ${i + 1 === current ? 'bg-[#2a2d2e]' : ''}">${i + 1 === warn ? `<span class="squiggle">${hiLine(l)}</span>` : hiLine(l) || ' '}</div>`).join('')}</div>`;
+</script>
+</body>
+</html>
