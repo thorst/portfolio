@@ -30,7 +30,7 @@ function Demo({ demo }) {
     if (!demo.url) return <p className="text-sm text-red-600">Demo is missing a "url".</p>
     return (
       <div>
-        <iframe src={demo.url} title="Demo" loading="lazy"
+        <iframe src={demo.url} title="Demo" loading="lazy" style={demo.height ? { height: demo.height } : undefined}
           className="h-[32rem] w-full rounded-lg border border-slate-200 bg-white dark:border-slate-800" />
         <a href={demo.url} target="_blank" rel="noreferrer"
           className="mt-2 inline-block text-sm text-indigo-600 hover:underline dark:text-indigo-400">

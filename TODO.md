@@ -8,6 +8,7 @@ Notes for making the portfolio stronger for employers. Roughly in priority order
 
 ## Content
 - [ ] Add one true outcome or metric to entries that lack one (Oracle ERP Integrations, Oracle Admin, Catch and Release, Open Enrollment, Surgery Tracker, IIS Manager)
+- [ ] Strengthen the Cloverleaf Monitoring and Management Portal and Rehab Scheduling System entries: both only say what I told Claude so far. Add the tech used (Cloverleaf portal), how it worked, who used it, scale, and any real outcome
 - [ ] Add approximate years to the ~20 entries that have none (`"year"` with `"yearApprox": true`)
 - [ ] Screenshots and mockups for the internal projects: build a small mock project for each, using Claude, then add images (`screenshots` in the JSON, images in `public/projects/<slug>/`)
 - [ ] Prototypes tab: for each prototype, write the small public repo, then add its Source link and a real description (the six experiments Kafka, SQS, RabbitMQ, MongoDB, GraphQL, Rails have none yet)

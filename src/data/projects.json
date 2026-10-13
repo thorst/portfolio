@@ -317,6 +317,11 @@
       "Real-time",
       "CI/CD"
     ],
+    "demo": {
+      "type": "iframe",
+      "url": "https://thorst.github.io/idle-session/",
+      "height": "44rem"
+    },
     "links": [
       {
         "label": "Source",
@@ -348,6 +353,10 @@
       "jQuery",
       "Open source"
     ],
+    "demo": {
+      "type": "iframe",
+      "url": "https://thorst.github.io/jquery-idletimer/prod/demos/"
+    },
     "links": [
       {
         "label": "Source",
@@ -421,14 +430,14 @@
       "JavaScript",
       "Open source"
     ],
+    "demo": {
+      "type": "iframe",
+      "url": "https://thorst.github.io/supportedBrowser.js/dev/demos/"
+    },
     "links": [
       {
         "label": "Source",
         "url": "https://github.com/thorst/supportedBrowser.js"
-      },
-      {
-        "label": "Live demo",
-        "url": "http://thorst.github.io/supportedBrowser.js/"
       }
     ],
     "keywords": [
